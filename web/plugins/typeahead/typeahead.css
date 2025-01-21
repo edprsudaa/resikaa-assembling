@@ -1,0 +1,16 @@
+.tt-menu {
+  min-width: 200px;
+  background-color: #fff;
+  border: 1px solid rgba(72, 94, 144, 0.16);
+  padding: 5px;
+  border-bottom-right-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+  box-shadow: 0 6px 8px 2px rgba(28, 39, 60, 0.04);
+}
+
+.tt-cursor,
+.tt-suggestion:hover {
+  background-color: #0168fa;
+  color: white;
+  cursor: pointer;
+}
