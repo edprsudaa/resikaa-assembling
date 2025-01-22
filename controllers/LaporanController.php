@@ -19,6 +19,7 @@ use app\models\pegawai\DmUnitPenempatan;
 use app\models\pengolahandata\AnalisaDokumenDetail;
 use app\models\pengolahandata\AnalisaDokumenRj;
 use app\models\pengolahandata\AnalisaDokumenRjDetail;
+use app\models\pengolahandata\CodingPelaporanIgd;
 use app\models\sip\Unit;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -237,6 +238,50 @@ class LaporanController extends Controller
         $queryData = CodingPelaporanRj::find()->select(['count(coding_pelaporan_rj.registrasi_kode)', 'tb_pegawai.pegawai_id', 'tb_pegawai.id_nip_nrp', 'tb_pegawai.nama_lengkap'])
             ->innerJoin([Registrasi::tableName()], 'coding_pelaporan_rj.registrasi_kode=registrasi.kode')
             ->innerJoin([TbPegawai::tableName()], 'coding_pelaporan_rj.pegawai_coder_id=tb_pegawai.pegawai_id')
+            ->where(['in', 'pegawai_coder_id', HelperSpesialClass::isCoderUser()])->groupBy(['tb_pegawai.pegawai_id', 'tb_pegawai.nama_lengkap']);
+        if ($req['tanggal_awal'] != null) {
+            $queryData = $queryData->andWhere([">=", Registrasi::tableName() . ".tgl_masuk", $req['tanggal_awal'] . " 00:00:00"]);
+        } else {
+            $queryData = $queryData->andWhere([">=", Registrasi::tableName() . ".tgl_masuk", date('Y-m-d') . " 00:00:00"]);
+        }
+        if ($req['tanggal_akhir'] != null) {
+            $queryData = $queryData->andWhere(["<=", Registrasi::tableName() . ".tgl_masuk", $req['tanggal_akhir'] . " 23:59:59"]);
+        } else {
+            $queryData = $queryData->andWhere(["<=", Registrasi::tableName() . ".tgl_masuk", date('Y-m-d') . " 23:59:59"]);
+        }
+        $queryData = $queryData->groupBy(['tb_pegawai.pegawai_id', 'tb_pegawai.nama_lengkap', 'tb_pegawai.id_nip_nrp'])->asArray()->all();
+
+
+
+        $response = [];
+
+
+        foreach ($queryData as $value) {
+            $response[] = [
+                'jumlah' => $value['count'],
+                'nama_coder' => $value['nama_lengkap'],
+                'nip_nik' => $value['id_nip_nrp'],
+
+            ];
+        }
+        return [
+            "status" => 200,
+            "message" => "Data successfully retrieved",
+            "data" => $response
+        ];
+    }
+
+    public function actionLaporanCoderIgd()
+    {
+        return $this->render('laporan-coder-igd', []);
+    }
+    public function actionDataLaporanCoderIgd()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $req = Yii::$app->request->post("datatables");
+        $queryData = CodingPelaporanIgd::find()->select(['count(coding_pelaporan_igd.registrasi_kode)', 'tb_pegawai.pegawai_id', 'tb_pegawai.id_nip_nrp', 'tb_pegawai.nama_lengkap'])
+            ->innerJoin([Registrasi::tableName()], 'coding_pelaporan_igd.registrasi_kode=registrasi.kode')
+            ->innerJoin([TbPegawai::tableName()], 'coding_pelaporan_igd.pegawai_coder_id=tb_pegawai.pegawai_id')
             ->where(['in', 'pegawai_coder_id', HelperSpesialClass::isCoderUser()])->groupBy(['tb_pegawai.pegawai_id', 'tb_pegawai.nama_lengkap']);
         if ($req['tanggal_awal'] != null) {
             $queryData = $queryData->andWhere([">=", Registrasi::tableName() . ".tgl_masuk", $req['tanggal_awal'] . " 00:00:00"]);

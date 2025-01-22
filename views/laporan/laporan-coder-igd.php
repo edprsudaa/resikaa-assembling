@@ -13,7 +13,7 @@ use yii\widgets\ActiveForm;
 /* @var $searchModel app\models\search\LayananIgdSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Rekapitulasi Jumlah Coding Coder Rawat Jalan';
+$this->title = 'Rekapitulasi Jumlah Coding Coder IGD';
 $this->params['breadcrumbs'][] = $this->title;
 // echo'<pre/>';print_r($dataProvider);die();
 $this->registerJs("
@@ -79,7 +79,7 @@ function myTable() {
   
   };
   $.ajax({
-    url: baseUrl+'/laporan/data-laporan-coder-rj',
+    url: baseUrl+'/laporan/data-laporan-coder-igd',
     type: 'post',
     data: { datatables: data },
     beforeSend: function () {

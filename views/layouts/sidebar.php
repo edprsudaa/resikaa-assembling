@@ -92,11 +92,11 @@ use app\components\HelperSpesialClass;
                             'style' => 'background-color:#6c757d'
                         ],
                         'items' => [
-                            // ['label' => 'Rawat Jalan', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif/list-rawat-jalan-coder-new']],
-                            // ['label' => 'Rawat Inap', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif/list-rawat-inap-coder']],
                             ['label' => 'IGD', 'icon' => 'tag', 'url' => ['/coder-igd/list']],
                             ['label' => 'Rawat Jalan', 'icon' => 'tag', 'url' => ['/coder-rj/list']],
                             ['label' => 'Rawat Inap', 'icon' => 'tag', 'url' => ['/coder-ri/list']],
+                            ['label' => 'Rekapitulasi Coder IGD', 'icon' => 'tag', 'url' => ['/laporan/laporan-coder-igd']],
+
                             ['label' => 'Rekapitulasi Coder RJ', 'icon' => 'tag', 'url' => ['/laporan/laporan-coder-rj']],
                             ['label' => 'Rekapitulasi Coder RI', 'icon' => 'tag', 'url' => ['/laporan/laporan-coder-ri']],
                         ]
@@ -239,6 +239,8 @@ use app\components\HelperSpesialClass;
                             ['label' => 'IGD', 'icon' => 'tag', 'url' => ['/coder-igd/list']],
                             ['label' => 'Rawat Jalan', 'icon' => 'tag', 'url' => ['/coder-rj/list']],
                             ['label' => 'Rawat Inap', 'icon' => 'tag', 'url' => ['/coder-ri/list']],
+                            ['label' => 'Rekapitulasi Coder IGD', 'icon' => 'tag', 'url' => ['/laporan/laporan-coder-igd']],
+
                             ['label' => 'Rekapitulasi Coder RJ', 'icon' => 'tag', 'url' => ['/laporan/laporan-coder-rj']],
                             ['label' => 'Rekapitulasi Coder RI', 'icon' => 'tag', 'url' => ['/laporan/laporan-coder-ri']],
                         ]
