@@ -1,0 +1,34 @@
+<?php
+
+
+// Kembalikan konfigurasi utama
+return [
+  'config' => [
+    'db' => [
+      'sql_server' => [ // db SQL Server
+        'db_sql_server' => 'sqlsrv:Server=192.168.254.87;Database=RS_AASimrs',
+        'user_sql_server' => 'sa',
+        'pass_sql_server' => 'data_123',
+      ],
+      'postgre' => [ // db PostgreSQL
+        'simrs' => [
+          'db_pg' => 'pgsql:host=192.168.254.83;port=5432;dbname=simrs',
+          'user_pg' => 'postgres',
+          'pass_pg' => '1satu2dua',
+        ],
+        'db_perantara_lis' => [
+          'db_pg' => 'pgsql:host=192.168.254.83;port=5432;dbname=db_perantara_lis',
+          'user_pg' => 'postgres',
+          'pass_pg' => '1satu2dua',
+        ]
+      ],
+    ],
+    'url_apps' => [
+      'sso' => 'http://sso.simrs.aa/',
+      'base' => 'http://emr-penunjang.simrs.aa/',
+      'assembling' => 'http://emr-pengolahan-data.simrs.aa/',
+      'kasbank' => 'http://emr-kasbank.simrs.aa/',
+
+    ]
+  ],
+];

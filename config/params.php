@@ -2,12 +2,14 @@
 
 return [
     'bsVersion' => '4.x',
-    'db_pg' => 'pgsql:host=192.168.254.83;port=5432;dbname=simrs', //db production
-    'db_sqlsrv' => 'sqlsrv:Server=192.168.254.87;Database=RS_AASimrs', //db production
-    'user_db_pg' => 'postgres', //db production
-    'password_db_pg' => '1satu2dua', //db production
-    'user_db_sqlsrv' => 'sa', //db production
-    'password_db_sqlsrv' => 'data_123', //db production
+    'nik_pemilik' => 1471102605960025,
+    // ------------------SETTINGAN SSO ATAU LOCALHOST ----------------------------- //
+    'config_sso' => true, // sso
+    // 'config_sso' => false, // localhost
+    // ---------------------------------------------------------------------------- //
+    'fitur' => [
+        'riwayat' => true,
+    ],
     'app' => [
         'shortName' => 'RESIKA ASSEMBLING',
         'longName' => 'Resika Assembling',

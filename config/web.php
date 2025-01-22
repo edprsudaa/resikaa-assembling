@@ -1,6 +1,7 @@
 <?php
 
 $params = require __DIR__ . '/params.php';
+$config_apps = require __DIR__ . '/config_apps.php';
 $db_penunjang = require __DIR__ . '/db_penunjang.php';
 $db_penunjang_lama = require __DIR__ . '/db_penunjang_lama.php';
 $db_perantara_lis = require __DIR__ . '/db_perantara_lis.php';
@@ -13,8 +14,25 @@ $db_sso = require __DIR__ . '/db_sso.php';
 $db_postgre = require __DIR__ . '/db_postgre.php';
 $db_sql_server = require __DIR__ . '/db_sql_server.php';
 $db_sign = require __DIR__ . '/db_sign.php';
+$params['config_apps'] = $config_apps;
 
-
+$user = [];
+// CEK APAKAH SSO ATAU LOCALHOST
+if ($params['config_sso'] === true) {
+    $user = [
+        'class' => 'app\models\User',
+        'identityClass' => 'app\models\Identitas',
+        'enableAutoLogin' => true,
+        'loginUrl'  => $config_apps['config']['url_apps']['sso'] . 'masuk?b=' . $config_apps['config']['url_apps']['base'],
+        'identityCookie' => ['name' => '_identity-id', 'httpOnly' => true, 'domain' => 'simrs.aa'],
+    ];
+} else {
+    $user = [
+        'identityClass' => 'app\models\sso\User',
+        'loginUrl' => ['auth/login'],
+        'enableAutoLogin' => true,
+    ];
+}
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
@@ -41,13 +59,8 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'user' => [
-            'class' => 'app\models\User',
-            'identityClass' => 'app\models\Identitas',
-            'enableAutoLogin' => true,
-            'loginUrl' => 'http://sso.simrs.aa/masuk?b=http://emr-pengolahan-data.simrs.aa',
-            'identityCookie' => ['name' => '_identity-id', 'httpOnly' => true, 'domain' => 'simrs.aa'],
-        ],
+        // settingnya di variable paling atas
+        'user' => $user,
         'formatter' => [
             'dateFormat' => 'php:d-m-Y',
             'datetimeFormat' => 'php:d-m-Y H:i:s',

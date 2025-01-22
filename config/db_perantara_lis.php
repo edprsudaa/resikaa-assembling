@@ -2,9 +2,9 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' =>  $params['db_pg'],
-    'username' => $params['user_db_pg'],
-    'password' => $params['password_db_pg'],
+    'dsn' => $config_apps['config']['db']['postgre']['db_perantara_lis']['db_pg'],
+    'username' => $config_apps['config']['db']['postgre']['db_perantara_lis']['user_pg'],
+    'password' => $config_apps['config']['db']['postgre']['db_perantara_lis']['pass_pg'],
     'charset' => 'utf8',
     'schemaMap' => [
         'pgsql' => [
