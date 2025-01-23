@@ -38,7 +38,7 @@ use app\components\HelperSpesialClass;
                         'items' => [
                             ['label' => 'Daftar Analisa', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif/list-checkout'], 'items' => [
                                 // ['label' => 'Rawat Jalan', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif/list-rawat-jalan']],
-                                // ['label' => 'Rawat Inap', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif/list-rawat-inap']],
+                                ['label' => 'IGD', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif-igd/list']],
                                 ['label' => 'Rawat Jalan', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif-rj/list']],
                                 ['label' => 'Rawat Inap', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif-ri/list']],
                             ]],
@@ -75,8 +75,7 @@ use app\components\HelperSpesialClass;
                         ],
                         'items' => [
                             ['label' => 'Daftar Analisa', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif/list-checkout'], 'items' => [
-                                // ['label' => 'Rawat Jalan', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif/list-rawat-jalan']],
-                                // ['label' => 'Rawat Inap', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif/list-rawat-inap']],
+                                ['label' => 'IGD', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif-igd/list']],
                                 ['label' => 'Rawat Jalan', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif-rj/list']],
                                 ['label' => 'Rawat Inap', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif-ri/list']],
                             ]],
@@ -217,6 +216,7 @@ use app\components\HelperSpesialClass;
                             'style' => 'background-color:#6c757d'
                         ],
                         'items' => [
+                            ['label' => 'IGD', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif-igd/list']],
                             ['label' => 'Rawat Jalan', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif-rj/list']],
                             ['label' => 'Rawat Inap', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif-ri/list']],
 
@@ -323,8 +323,7 @@ use app\components\HelperSpesialClass;
                         ],
                         'items' => [
                             ['label' => 'Daftar Analisa', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif/list-checkout'], 'items' => [
-                                // ['label' => 'Rawat Jalan', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif/list-rawat-jalan']],
-                                // ['label' => 'Rawat Inap', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif/list-rawat-inap']],
+                                ['label' => 'IGD', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif-igd/list']],
                                 ['label' => 'Rawat Jalan', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif-rj/list']],
                                 ['label' => 'Rawat Inap', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif-ri/list']],
                             ]],
@@ -340,8 +339,6 @@ use app\components\HelperSpesialClass;
                             'style' => 'background-color:#6c757d'
                         ],
                         'items' => [
-                            // ['label' => 'Rawat Jalan', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif/list-rawat-jalan-coder-new']],
-                            // ['label' => 'Rawat Inap', 'icon' => 'tag', 'url' => ['/analisa-kuantitatif/list-rawat-inap-coder']],
                             ['label' => 'IGD', 'icon' => 'tag', 'url' => ['/coder-igd/list']],
                             ['label' => 'Rawat Jalan', 'icon' => 'tag', 'url' => ['/coder-rj/list']],
                             ['label' => 'Rawat Inap', 'icon' => 'tag', 'url' => ['/coder-ri/list']],
