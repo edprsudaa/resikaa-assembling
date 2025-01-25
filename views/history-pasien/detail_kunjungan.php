@@ -2970,6 +2970,85 @@ tr, td {
                             </div>
 
                         </div>
+                        <div class="col-md-12">
+                            <div class="card card-info">
+                                <div class="card-header">
+                                    <h3 class="card-title">RESEP DOKTER VERSI TERBARU</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                                <div class="card-body">
+                                    <?php foreach ($listResepDokterTerbaru as $idx => $du): ?>
+                                        <div class="card">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <?php if (!empty($du['data'])): ?>
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr class="bg-info">
+
+                                                                    <th>No</th> <!-- Kolom nomor -->
+                                                                    <?php
+                                                                    // Ambil semua atribut data
+                                                                    $dataAttributes = array_keys($du['data'][0] ?? []);
+                                                                    // Tentukan atribut yang akan diabaikan
+                                                                    $excludedAttributes = ['id_dokumen', 'versi', 'id_dokumen_rme', 'url_lihat', 'url_cetak'];
+                                                                    // Filter atribut yang ditampilkan
+                                                                    $filteredDataAttributes = array_filter($dataAttributes, function ($attr) use ($excludedAttributes) {
+                                                                        return !in_array($attr, $excludedAttributes, true);
+                                                                    });
+
+                                                                    // Render header tabel
+                                                                    foreach ($filteredDataAttributes as $dataAttr) {
+                                                                        echo "<th>" . htmlspecialchars($dataAttr) . "</th>";
+                                                                    }
+                                                                    ?>
+                                                                    <th>Action</th> <!-- Tambahkan kolom Action -->
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php foreach ($du['data'] as $key => $item): ?>
+                                                                    <tr>
+                                                                        <!-- Kolom nomor -->
+                                                                        <td><?= $key + 1 ?></td>
+
+                                                                        <?php foreach ($filteredDataAttributes as $dataAttr): ?>
+                                                                            <td><?= htmlspecialchars($item[$dataAttr] ?? '-') ?></td>
+                                                                        <?php endforeach; ?>
+
+                                                                        <!-- Kolom Action -->
+                                                                        <td>
+                                                                            <?php if (!empty($item['url_lihat'])): ?>
+                                                                                <a class="btn btn-success btn-sm btn-dokumen-rme" href="<?= $item['url_lihat'] ?>">
+                                                                                    Klik untuk lihat <i class="fas fa-eye fa-sm"></i>
+                                                                                </a>
+                                                                            <?php endif; ?>
+                                                                            <?php if (!empty($item['url_cetak'])): ?>
+                                                                                <a class="btn btn-warning btn-sm" target="_blank" href="<?= $item['url_cetak'] ?>">
+                                                                                    Cetak <i class="fas fa-print fa-sm"></i>
+                                                                                </a>
+                                                                            <?php endif; ?>
+                                                                        </td>
+                                                                    </tr>
+                                                                <?php endforeach; ?>
+                                                            </tbody>
+                                                        </table>
+                                                    <?php else: ?>
+                                                        <p class="text-center">Data tidak tersedia.</p>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
 
                     <div class="row">

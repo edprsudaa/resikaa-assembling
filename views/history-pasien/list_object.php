@@ -316,6 +316,12 @@ $this->registerCss(' .fixed-card {
                             ASESMEN REHAB MEDIK
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-two-tab-36" data-toggle="pill" data-href=<?= Url::to(["history-pasien/detail-resep-dokter-terbaru?id=" . (HelperGeneralClass::hashData($pasien['kode'] ?? '-'))]) ?> href="#custom-tabs-two-36" role="tab" aria-controls="custom-tabs-two-36" aria-selected="false">
+                            RESEP DOKTER VERSI TERBARU
+
+                        </a>
+                    </li>
 
                 </ul>
             </div>
@@ -498,6 +504,11 @@ $this->registerCss(' .fixed-card {
                         </iframe>
                     </div>
                     <div class="tab-pane fade" id="custom-tabs-two-35" role="tabpanel" aria-labelledby="custom-tabs-two-tab-35">
+                        <iframe width="100%" style="height:1000px" id="iframe-0">
+
+                        </iframe>
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-two-36" role="tabpanel" aria-labelledby="custom-tabs-two-tab-36">
                         <iframe width="100%" style="height:1000px" id="iframe-0">
 
                         </iframe>
