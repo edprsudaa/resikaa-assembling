@@ -504,6 +504,17 @@ class HelperSpesialClass
 
         return ArrayHelper::map($unit, 'unit_id', 'nama');
     }
+    public static function getListUnitIgdAnalisa()
+    {
+        $unit = array();
+
+        $unit = KelompokUnitLayanan::find()->select([KelompokUnitLayanan::tableName() . '.unit_id', DmUnitPenempatan::tableName() . '.kode', DmUnitPenempatan::tableName() . '.nama',])->joinWith(['unit'])->kel_igd()
+            ->orderBy([DmUnitPenempatan::tableName() . '.nama' => SORT_ASC])
+            ->asArray()
+            ->all();
+
+        return ArrayHelper::map($unit, 'unit_id', 'nama');
+    }
     public static function getListUnitRawatJalanAnalisa()
     {
         $unit = array();

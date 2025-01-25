@@ -75,6 +75,39 @@ $(document).ready(function () {
       $("#div-analisa-dokumen-rawat-jalan-dokter_id").show();
     }
   });
+  $("#laporananalisaigd-jenis_laporan").on("change", function (e) {
+    if ($("#LaporanAnalisaIgd_jenis_laporan_0").prop("checked")) {
+      $("#div-analisa-dokumen-igd-tgl_bulan").hide();
+      $("#div-analisa-dokumen-igd-tgl_tahun").hide();
+      $("#div-analisa-dokumen-igd-tgl_hari").show();
+    } else if ($("#LaporanAnalisaIgd_jenis_laporan_1").prop("checked")) {
+      $("#div-analisa-dokumen-igd-tgl_hari").hide();
+      $("#div-analisa-dokumen-igd-tgl_tahun").hide();
+      $("#div-analisa-dokumen-igd-tgl_bulan").show();
+    } else if ($("#LaporanAnalisaIgd_jenis_laporan_2").prop("checked")) {
+      $("#div-analisa-dokumen-igd-tgl_hari").hide();
+      $("#div-analisa-dokumen-igd-tgl_bulan").hide();
+      $("#div-analisa-dokumen-igd-tgl_tahun").show();
+    }
+  });
+
+  $("#laporananalisaigd-tipe_laporan").on("change", function (e) {
+    if ($("#LaporanAnalisaIgd_tipe_laporan_0").prop("checked")) {
+      $("#div-analisa-dokumen-igd-unit_id").hide();
+      $("#laporananalisaigd-unit_id").val("").change();
+      $("#laporananalisaigd-dokter_id").val("").change();
+
+      $("#div-analisa-dokumen-igd-dokter_id").hide();
+    } else if ($("#LaporanAnalisaIgd_tipe_laporan_1").prop("checked")) {
+      $("#div-analisa-dokumen-igd-dokter_id").hide();
+      $("#laporananalisaigd-dokter_id").val("").change();
+      $("#div-analisa-dokumen-igd-unit_id").show();
+    } else if ($("#LaporanAnalisaIgd_tipe_laporan_2").prop("checked")) {
+      $("#div-analisa-dokumen-igd-unit_id").hide();
+      $("#laporananalisaigd-unit_id").val("").change();
+      $("#div-analisa-dokumen-igd-dokter_id").show();
+    }
+  });
 
   $("#laporanketidaktepatanwaktu-jenis_laporan").on("change", function (e) {
     if ($("#LaporanKetidakTepatanWaktu_jenis_laporan_0").prop("checked")) {

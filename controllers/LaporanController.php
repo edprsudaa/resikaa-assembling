@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\components\HelperGeneralClass;
 use app\components\HelperSpesialClass;
+use app\models\laporan\LaporanAnalisaIgd;
 use app\models\laporan\LaporanAnalisaRawatJalan;
 use app\models\medis\ResumeMedisRi;
 use app\models\pegawai\TbPegawai;
@@ -17,6 +18,8 @@ use app\models\pengolahandata\DataDasarRsSearch;
 use app\models\laporan\LaporanKetidakTepatanWaktu;
 use app\models\pegawai\DmUnitPenempatan;
 use app\models\pengolahandata\AnalisaDokumenDetail;
+use app\models\pengolahandata\AnalisaDokumenIgd;
+use app\models\pengolahandata\AnalisaDokumenIgdDetail;
 use app\models\pengolahandata\AnalisaDokumenRj;
 use app\models\pengolahandata\AnalisaDokumenRjDetail;
 use app\models\pengolahandata\CodingPelaporanIgd;
@@ -405,15 +408,23 @@ class LaporanController extends Controller
         $modelAnalisaDokumenRawatJalan->jenis_laporan = LaporanAnalisaRawatJalan::JENIS_HARIAN;
         $modelAnalisaDokumenRawatJalan->tgl_hari = date('d-m-Y');
         $modelAnalisaDokumenRawatJalan->tipe_laporan = LaporanAnalisaRawatJalan::TIPE_SELURUH;
+        $modelLaporanAnalisaIgd = new LaporanAnalisaIgd();
+        $modelAnalisaDokumenIgd = new LaporanAnalisaIgd();
+        $modelAnalisaDokumenIgd->jenis_laporan = LaporanAnalisaIgd::JENIS_HARIAN;
+        $modelAnalisaDokumenIgd->tgl_hari = date('d-m-Y');
+        $modelAnalisaDokumenIgd->tipe_laporan = LaporanAnalisaIgd::TIPE_SELURUH;
 
         return $this->render('laporan', [
 
             'model' => $model,
             'modelLaporan' => $modelLaporan,
             'modelLaporanAnalisaRawatJalan' => $modelLaporanAnalisaRawatJalan,
+            'modelLaporanAnalisaIgd' => $modelLaporanAnalisaIgd,
+
             'modelLaporanKetidakTepatanWaktu' => $modelLaporanKetidakTepatanWaktu,
             'modelAnalisaDokumen' => $modelAnalisaDokumen,
             'modelAnalisaDokumenRawatJalan' => $modelAnalisaDokumenRawatJalan,
+            'modelAnalisaDokumenIgd' => $modelAnalisaDokumenIgd,
 
 
         ]);
@@ -818,7 +829,7 @@ class LaporanController extends Controller
                 $jenisLaporan = 'Harian';
                 $tglJudul = Yii::$app->formatter->asDate($model->tgl_hari);
                 $analisaDokumen = $analisaDokumen
-                    ->andWhere(['=', Registrasi::tableName() . '.tgl_masuk', $model->tgl_hari]);
+                    ->andWhere(['=', new Expression("to_char(" . Registrasi::tableName() . '.tgl_masuk' . ", 'DD-MM-YYYY')"), $model->tgl_hari]);
             } else if ($model->jenis_laporan == AnalisaDokumenRj::JENIS_BULANAN) {
                 $jenisLaporan = 'Bulanan';
                 $tglJudul = $model->tgl_bulan;
@@ -872,7 +883,7 @@ class LaporanController extends Controller
                 $jenisLaporan = 'Harian';
                 $tglJudul = Yii::$app->formatter->asDate($model->tgl_hari);
                 $query = $query
-                    ->andWhere(['=', Registrasi::tableName() . '.tgl_masuk', $model->tgl_hari]);
+                    ->andWhere(['=', new Expression("to_char(" . Registrasi::tableName() . '.tgl_masuk' . ", 'DD-MM-YYYY')"), $model->tgl_hari]);
             } else if ($model->jenis_laporan == AnalisaDokumenRj::JENIS_BULANAN) {
                 $jenisLaporan = 'Bulanan';
                 $tglJudul = $model->tgl_bulan;
@@ -968,6 +979,371 @@ class LaporanController extends Controller
                 ->mergeCells("A" . ($baseRowTitle) . ":L" . ($baseRowTitle));
             $spreadsheet->getActiveSheet()
                 ->setCellValue("A{$baseRowTitle}", 'Laporan Analisa Data EMR Rawat Jalan ' . $jenisLaporan . ' ' . ($ruangan ?? '') . ($dokter ?? ''));
+            $spreadsheet->getActiveSheet()->getStyle("A{$baseRowTitle}")->getAlignment()->setHorizontal('center');
+            $spreadsheet->getActiveSheet()->getStyle("A{$baseRowTitle}")->getFont()->setBold(true);
+
+            $baseRowTitle++;
+
+            $spreadsheet->getActiveSheet()
+                ->mergeCells("A" . ($baseRowTitle) . ":L" . ($baseRowTitle));
+            // $spreadsheet->getActiveSheet()
+            //     ->setCellValue("A{$baseRowTitle}", $jenisLaporanKegiatan);
+            // $baseRowTitle++;
+            $spreadsheet->getActiveSheet()
+                ->mergeCells("A" . ($baseRowTitle) . ":L" . ($baseRowTitle));
+            $spreadsheet->getActiveSheet()
+                ->setCellValue("A{$baseRowTitle}", $tglJudul);
+            $spreadsheet->getActiveSheet()->getStyle("A{$baseRowTitle}")->getAlignment()->setHorizontal('center');
+
+            $baseRowTitle++;
+
+
+            \PhpOffice\PhpSpreadsheet\Cell\Cell::setValueBinder(new \PhpOffice\PhpSpreadsheet\Cell\AdvancedValueBinder());
+            $baseRowTitle++;
+            $baseRowTable = $baseRowTitle + 1;
+            $spreadsheet->getActiveSheet()
+                ->mergeCells("A" . ($baseRowTable) . ":I" . ($baseRowTable + 1));
+            $spreadsheet->getActiveSheet()
+                ->mergeCells("J" . ($baseRowTable) . ":K" . ($baseRowTable));
+            // $spreadsheet->getActiveSheet()
+            //     ->mergeCells("L" . ($baseRowTable) . ":L" . ($baseRowTable + 1));
+
+            $spreadsheet->getActiveSheet()
+                ->getStyle("A" . ($baseRowTable) . ":L" . ($baseRowTable + 1))
+                ->applyFromArray([
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                            'color' => ['argb' => '000000'],
+                        ],
+                    ],
+                ]);
+            $spreadsheet->getActiveSheet()
+                ->getStyle("A" . ($baseRowTable) . ":L" . ($baseRowTable + 1))
+                ->applyFromArray([
+                    'fill' => [
+                        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                        'startColor' => [
+                            'argb' => 'FFFF00',
+                        ],
+                    ],
+                    'font' => [
+                        'size' => 11,
+                        'bold' => true,
+                    ],
+                    'alignment' => [
+                        'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                    ],
+                ]);
+            $spreadsheet->getActiveSheet()
+                ->setCellValue("A{$baseRowTable}", 'KRITERIA ANALISA');
+            $spreadsheet->getActiveSheet()->getStyle("A{$baseRowTable}")->getAlignment()->setHorizontal('center')->setVertical('center');
+            $spreadsheet->getActiveSheet()
+                ->setCellValue("J{$baseRowTable}", 'JUMLAH KELENGKAPAN');
+            $spreadsheet->getActiveSheet()->getStyle("J{$baseRowTable}")->getAlignment()->setHorizontal('center');
+            $spreadsheet->getActiveSheet()
+                ->setCellValue("J" . ($baseRowTable + 1), 'BAIK');
+            $spreadsheet->getActiveSheet()->getStyle("A" . ($baseRowTable + 1))->getAlignment()->setHorizontal('center');
+            $spreadsheet->getActiveSheet()
+                ->setCellValue("K" . ($baseRowTable + 1), 'TIDAK BAIK');
+            $spreadsheet->getActiveSheet()
+                ->setCellValue("L" . ($baseRowTable), 'PERSENTASE');
+            $spreadsheet->getActiveSheet()
+                ->setCellValue("L" . ($baseRowTable + 1), 'TIDAK BAIK');
+            foreach (range('J', 'L') as $columnID) {
+                $spreadsheet->getActiveSheet()->getColumnDimension($columnID)
+                    ->setWidth('15');
+            }
+
+            $spreadsheet->getActiveSheet()->getStyle("L" . ($baseRowTable))->getAlignment()->setHorizontal('center')->setVertical('center');
+            $baseRowTable++;
+
+            $baseRow = $baseRowTable + 1;
+
+            $no = 1;
+            $jenis = [null, null];
+
+            foreach ($analisaDokumen as $item) {
+
+                if ($jenis[0] != $item['analisa_dokumen_jenis_id']) {
+                    $jenis = [$item['analisa_dokumen_jenis_id'], $item['jenis_analisa']];
+                    $spreadsheet->getActiveSheet()
+                        ->mergeCells("A" . ($baseRow) . ":L" . ($baseRow));
+                    $spreadsheet->setActiveSheetIndex(0)
+                        ->setCellValue('A' . $baseRow, $item['jenis_analisa']);
+                    $spreadsheet->getActiveSheet()->getStyle('A' . $baseRow)->getAlignment()->setWrapText(false);
+                    $spreadsheet->getActiveSheet()->getStyle('A' . $baseRow)->getFont()->setBold(true);
+                    $baseRow++;
+                }
+                if ($item['item_analisa_tipe'] == 1) {
+                    $spreadsheet->getActiveSheet()
+                        ->mergeCells("A" . ($baseRow) . ":I" . ($baseRow));
+                    $spreadsheet->setActiveSheetIndex(0)
+                        ->setCellValue('A' . $baseRow, $no . ". " . $item['item_uraian']);
+                    // $spreadsheet->getActiveSheet()
+                    //     ->mergeCells("J" . ($baseRow) . ":K" . ($baseRow));
+                    $spreadsheet->getActiveSheet()->getStyle('J' . $baseRow)->getAlignment()->setHorizontal('center')->setVertical('center');
+                    $spreadsheet->getActiveSheet()->getStyle('K' . $baseRow)->getAlignment()->setHorizontal('center')->setVertical('center');
+                    $spreadsheet->getActiveSheet()->getStyle('L' . $baseRow)->getAlignment()->setHorizontal('center')->setVertical('center');
+                    $spreadsheet->setActiveSheetIndex(0)
+                        ->setCellValue('J' . $baseRow, $item['lengkap'] + $item['ada'] + $item['tidak_ada']);
+                    $spreadsheet->setActiveSheetIndex(0)
+                        ->setCellValue('K' . $baseRow, $item['tidak_lengkap']);
+                    $spreadsheet->setActiveSheetIndex(0)
+                        ->setCellValue('L' . $baseRow, sprintf("%.2f%%", ($item['tidak_lengkap'] / $item['jumlah_dokumen']) * 100));
+                    // ->setCellValue('C' . $baseRow, $item->no_sp)
+                    // ->setCellValue('D' . $baseRow, $item->supplier->nama_supplier ?? '-')
+                    // ->setCellValue('E' . $baseRow, $item->tipe_pembelian)
+                    // ->setCellValue('L' . $baseRow, $item->total);
+
+                } else {
+                    $spreadsheet->getActiveSheet()
+                        ->mergeCells("A" . ($baseRow) . ":I" . ($baseRow));
+                    $spreadsheet->setActiveSheetIndex(0)
+                        ->setCellValue('A' . $baseRow, $no . ". " . $item['item_uraian']);
+                    $spreadsheet->getActiveSheet()->getStyle('J' . $baseRow)->getAlignment()->setHorizontal('center')->setVertical('center');
+                    $spreadsheet->getActiveSheet()->getStyle('K' . $baseRow)->getAlignment()->setHorizontal('center')->setVertical('center');
+                    $spreadsheet->getActiveSheet()->getStyle('L' . $baseRow)->getAlignment()->setHorizontal('center')->setVertical('center');
+
+                    $spreadsheet->setActiveSheetIndex(0)
+                        ->setCellValue('J' . $baseRow, $item['lengkap'] + $item['ada'] + $item['tidak_ada']);
+                    $spreadsheet->setActiveSheetIndex(0)
+                        ->setCellValue('K' . $baseRow, ($item['tidak_lengkap']));
+                    $spreadsheet->setActiveSheetIndex(0)
+                        ->setCellValue('L' . $baseRow, sprintf("%.2f%%", (($item['tidak_lengkap']) / $item['jumlah_dokumen']) * 100));
+                    // ->setCellValue('C' . $baseRow, $item->no_sp)
+                    // ->setCellValue('D' . $baseRow, $item->supplier->nama_supplier ?? '-')
+                    // ->setCellValue('E' . $baseRow, $item->tipe_pembelian)
+                    // ->setCellValue('L' . $baseRow, $item->total);
+                }
+                $baseRowItem = $baseRow;
+                $baseRowItem++;
+                $baseRow = $baseRowItem;
+                $no++;
+            }
+            $spreadsheet->getActiveSheet()
+                ->mergeCells("A" . ($baseRow) . ":I" . ($baseRow));
+            $spreadsheet->getActiveSheet()
+                ->mergeCells("J" . ($baseRow) . ":L" . ($baseRow));
+            $spreadsheet->getActiveSheet()->getStyle("A{$baseRow}")->getAlignment()->setHorizontal('center')->setVertical('center');
+            $spreadsheet->getActiveSheet()->getStyle("A{$baseRow}")->getFont()->setBold(true);
+            $spreadsheet->getActiveSheet()->getStyle("J{$baseRow}")->getAlignment()->setHorizontal('center')->setVertical('center');
+            $spreadsheet->getActiveSheet()->getStyle("J{$baseRow}")->getFont()->setBold(true);
+            // return json_encode($query[0]['jumlah_dokumen']);
+            $spreadsheet->getActiveSheet()
+                ->setCellValue("A{$baseRow}", 'Total')
+                ->setCellValue("J{$baseRow}", $query[0]['jumlah_dokumen'] . " Dokumen");
+
+
+            $spreadsheet->getActiveSheet()
+                ->getStyle("A{$baseRowTable}:L{$baseRow}")
+                ->applyFromArray([
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                            'color' => ['argb' => '000000'],
+                        ],
+                    ],
+                ]);
+            $spreadsheet->setActiveSheetIndex(0);
+
+            // Redirect output to a client’s web browser (Xlsx)
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="Laporan Analisa EMR ' . $jenisLaporan . ' ' . $tglJudul . '.xlsx"');
+            header('Cache-Control: max-age=0');
+
+            $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+            $writer->save('php://output');
+            exit(); // -> agar file tidak corrupt
+
+
+        }
+    }
+    public function actionCetakLaporanAnalisaIgd()
+    {
+
+        $model = new LaporanAnalisaIgd();
+
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            $analisaDokumen = AnalisaDokumenIgdDetail::find()
+                ->select([
+                    'count(analisa_dokumen_igd.analisa_dokumen_id) as jumlah_dokumen',
+                    'master_jenis_analisa.jenis_analisa_uraian as jenis_analisa',
+                    'master_item_analisa.item_analisa_uraian as item_uraian',
+                    'master_item_analisa.item_analisa_tipe',
+                    'analisa_dokumen_igd_detail.analisa_dokumen_item_id',
+                    'analisa_dokumen_igd_detail.analisa_dokumen_jenis_id',
+                    'analisa_dokumen_igd_detail.analisa_dokumen_jenis_analisa_detail_id',
+                    'COUNT(analisa_dokumen_igd_detail.analisa_dokumen_kelengkapan) filter (where analisa_dokumen_igd_detail.analisa_dokumen_kelengkapan = 0) as tidak_ada',
+                    'COUNT(analisa_dokumen_igd_detail.analisa_dokumen_kelengkapan) filter (where analisa_dokumen_igd_detail.analisa_dokumen_kelengkapan = 1) as tidak_lengkap',
+                    'COUNT(analisa_dokumen_igd_detail.analisa_dokumen_kelengkapan) filter (where analisa_dokumen_igd_detail.analisa_dokumen_kelengkapan = 2) as lengkap',
+                    'COUNT(analisa_dokumen_igd_detail.analisa_dokumen_kelengkapan) filter (where analisa_dokumen_igd_detail.analisa_dokumen_kelengkapan = 3) as ada'
+
+                ])
+                ->innerJoin('analisa_dokumen_igd', 'analisa_dokumen_igd_detail.analisa_dokumen_id=analisa_dokumen_igd.analisa_dokumen_id')
+                ->innerJoin(Registrasi::tableName(), Registrasi::tableName() . '.kode=analisa_dokumen_igd.reg_kode')
+                ->innerJoin('master_item_analisa', 'master_item_analisa.item_analisa_id=analisa_dokumen_igd_detail.analisa_dokumen_item_id')
+                ->innerJoin('master_jenis_analisa', 'analisa_dokumen_igd_detail.analisa_dokumen_jenis_id=master_jenis_analisa.jenis_analisa_id')
+                ->innerJoin('master_jenis_analisa_detail', 'master_jenis_analisa_detail.jenis_analisa_detail_id=analisa_dokumen_igd_detail.analisa_dokumen_jenis_analisa_detail_id')
+                ->where(['master_jenis_analisa_detail.jenis_analisa_detail_aktif' => 1]);
+
+            if ($model->jenis_laporan == AnalisaDokumenIgd::JENIS_HARIAN) {
+                $jenisLaporan = 'Harian';
+                $tglJudul = Yii::$app->formatter->asDate($model->tgl_hari);
+                $analisaDokumen = $analisaDokumen
+                    ->andWhere(['=', new Expression("to_char(" . Registrasi::tableName() . '.tgl_masuk' . ", 'DD-MM-YYYY')"), $model->tgl_hari]);
+            } else if ($model->jenis_laporan == AnalisaDokumenIgd::JENIS_BULANAN) {
+                $jenisLaporan = 'Bulanan';
+                $tglJudul = $model->tgl_bulan;
+                $analisaDokumen = $analisaDokumen
+                    ->andWhere(['=', new Expression("to_char(" . Registrasi::tableName() . '.tgl_masuk' . ", 'MM-YYYY')"), $model->tgl_bulan]);
+            } else if ($model->jenis_laporan == AnalisaDokumenIgd::JENIS_TAHUNAN) {
+                $jenisLaporan = 'Tahunan';
+                $tglJudul = $model->tgl_tahun;
+                $analisaDokumen = $analisaDokumen
+                    ->andWhere(['=', new Expression("to_char(" . Registrasi::tableName() . '.tgl_masuk' . ", 'YYYY')"), $model->tgl_tahun]);
+            }
+            $ruangan = '';
+            $dokter = '';
+            if ($model->tipe_laporan == 'ruangan') {
+                $analisaDokumen = $analisaDokumen->andWhere(['analisa_dokumen_igd.unit_id' => $model->unit_id]);
+                $ruanganData = DmUnitPenempatan::find()->where(['kode' => $model->unit_id])->one();
+                $ruangan = $ruanganData->nama;
+                $dokter = '';
+            } elseif ($model->tipe_laporan == 'dokter') {
+                $analisaDokumen = $analisaDokumen->andWhere(['analisa_dokumen_igd.dokter_id' => $model->dokter_id]);
+                $dokterData = TbPegawai::find()->where(['pegawai_id' => $model->dokter_id])->one();
+                $ruangan = '';
+                $dokter = HelperSpesialClass::getNamaPegawai($dokterData);
+            }
+            // $analisaDokumen->andWhere(['=', new Expression("to_char(analisa_dokumen_igd.created_at, 'MM-YYYY')"), '11-2022']);
+            // ->andWhere(['>', new Expression('date (' . AnalisaDokumenDetail::tableName() . '.created_at)'), '2022-11-17'])
+            $analisaDokumen = $analisaDokumen->groupBy([
+                'analisa_dokumen_igd_detail.analisa_dokumen_item_id',
+                'analisa_dokumen_igd_detail.analisa_dokumen_jenis_id',
+                'master_item_analisa.item_analisa_id',
+
+                'analisa_dokumen_igd_detail.analisa_dokumen_jenis_analisa_detail_id',
+                'master_jenis_analisa.jenis_analisa_uraian'
+            ])
+                ->orderBy('analisa_dokumen_igd_detail.analisa_dokumen_jenis_id')
+                ->asArray()->all();
+
+
+            $query = AnalisaDokumenIgdDetail::find()
+                ->select([
+                    'count(distinct analisa_dokumen_igd.analisa_dokumen_id) as jumlah_dokumen',
+                ])
+                ->innerJoin('analisa_dokumen_igd', 'analisa_dokumen_igd_detail.analisa_dokumen_id=analisa_dokumen_igd.analisa_dokumen_id')
+                ->innerJoin(Registrasi::tableName(), Registrasi::tableName() . '.kode=analisa_dokumen_igd.reg_kode')
+                ->innerJoin('master_item_analisa', 'master_item_analisa.item_analisa_id=analisa_dokumen_igd_detail.analisa_dokumen_item_id')
+                ->innerJoin('master_jenis_analisa', 'analisa_dokumen_igd_detail.analisa_dokumen_jenis_id=master_jenis_analisa.jenis_analisa_id')
+                ->innerJoin('master_jenis_analisa_detail', 'master_jenis_analisa_detail.jenis_analisa_detail_id=analisa_dokumen_igd_detail.analisa_dokumen_jenis_analisa_detail_id')
+                ->where(['master_jenis_analisa_detail.jenis_analisa_detail_aktif' => 1]);
+
+            if ($model->jenis_laporan == AnalisaDokumenIgd::JENIS_HARIAN) {
+                $jenisLaporan = 'Harian';
+                $tglJudul = Yii::$app->formatter->asDate($model->tgl_hari);
+                $query = $query
+                    ->andWhere(['=', new Expression("to_char(" . Registrasi::tableName() . '.tgl_masuk' . ", 'DD-MM-YYYY')"), $model->tgl_hari]);
+            } else if ($model->jenis_laporan == AnalisaDokumenIgd::JENIS_BULANAN) {
+                $jenisLaporan = 'Bulanan';
+                $tglJudul = $model->tgl_bulan;
+                $query = $query
+                    ->andWhere(['=', new Expression("to_char(" . Registrasi::tableName() . '.tgl_masuk' . ", 'MM-YYYY')"), $model->tgl_bulan]);
+            } else if ($model->jenis_laporan == AnalisaDokumenIgd::JENIS_TAHUNAN) {
+                $jenisLaporan = 'Tahunan';
+                $tglJudul = $model->tgl_tahun;
+                $query = $query
+                    ->andWhere(['=', new Expression("to_char(" . Registrasi::tableName() . '.tgl_masuk' . ", 'YYYY')"), $model->tgl_tahun]);
+            }
+            $ruangan = '';
+            $dokter = '';
+            if ($model->tipe_laporan == 'ruangan') {
+                $query = $query->andWhere(['analisa_dokumen_igd.unit_id' => $model->unit_id]);
+                $ruanganData = DmUnitPenempatan::find()->where(['kode' => $model->unit_id])->one();
+                $ruangan = $ruanganData->nama;
+                $dokter = '';
+            } elseif ($model->tipe_laporan == 'dokter') {
+                $query = $query->andWhere(['analisa_dokumen_igd.dokter_id' => $model->dokter_id]);
+                $dokterData = TbPegawai::find()->where(['pegawai_id' => $model->dokter_id])->one();
+                $ruangan = '';
+                $dokter = HelperSpesialClass::getNamaPegawai($dokterData);
+            }
+
+            $query = $query->asArray()->all();
+
+
+            $spreadsheet = new Spreadsheet();
+            $spreadsheet->getProperties()->setCreator('SIMRS Farmasi - RSUD Arifin Achmad')
+                ->setLastModifiedBy('SIMRS Farmasi - RSUD Arifin Achmad')
+                ->setTitle('Laporan Pengadaan RSUD Arifin Achmad')
+                ->setSubject('Laporan Pengadaan RSUD Arifin Achmad')
+                ->setDescription('Dicetak dari SIMRS Farmasi RSUD Arifin Achmad')
+                ->setKeywords('office 2007+ openxml php')
+                ->setCategory('Laporan');
+
+            $spreadsheet->getActiveSheet()->getPageSetup()
+                ->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE)
+                ->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_LEGAL)
+                ->setFitToWidth(0)
+                ->setFitToHeight(0);
+
+            // Start - Penulisan Data ke Excel
+            // --------------------------------------------------------------------------
+
+            $baseHeader = 1;
+
+            $spreadsheet->getActiveSheet()
+                ->setCellValue("A" . ($baseHeader), 'PEMERINTAH PROVINSI RIAU')
+                ->setCellValue("A" . ($baseHeader + 1), 'RSUD ARIFIN ACHMAD')
+                ->setCellValue("A" . ($baseHeader + 2), 'Jl. Diponegoro No. 2 Telp. (0761) - 23418, 21618, 21657 Fax. (0761) - 20253')
+                ->setCellValue("A" . ($baseHeader + 3), 'KOTA PEKANBARU');
+            $spreadsheet->getActiveSheet()->getStyle("A" . ($baseHeader))->getAlignment()->setHorizontal('center');
+            $spreadsheet->getActiveSheet()->getStyle("A" . ($baseHeader + 1))->getAlignment()->setHorizontal('center');
+            $spreadsheet->getActiveSheet()->getStyle("A" . ($baseHeader + 2))->getAlignment()->setHorizontal('center');
+            $spreadsheet->getActiveSheet()->getStyle("A" . ($baseHeader + 3))->getAlignment()->setHorizontal('center');
+
+            $spreadsheet->getActiveSheet()
+                ->mergeCells("A" . ($baseHeader) . ":L" . ($baseHeader))
+                ->mergeCells("A" . ($baseHeader + 1) . ":L" . ($baseHeader + 1))
+                ->mergeCells("A" . ($baseHeader + 2) . ":L" . ($baseHeader + 2))
+                ->mergeCells("A" . ($baseHeader + 3) . ":L" . ($baseHeader + 3));
+            // set logo
+            $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+            $drawing->setWorksheet($spreadsheet->getActiveSheet());
+            $drawing->setPath(Url::to('@app/web/images/logo_riau.png'));
+            $drawing->setCoordinates('A1');
+            $drawing->setWidthAndHeight(158, 72);
+            $drawing->setResizeProportional(true);
+            $drawing->setOffsetX(10);    // this is how
+            $drawing->setOffsetY(3);
+            $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+            $drawing->setWorksheet($spreadsheet->getActiveSheet());
+            $drawing->setPath(Url::to('@app/web/images/rsud.png'));
+            $drawing->setCoordinates('J1');
+            $drawing->setWidthAndHeight(158, 72);
+            $drawing->setResizeProportional(true);
+            $drawing->setOffsetX(250);    // this is how
+            $drawing->setOffsetY(3);
+            $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+            $drawing->setWorksheet($spreadsheet->getActiveSheet());
+            $drawing->setPath(Url::to('@app/web/images/kars.png'));
+            $drawing->setCoordinates('L1');
+            $drawing->setWidthAndHeight(158, 72);
+            $drawing->setResizeProportional(true);
+            $drawing->setOffsetX(-20);    // this is how
+            $drawing->setOffsetY(3);
+
+            $baseRowTitle = $baseHeader + 5;
+
+            $spreadsheet->getActiveSheet()
+                ->mergeCells("A" . ($baseRowTitle) . ":L" . ($baseRowTitle));
+            $spreadsheet->getActiveSheet()
+                ->setCellValue("A{$baseRowTitle}", 'Laporan Analisa Data EMR IGD ' . $jenisLaporan . ' ' . ($ruangan ?? '') . ($dokter ?? ''));
             $spreadsheet->getActiveSheet()->getStyle("A{$baseRowTitle}")->getAlignment()->setHorizontal('center');
             $spreadsheet->getActiveSheet()->getStyle("A{$baseRowTitle}")->getFont()->setBold(true);
 

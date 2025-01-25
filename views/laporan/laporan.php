@@ -57,36 +57,36 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="col-md-12">
 
                                     <?php
-                                    echo $form->field($modelAnalisaDokumen, 'jenis_laporan', ['options' => ['required' => 'required']])->inline()->radioList(
+                                    echo $form->field($modelLaporanAnalisaIgd, 'jenis_laporan', ['options' => ['required' => 'required']])->inline()->radioList(
                                         [
                                             'harian' => 'Harian',
                                             'bulanan' => 'Bulanan',
                                             'tahunan' => 'Tahunan',
                                         ],
                                         [
-                                            'item' => static function ($index, $label, $name, $checked, $value) use ($modelAnalisaDokumen) {
-                                                return Helper::radioList($index, $label, $name, $checked, $value, $modelAnalisaDokumen);
+                                            'item' => static function ($index, $label, $name, $checked, $value) use ($modelLaporanAnalisaIgd) {
+                                                return Helper::radioList($index, $label, $name, $checked, $value, $modelLaporanAnalisaIgd);
                                             }
                                         ]
                                     )->label('Jenis Laporan');
                                     ?>
                                     <?php
-                                    echo $form->field($modelAnalisaDokumen, 'tipe_laporan')->inline()->radioList(
+                                    echo $form->field($modelLaporanAnalisaIgd, 'tipe_laporan')->inline()->radioList(
                                         [
                                             'seluruh' => 'Seluruh',
                                             'ruangan' => 'Ruangan',
                                             'dokter' => 'Dokter',
                                         ],
                                         [
-                                            'item' => static function ($index, $label, $name, $checked, $value) use ($modelAnalisaDokumen) {
-                                                return Helper::radioList($index, $label, $name, $checked, $value, $modelAnalisaDokumen);
+                                            'item' => static function ($index, $label, $name, $checked, $value) use ($modelLaporanAnalisaIgd) {
+                                                return Helper::radioList($index, $label, $name, $checked, $value, $modelLaporanAnalisaIgd);
                                             }
                                         ]
                                     )->label('Berdasarkan');
                                     ?>
                                     <?php
-                                    echo '<div id="div-analisa-dokumen-tgl_hari">';
-                                    echo $form->field($modelAnalisaDokumen, 'tgl_hari', [
+                                    echo '<div id="div-analisa-dokumen-igd-tgl_hari">';
+                                    echo $form->field($modelLaporanAnalisaIgd, 'tgl_hari', [
                                         'wrapperOptions' => ['style' => 'margin-left: 0px;'],
                                     ])->widget(DatePicker::classname(), [
                                         'options' => ['placeholder' => 'Pilih...'],
@@ -102,8 +102,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ])->label('Tanggal <span style="color: red;">*</span>');
                                     echo '</div>';
 
-                                    echo '<div id="div-analisa-dokumen-tgl_bulan" style="display: none;">';
-                                    echo $form->field($modelAnalisaDokumen, 'tgl_bulan', [
+                                    echo '<div id="div-analisa-dokumen-igd-tgl_bulan" style="display: none;">';
+                                    echo $form->field($modelLaporanAnalisaIgd, 'tgl_bulan', [
                                         'wrapperOptions' => ['style' => 'margin-left: 0px;'],
                                     ])->widget(DatePicker::classname(), [
                                         'options' => ['placeholder' => 'Pilih...'],
@@ -119,8 +119,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ])->label('Bulan <span style="color: red;">*</span>');
                                     echo '</div>';
 
-                                    echo '<div id="div-analisa-dokumen-tgl_tahun" style="display: none;">';
-                                    echo $form->field($modelAnalisaDokumen, 'tgl_tahun', [
+                                    echo '<div id="div-analisa-dokumen-igd-tgl_tahun" style="display: none;">';
+                                    echo $form->field($modelLaporanAnalisaIgd, 'tgl_tahun', [
                                         'wrapperOptions' => ['style' => 'margin-left: 0px;'],
                                     ])->widget(DatePicker::classname(), [
                                         'options' => ['placeholder' => 'Pilih...'],
@@ -138,9 +138,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                     ?>
                                     <?php
-                                    echo '<div id="div-analisa-dokumen-unit_id" style="display: none;">';
-                                    echo $form->field($model, 'unit_id')->widget(Select2::classname(), [
-                                        'data' => HelperSpesialClass::getListUnitRawatInapAnalisa(),
+                                    echo '<div id="div-analisa-dokumen-igd-unit_id" style="display: none;">';
+                                    echo $form->field($modelLaporanAnalisaIgd, 'unit_id')->widget(Select2::classname(), [
+                                        'data' => HelperSpesialClass::getListUnitIgdAnalisa(),
                                         'size' => 'xs',
                                         'options' => ['class' => 'form-control input-sm', 'placeholder' => 'Pilih Poli Tujuan...'],
                                         'value' => $model->unit_id,
@@ -149,8 +149,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                         ],
                                     ])->label('<label>Ruangan / Poli : <b><span style="font-size: 12px;color: #000000;important;"><u></u></span></b></label>');
                                     echo '</div>';
-                                    echo '<div id="div-analisa-dokumen-dokter_id" style="display: none;">';
-                                    echo $form->field($model, 'dokter_id')->widget(Select2::classname(), [
+                                    echo '<div id="div-analisa-dokumen-igd-dokter_id" style="display: none;">';
+                                    echo $form->field($modelLaporanAnalisaIgd, 'dokter_id')->widget(Select2::classname(), [
                                         'data' => HelperSpesialClass::getListDokter(false, true),
                                         'size' => 'xs',
                                         'options' => ['class' => 'form-control input-sm', 'placeholder' => 'Pilih Dokter DPJP...'],
