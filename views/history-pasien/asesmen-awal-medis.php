@@ -216,7 +216,7 @@ if ($is_ajax == true) {
         <th class="text-left bg-lightblue" colspan="12" style="text-align:left">VIII. RENCANA ASUHAN</th>
     </tr>
     <tr>
-        <?php if ($asesmen->versi == '1.0'): ?>
+        <?php if ($asesmen->versi == '2.1'): ?>
             <td colspan="3">
                 <b>Catatan Rencana Asuhan : </b>
             </td>
