@@ -746,14 +746,14 @@ return [
             'unit' => []
         ],
     ],
-    'storage-monitoring' => [ // Configurasi TTE
-        'base-url' => 'http://sign.simrs.aa/api-esign/',
-        // 'base-url' => 'http://monitoring-storage-dev.simrs.aa/api-esign/',
+    // 'storage-monitoring' => [ // Configurasi TTE
+    //     'base-url' => 'http://sign.simrs.aa/api-esign/',
+    //     // 'base-url' => 'http://monitoring-storage-dev.simrs.aa/api-esign/',
 
-        'cek-support-tte' => 'get-init-doc-rme',
-        'kirim-storage' => 'kirim-storage-tte',
-        'view-dokumen' => 'view-dokumen-rme',
-        'batal-dokumen' => 'batal-dokumen',
-    ],
+    //     'cek-support-tte' => 'get-init-doc-rme',
+    //     'kirim-storage' => 'kirim-storage-tte',
+    //     'view-dokumen' => 'view-dokumen-rme',
+    //     'batal-dokumen' => 'batal-dokumen',
+    // ],
 
 ];
