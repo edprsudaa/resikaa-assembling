@@ -316,8 +316,10 @@ return [
                 267,
                 263,
                 111,
+                359,
             ]
         ],
+
         3218 => [
             'id' => 3218, //'198304082010012016'//Tengku Lya
             'unit' => [
@@ -389,7 +391,7 @@ return [
 
         749 => [
             'id' => 749, //'198409282010012028'//dr putri
-            'unit' => [202, 189, 213, 216, 260, 207, 232, 215, 261]
+            'unit' => [202, 213, 216, 260, 207, 232, 215, 261, 111, 263, 359, 122, 339]
         ],
         252 => [
             'id' => 252, //197012292002122001,//dr dewi
@@ -430,14 +432,6 @@ return [
             'id' => 3231, //1472012108970004 riski
             'unit' => NULL,
         ],
-        1430 => [
-            'id' => 1430, //1471104909860001 SEPTIYANA KOMALA SARI
-            'unit' => NULL,
-        ],
-        958 => [
-            'id' => 958, //1471036111850001 ASTER NOFA RITA
-            'unit' => NULL,
-        ],
 
         // 3218 => [
         //     'id' => 3218, //'198304082010012016',//dr marlon
@@ -454,10 +448,14 @@ return [
             'id' => 710, //
             'unit' => []
         ],
-        2940 => [
-            'id' => 2940, //
+        3654 => [
+            'id' => 3654, //
             'unit' => []
         ],
+        // 2940 => [
+        //     'id' => 2940, //
+        //     'unit' => []
+        // ],
         695 => [
             'id' => 695, //
             'unit' => []
@@ -475,7 +473,23 @@ return [
             'unit' => []
         ],
         3539 => [
-            'id' => 3539, //PRIMA WULANDARI
+            'id' => 3539, //deni sapri
+            'unit' => []
+        ],
+        425 => [
+            'id' => 425, //deni sapri
+            'unit' => []
+        ],
+        463 => [
+            'id' => 463, //deni sapri
+            'unit' => []
+        ],
+        3526 => [
+            'id' => 3526, //deni sapri
+            'unit' => []
+        ],
+        896 => [
+            'id' => 896, //deni sapri
             'unit' => []
         ],
     ],
@@ -530,6 +544,10 @@ return [
             'id' => 1221, //
             'unit' => []
         ],
+        3619 => [
+            'id' => 3619, //
+            'unit' => []
+        ],
 
 
 
@@ -540,26 +558,11 @@ return [
             'id' => 3228, //deni sapri
             'unit' => []
         ],
-        3520 => [
-            'id' => 3520, //deni sapri
+        3229 => [
+            'id' => 3229, //deni sapri
             'unit' => []
         ],
-        3521 => [
-            'id' => 3521, //deni sapri
-            'unit' => []
-        ],
-        3522 => [
-            'id' => 3522, //deni sapri
-            'unit' => []
-        ],
-        3523 => [
-            'id' => 3523, //deni sapri
-            'unit' => []
-        ],
-        3524 => [
-            'id' => 3524, //deni sapri
-            'unit' => []
-        ],
+
 
 
     ],
@@ -584,6 +587,14 @@ return [
             'id' => 1869, //MUHAMMAD TANTAWI
             'unit' => []
         ],
+        1406 => [
+            'id' => 1406, //ROSMAWATI A.Md.PK
+            'unit' => []
+        ],
+        1184 => [
+            'id' => 1184, //KURNIA
+            'unit' => []
+        ],
     ],
     'pengolahan-data' => [
         929 => [
@@ -594,14 +605,130 @@ return [
             'id' => 726, //SUKMAWATI AMBAR KP
             'unit' => []
         ],
-    ],
-    'akses-daftar-pasien' => [
-        194 => [
-            'id' => 194,
+        1138 => [
+            'id' => 1138, //deni sapri
+            'unit' => []
+        ],
+        1461 => [
+            'id' => 1461, //deni sapri
+            'unit' => []
+        ],
+        3469 => [
+            'id' => 3469, //deni sapri
             'unit' => []
         ],
     ],
-    'casemix-rj' => [
+    'akses-daftar-pasien' => [
+        710 => [
+            'id' => 710, //
+            'unit' => []
+        ],
+
+    ],
+    'casemix-rj' => [],
+    'casemix-ri' => [],
+    'casemix-igd' => [],
+    'casemix' => [
+
+        704 => [
+            'id' => 704, //LIDIA ELMADONA
+            'unit' => []
+        ],
+        488 => [
+            'id' => 488, //RITA ARISANDI
+            'unit' => []
+        ],
+        268 => [
+            'id' => 268, //NURBAITI
+            'unit' => []
+        ],
+        453 => [
+            'id' => 453, //SRI AINI
+            'unit' => []
+        ],
+        351 => [
+            'id' => 351, //AINI SURYANI
+            'unit' => []
+        ],
+        676 => [
+            'id' => 676, //MELVA LOVINA
+            'unit' => []
+        ],
+        3552 => [
+            'id' => 3552, //YASTI NURAINI
+            'unit' => []
+        ],
+        375 => [
+            'id' => 375, //SUSI NORITA
+            'unit' => []
+        ],
+        255 => [
+            'id' => 255, //JASWANDI
+            'unit' => []
+        ],
+        626 => [
+            'id' => 626, //ERLINA
+            'unit' => []
+        ],
+        1440 => [
+            'id' => 1440, //SITI AISYAH POHAN
+            'unit' => []
+        ],
+        960 => [
+            'id' => 960, //ASWITA SUSANTI
+            'unit' => []
+        ],
+        1460 => [
+            'id' => 1460, //SUSANTI
+            'unit' => []
+        ],
+        1094 => [
+            'id' => 1094, //FITRIYA
+            'unit' => []
+        ],
+        994 => [
+            'id' => 994, //DESWITA
+            'unit' => []
+        ],
+        1352 => [
+            'id' => 1352, //RATNA HASTUTI
+            'unit' => []
+        ],
+        1429 => [
+            'id' => 1429, //SEPTI ANGGI
+            'unit' => []
+        ],
+        1321 => [
+            'id' => 1321, //NURMIDA
+            'unit' => []
+        ],
+        1424 => [
+            'id' => 1424, //SAWALINA
+            'unit' => []
+        ],
+        3343 => [
+            'id' => 3343, //ZIZIA
+            'unit' => []
+        ],
+
+        1456 => [
+            'id' => 1456, //ZIZIA
+            'unit' => []
+        ],
+
+        1180 => [
+            'id' => 1180, //KHESI
+            'unit' => []
+        ],
+        1277 => [
+            'id' => 1277, //MUSTIKASARI
+            'unit' => []
+        ],
+
+        3468 => [
+            'id' => 3468, //AGUSDINA
+            'unit' => []
+        ],
         3346 => [
             'id' => 3346, //WAN ROSLIANA
             'unit' => []
@@ -611,32 +738,16 @@ return [
             'unit' => []
         ],
         958 => [
-            'id' => 958, //SEPTIYANA KOMALA SARI
+            'id' => 958, //ASTER NOFA RITA
             'unit' => []
         ],
         1517 => [
-            'id' => 1517, //SEPTIYANA KOMALA SARI
-            'unit' => []
-        ],
-    ],
-    'casemix-ri' => [],
-    'casemix-igd' => [],
-    'casemix' => [
-        704 => [
-            'id' => 704, //LIDIA ELMADONA
-            'unit' => []
-        ],
-        453 => [
-            'id' => 453, //SRI AINI
-            'unit' => []
-        ],
-        488 => [
-            'id' => 488, //SRI AINI
+            'id' => 1517, //YULIATI BAHRI
             'unit' => []
         ],
     ],
     'storage-monitoring' => [ // Configurasi TTE
-        'base-url' => 'http://dokumen-rme-testing.simrs.aa/api-esign/',
+        'base-url' => 'http://sign.simrs.aa/api-esign/',
         // 'base-url' => 'http://monitoring-storage-dev.simrs.aa/api-esign/',
 
         'cek-support-tte' => 'get-init-doc-rme',
