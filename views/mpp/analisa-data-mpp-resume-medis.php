@@ -89,6 +89,7 @@
 
                             if (!empty($listResumeMedis)) {
                                 foreach ($listResumeMedis as $item) {
+
                             ?>
 
                                  <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Nama Dokter : <?= HelperSpesialClass::getNamaPegawaiArray($item->dokter) ?? '' ?></div>
@@ -98,8 +99,11 @@
                                      <div class="btn-group">
                                          <a class="btn btn-success btn-sm btn-lihat-operasi" href="<?= Url::to(['/analisa-kuantitatif/preview-resume-medis', 'id' => $item['id']]) ?>" data-id="<?= $item['id'] ?>" data-nama="<?= $item['id'] ?>"> <i class="fa fa-eye"></i></i></a>
                                          <a class="btn btn-warning btn-sm" target="_blank" href="<?= Url::to(['/mpp/cetak-resume-medis-ri', 'id' => $item['id'], 'pasien' => $registrasi['pasien']['kode']]) ?>" data-id="<?= $item['id'] ?>" data-pasien="<?= $registrasi['pasien']['kode'] ?>" data-nama="<?= $item['id'] ?>"> <i class="fa fa-print"></i></i></a>
+                                         <?php if (($item->batal == 0) && ($item->draf == 1) && ($item->is_deleted == 0) && ($item->tanggal_final == null)) { ?>
 
-                                         <a class="btn btn-info btn-sm" href="<?= Url::to(['/mpp/detail-mpp-edit-resume', 'id' => HelperGeneralClass::hashData($registrasi['kode']), 'id_resume' => $item['id'], 'layanan_id' => $_GET['layanan_id']]) ?>" data-id="<?= $item['id'] ?>" data-nama="<?= $item['id'] ?>"> <i class="fa fa-edit"></i></i></a>
+                                             <a class="btn btn-info btn-sm" href="<?= Url::to(['/mpp/detail-mpp-edit-resume', 'id' => HelperGeneralClass::hashData($registrasi['kode']), 'id_resume' => $item['id'], 'layanan_id' => $_GET['layanan_id']]) ?>" data-id="<?= $item['id'] ?>" data-nama="<?= $item['id'] ?>"> <i class="fa fa-edit"></i></i></a>
+
+                                         <?php } ?>
                                      </div>
                                  </div>
                                  <div class="border border-warning bg-warning font-weight-bold" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Diagnosa ICD10:</div>

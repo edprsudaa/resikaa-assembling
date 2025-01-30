@@ -150,8 +150,11 @@
                                      <a class="btn btn-success btn-sm btn-lihat-operasi" href="<?= Url::to(['/analisa-kuantitatif/preview-resume-medis', 'id' => $item['id']]) ?>" data-id="<?= $item['id'] ?>" data-nama="<?= $item['id'] ?>"> <i class="fa fa-eye"></i></i></a>
                                      <a class="btn btn-warning btn-sm" target="_blank" href="<?= Url::to(['/mpp/cetak-resume-medis-ri', 'id' => $item['id'], 'pasien' => $registrasi['pasien']['kode']]) ?>" data-id="<?= $item['id'] ?>" data-pasien="<?= $registrasi['pasien']['kode'] ?>" data-nama="<?= $item['id'] ?>"> <i class="fa fa-print"></i></i></a>
 
-                                     <a class="btn btn-info btn-sm" href="<?= Url::to(['/mpp/detail-mpp-edit-resume', 'id' => HelperGeneralClass::hashData($registrasi['kode']), 'id_resume' => $item['id'], 'layanan_id' => $_GET['layanan_id']]) ?>" data-id="<?= $item['id'] ?>" data-nama="<?= $item['id'] ?>"> <i class="fa fa-edit"></i></i></a>
+                                     <?php if (($item->batal == 0) && ($item->draf == 1) && ($item->is_deleted == 0) && ($item->tanggal_final == null)) { ?>
 
+                                         <a class="btn btn-info btn-sm" href="<?= Url::to(['/mpp/detail-mpp-edit-resume', 'id' => HelperGeneralClass::hashData($registrasi['kode']), 'id_resume' => $item['id'], 'layanan_id' => $_GET['layanan_id']]) ?>" data-id="<?= $item['id'] ?>" data-nama="<?= $item['id'] ?>"> <i class="fa fa-edit"></i></i></a>
+
+                                     <?php } ?>
                                  </div>
                                  <div class="border border-warning bg-warning font-weight-bold" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Diagnosa ICD10:</div>
 
@@ -206,609 +209,608 @@
                      </div>
                  </div>
              </div>
-         </div>
-         <div class="col-lg-7">
+             <div class="col-lg-7">
 
 
 
-             <div class="card card-primary card-outline">
-                 <div class="card-header">
+                 <div class="card card-primary card-outline">
+                     <div class="card-header">
 
-                     <h5 style="margin-bottom:6px;">Resume Medis Rawat Inap Dokter Revisi MPP (Resume id : <?= $model->id ?? '' ?>) </h5>
-                 </div>
-                 <div class="card-body">
-                     <div class="row">
-                         <div class="col-sm-12">
-
-
-                             <?php
-
-                                $form = ActiveForm::begin([
-                                    'id' => 'update-resume-mpp',
-                                ]); ?>
-
-                             <?= $form->field($model, 'id')->hiddenInput()->label(false); ?>
-                             <?= $form->field($model, 'layanan_id')->hiddenInput()->label(false); ?>
-
-                             <div class="row">
-                                 <div class="col-sm-12">
-                                     <label>Hasil Pemeriksaan Fisik Penting & Temuan Lainya :</label>
-                                     <div class="row">
-                                         <div class="col-lg-12">
-                                             <?= $form->field($model, 'hasil_pemeriksaan_fisik')->textarea(array('rows' => 10))->label(false); ?>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                             <div class="row">
-                                 <div class="col-sm-12">
-                                     <label>Hasil Penunjang(Lab,Radiologi Dan Lain-lainya) :</label>
-                                     <div class="row">
-                                         <div class="col-lg-12">
-                                             <?= $form->field($model, 'hasil_penunjang')->textarea(array('rows' => 10))->label(false); ?>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                             <div class="row">
-                                 <div class="col-sm-12">
-                                     <label>Terapi/Pengobatan selama dirawat :</label>
-                                     <div class="row">
-                                         <div class="col-md-12">
-                                             <?= $form->field($model, 'terapi_perawatan')->textarea(array('rows' => 10))->label(false); ?>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-
-                             <hr>
-                             <h3><b>Diagnosa</b></h3>
-                             <hr>
-                             <div class="row">
-                                 <div class="col-sm-2">
-                                     <label>Tambahan I :</label>
-                                 </div>
-                                 <div class="col-sm-10">
-                                     <div class="row">
-                                         <div class="col-sm-6">
-                                             <?= $form->field($model, "diagnosa_tambahan1_deskripsi")->textInput(['placeholder' => 'Diagnosa Tambahan I'])->label(false) ?>
-                                         </div>
-                                         <div class="col-sm-6">
-                                             <?= $form->field($model, 'diagnosa_tambahan1_id')->widget(Select2::classname(), [
-                                                    'initValueText' => ($model->diagsatu) ? '(' . $model->diagsatu->kode . ')' . $model->diagsatu->deskripsi : null,
-                                                    'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-10 ...'],
-                                                    'pluginOptions' => [
-                                                        'allowClear' => true,
-                                                        'minimumInputLength' => 2,
-                                                        'language' => [
-                                                            'errorLoading' => new JsExpression('function () { 
-                                            return "Menunggu hasil..."; 
-                                        }'),
-                                                            'inputTooShort' => new JsExpression('function () {
-                                            return "Minimal 2 karakter...";
-                                        }'),
-                                                            'searching' => new JsExpression('function() {
-                                            return "Mencari...";
-                                        }'),
-                                                        ],
-                                                        'ajax' => [
-                                                            'url' => Url::to(['icd-10']),
-                                                            'type' => 'post',
-                                                            'dataType' => 'json',
-                                                            'data' => new JsExpression('function(params) {
-                                            return {term:params.term};
-                                        }')
-                                                        ],
-                                                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                                                        'templateResult' => new JsExpression('function(data) { 
-                                        return data.text  
-                                    }'),
-                                                        'templateSelection' => new JsExpression('function (data) { return data.text; }'),
-                                                    ],
-                                                ])->label(false);
-                                                ?>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                             <div class="row">
-                                 <div class="col-sm-2">
-                                     <label>Tambahan II :</label>
-                                 </div>
-                                 <div class="col-sm-10">
-                                     <div class="row">
-                                         <div class="col-sm-6">
-                                             <?= $form->field($model, "diagnosa_tambahan2_deskripsi")->textInput(['placeholder' => 'Diagnosa Tambahan II'])->label(false) ?>
-                                         </div>
-                                         <div class="col-sm-6">
-                                             <?= $form->field($model, 'diagnosa_tambahan2_id')->widget(Select2::classname(), [
-                                                    'initValueText' => ($model->diagdua) ? '(' . $model->diagdua->kode . ')' . $model->diagdua->deskripsi : null,
-                                                    'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-10 ...'],
-                                                    'pluginOptions' => [
-                                                        'allowClear' => true,
-                                                        'minimumInputLength' => 2,
-                                                        'language' => [
-                                                            'errorLoading' => new JsExpression('function () { 
-                                            return "Menunggu hasil..."; 
-                                        }'),
-                                                            'inputTooShort' => new JsExpression('function () {
-                                            return "Minimal 2 karakter...";
-                                        }'),
-                                                            'searching' => new JsExpression('function() {
-                                            return "Mencari...";
-                                        }'),
-                                                        ],
-                                                        'ajax' => [
-                                                            'url' => Url::to(['icd-10']),
-                                                            'type' => 'post',
-                                                            'dataType' => 'json',
-                                                            'data' => new JsExpression('function(params) {
-                                            return {term:params.term};
-                                        }')
-                                                        ],
-                                                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                                                        'templateResult' => new JsExpression('function(data) { 
-                                        return data.text  
-                                    }'),
-                                                        'templateSelection' => new JsExpression('function (data) { return data.text; }'),
-                                                    ],
-                                                ])->label(false);
-                                                ?>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                             <div class="row">
-                                 <div class="col-sm-2">
-                                     <label>Tambahan III :</label>
-                                 </div>
-                                 <div class="col-sm-10">
-                                     <div class="row">
-                                         <div class="col-sm-6">
-                                             <?= $form->field($model, "diagnosa_tambahan3_deskripsi")->textInput(['placeholder' => 'Diagnosa Tambahan III'])->label(false) ?>
-                                         </div>
-                                         <div class="col-sm-6">
-                                             <?= $form->field($model, 'diagnosa_tambahan3_id')->widget(Select2::classname(), [
-                                                    'initValueText' => ($model->diagtiga) ? '(' . $model->diagtiga->kode . ')' . $model->diagtiga->deskripsi : null,
-                                                    'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-10 ...'],
-                                                    'pluginOptions' => [
-                                                        'allowClear' => true,
-                                                        'minimumInputLength' => 2,
-                                                        'language' => [
-                                                            'errorLoading' => new JsExpression('function () { 
-                                            return "Menunggu hasil..."; 
-                                        }'),
-                                                            'inputTooShort' => new JsExpression('function () {
-                                            return "Minimal 2 karakter...";
-                                        }'),
-                                                            'searching' => new JsExpression('function() {
-                                            return "Mencari...";
-                                        }'),
-                                                        ],
-                                                        'ajax' => [
-                                                            'url' => Url::to(['icd-10']),
-                                                            'type' => 'post',
-                                                            'dataType' => 'json',
-                                                            'data' => new JsExpression('function(params) {
-                                            return {term:params.term};
-                                        }')
-                                                        ],
-                                                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                                                        'templateResult' => new JsExpression('function(data) { 
-                                        return data.text  
-                                    }'),
-                                                        'templateSelection' => new JsExpression('function (data) { return data.text; }'),
-                                                    ],
-                                                ])->label(false);
-                                                ?>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                             <div class="row">
-                                 <div class="col-sm-2">
-                                     <label>Tambahan IV :</label>
-                                 </div>
-                                 <div class="col-sm-10">
-                                     <div class="row">
-                                         <div class="col-sm-6">
-                                             <?= $form->field($model, "diagnosa_tambahan4_deskripsi")->textInput(['placeholder' => 'Diagnosa Tambahan IV'])->label(false) ?>
-                                         </div>
-                                         <div class="col-sm-6">
-                                             <?= $form->field($model, 'diagnosa_tambahan4_id')->widget(Select2::classname(), [
-                                                    'initValueText' => ($model->diagempat) ? '(' . $model->diagempat->kode . ')' . $model->diagempat->deskripsi : null,
-                                                    'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-10 ...'],
-                                                    'pluginOptions' => [
-                                                        'allowClear' => true,
-                                                        'minimumInputLength' => 2,
-                                                        'language' => [
-                                                            'errorLoading' => new JsExpression('function () { 
-                                            return "Menunggu hasil..."; 
-                                        }'),
-                                                            'inputTooShort' => new JsExpression('function () {
-                                            return "Minimal 2 karakter...";
-                                        }'),
-                                                            'searching' => new JsExpression('function() {
-                                            return "Mencari...";
-                                        }'),
-                                                        ],
-                                                        'ajax' => [
-                                                            'url' => Url::to(['icd-10']),
-                                                            'type' => 'post',
-                                                            'dataType' => 'json',
-                                                            'data' => new JsExpression('function(params) {
-                                            return {term:params.term};
-                                        }')
-                                                        ],
-                                                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                                                        'templateResult' => new JsExpression('function(data) { 
-                                        return data.text  
-                                    }'),
-                                                        'templateSelection' => new JsExpression('function (data) { return data.text; }'),
-                                                    ],
-                                                ])->label(false);
-                                                ?>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                             <div class="row">
-                                 <div class="col-sm-2">
-                                     <label>Tambahan V :</label>
-                                 </div>
-                                 <div class="col-sm-10">
-                                     <div class="row">
-                                         <div class="col-sm-6">
-                                             <?= $form->field($model, "diagnosa_tambahan5_deskripsi")->textInput(['placeholder' => 'Diagnosa Tambahan V'])->label(false) ?>
-                                         </div>
-                                         <div class="col-sm-6">
-                                             <?= $form->field($model, 'diagnosa_tambahan5_id')->widget(Select2::classname(), [
-                                                    'initValueText' => ($model->diaglima) ? '(' . $model->diaglima->kode . ')' . $model->diaglima->deskripsi : null,
-                                                    'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-10 ...'],
-                                                    'pluginOptions' => [
-                                                        'allowClear' => true,
-                                                        'minimumInputLength' => 2,
-                                                        'language' => [
-                                                            'errorLoading' => new JsExpression('function () { 
-                                            return "Menunggu hasil..."; 
-                                        }'),
-                                                            'inputTooShort' => new JsExpression('function () {
-                                            return "Minimal 2 karakter...";
-                                        }'),
-                                                            'searching' => new JsExpression('function() {
-                                            return "Mencari...";
-                                        }'),
-                                                        ],
-                                                        'ajax' => [
-                                                            'url' => Url::to(['icd-10']),
-                                                            'type' => 'post',
-                                                            'dataType' => 'json',
-                                                            'data' => new JsExpression('function(params) {
-                                            return {term:params.term};
-                                        }')
-                                                        ],
-                                                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                                                        'templateResult' => new JsExpression('function(data) { 
-                                        return data.text  
-                                    }'),
-                                                        'templateSelection' => new JsExpression('function (data) { return data.text; }'),
-                                                    ],
-                                                ])->label(false);
-                                                ?>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                             <div class="row">
-                                 <div class="col-sm-2">
-                                     <!-- <label>Tindakan Utama :</label> -->
-                                 </div>
-                                 <div class="col-sm-10">
-                                     <div class="row">
-                                         <div class="col-sm-6">
-                                             <?php // $form->field($model, "tindakan_utama_deskripsi")->textInput(['placeholder' => 'Tindakan Utama'])->label(false) 
-                                                ?>
-                                         </div>
-                                         <div class="col-sm-6">
-                                             <?php
-                                                //               $form->field($model, 'tindakan_utama_id')->widget(Select2::classname(), [
-                                                //                     'initValueText' => ($model->tindutama) ? '(' . $model->tindutama->kode . ')' . $model->tindutama->deskripsi : null,
-                                                //                     'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-9 ...'],
-                                                //                     'pluginOptions' => [
-                                                //                         'allowClear' => true,
-                                                //                         'minimumInputLength' => 2,
-                                                //                         'language' => [
-                                                //                             'errorLoading' => new JsExpression('function () { 
-                                                //         return "Menunggu hasil..."; 
-                                                //     }'),
-                                                //                             'inputTooShort' => new JsExpression('function () {
-                                                //         return "Minimal 2 karakter...";
-                                                //     }'),
-                                                //                             'searching' => new JsExpression('function() {
-                                                //         return "Mencari...";
-                                                //     }'),
-                                                //                         ],
-                                                //                         'ajax' => [
-                                                //                             'url' => Url::to(['icd-9']),
-                                                //                             'type' => 'post',
-                                                //                             'dataType' => 'json',
-                                                //                             'data' => new JsExpression('function(params) {
-                                                //         return {term:params.term};
-                                                //     }')
-                                                //                         ],
-                                                //                         'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                                                //                         'templateResult' => new JsExpression('function(data) { 
-                                                //     return data.text  
-                                                // }'),
-                                                //                         'templateSelection' => new JsExpression('function (data) { return data.text; }'),
-                                                //                     ],
-                                                //                     'pluginEvents' => [
-                                                //                         // "select2:select" => new JsExpression('function(e) { 
-                                                //                         //     let icdpilih = e.params.data
-                                                //                         //     $("#resumemedisri-tindakan_utama_kode").val(icdpilih.kode)
-                                                //                         //     $("#resumemedisri-tindakan_utama_deskripsi").val(icdpilih.deskripsi)
-                                                //                         //     $("#resumemedisri-tindakan_utama_kode").focus()
-                                                //                         // }'),
-                                                //                     ]
-                                                //                 ])->label(false);
-                                                ?>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                             <hr>
-                             <h3><b>Tindakan</b></h3>
-                             <hr>
-                             <div class="row">
-                                 <div class="col-sm-2">
-                                     <label>Tambahan I :</label>
-                                 </div>
-                                 <div class="col-sm-10">
-                                     <div class="row">
-                                         <div class="col-sm-6">
-                                             <?= $form->field($model, "tindakan_tambahan1_deskripsi")->textInput(['placeholder' => 'Tindakan Tambahan I'])->label(false) ?>
-                                         </div>
-                                         <div class="col-sm-6">
-                                             <?= $form->field($model, 'tindakan_tambahan1_id')->widget(Select2::classname(), [
-                                                    'initValueText' => ($model->tindsatu) ? '(' . $model->tindsatu->kode . ')' . $model->tindsatu->deskripsi : null,
-                                                    'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-9 ...'],
-                                                    'pluginOptions' => [
-                                                        'allowClear' => true,
-                                                        'minimumInputLength' => 2,
-                                                        'language' => [
-                                                            'errorLoading' => new JsExpression('function () { 
-                                            return "Menunggu hasil..."; 
-                                        }'),
-                                                            'inputTooShort' => new JsExpression('function () {
-                                            return "Minimal 2 karakter...";
-                                        }'),
-                                                            'searching' => new JsExpression('function() {
-                                            return "Mencari...";
-                                        }'),
-                                                        ],
-                                                        'ajax' => [
-                                                            'url' => Url::to(['icd-9']),
-                                                            'type' => 'post',
-                                                            'dataType' => 'json',
-                                                            'data' => new JsExpression('function(params) {
-                                            return {term:params.term};
-                                        }')
-                                                        ],
-                                                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                                                        'templateResult' => new JsExpression('function(data) { 
-                                        return data.text  
-                                    }'),
-                                                        'templateSelection' => new JsExpression('function (data) { return data.text; }'),
-                                                    ],
-                                                ])->label(false);
-                                                ?>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                             <div class="row">
-                                 <div class="col-sm-2">
-                                     <label>Tambahan II :</label>
-                                 </div>
-                                 <div class="col-sm-10">
-                                     <div class="row">
-                                         <div class="col-sm-6">
-                                             <?= $form->field($model, "tindakan_tambahan2_deskripsi")->textInput(['placeholder' => 'Tindakan Tambahan II'])->label(false) ?>
-                                         </div>
-                                         <div class="col-sm-6">
-                                             <?= $form->field($model, 'tindakan_tambahan2_id')->widget(Select2::classname(), [
-                                                    'initValueText' => ($model->tinddua) ? '(' . $model->tinddua->kode . ')' . $model->tinddua->deskripsi : null,
-                                                    'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-9 ...'],
-                                                    'pluginOptions' => [
-                                                        'allowClear' => true,
-                                                        'minimumInputLength' => 2,
-                                                        'language' => [
-                                                            'errorLoading' => new JsExpression('function () { 
-                                            return "Menunggu hasil..."; 
-                                        }'),
-                                                            'inputTooShort' => new JsExpression('function () {
-                                            return "Minimal 2 karakter...";
-                                        }'),
-                                                            'searching' => new JsExpression('function() {
-                                            return "Mencari...";
-                                        }'),
-                                                        ],
-                                                        'ajax' => [
-                                                            'url' => Url::to(['icd-9']),
-                                                            'type' => 'post',
-                                                            'dataType' => 'json',
-                                                            'data' => new JsExpression('function(params) {
-                                            return {term:params.term};
-                                        }')
-                                                        ],
-                                                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                                                        'templateResult' => new JsExpression('function(data) { 
-                                        return data.text  
-                                    }'),
-                                                        'templateSelection' => new JsExpression('function (data) { return data.text; }'),
-                                                    ],
-                                                ])->label(false);
-                                                ?>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                             <div class="row">
-                                 <div class="col-sm-2">
-                                     <label>Tambahan III :</label>
-                                 </div>
-                                 <div class="col-sm-10">
-                                     <div class="row">
-                                         <div class="col-sm-6">
-                                             <?= $form->field($model, "tindakan_tambahan3_deskripsi")->textInput(['placeholder' => 'Tindakan Tambahan III'])->label(false) ?>
-                                         </div>
-                                         <div class="col-sm-6">
-                                             <?= $form->field($model, 'tindakan_tambahan3_id')->widget(Select2::classname(), [
-                                                    'initValueText' => ($model->tindtiga) ? '(' . $model->tindtiga->kode . ')' . $model->tindtiga->deskripsi : null,
-                                                    'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-9 ...'],
-                                                    'pluginOptions' => [
-                                                        'allowClear' => true,
-                                                        'minimumInputLength' => 2,
-                                                        'language' => [
-                                                            'errorLoading' => new JsExpression('function () { 
-                                            return "Menunggu hasil..."; 
-                                        }'),
-                                                            'inputTooShort' => new JsExpression('function () {
-                                            return "Minimal 2 karakter...";
-                                        }'),
-                                                            'searching' => new JsExpression('function() {
-                                            return "Mencari...";
-                                        }'),
-                                                        ],
-                                                        'ajax' => [
-                                                            'url' => Url::to(['icd-9']),
-                                                            'type' => 'post',
-                                                            'dataType' => 'json',
-                                                            'data' => new JsExpression('function(params) {
-                                            return {term:params.term};
-                                        }')
-                                                        ],
-                                                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                                                        'templateResult' => new JsExpression('function(data) { 
-                                        return data.text  
-                                    }'),
-                                                        'templateSelection' => new JsExpression('function (data) { return data.text; }'),
-                                                    ],
-                                                ])->label(false);
-                                                ?>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                             <div class="row">
-                                 <div class="col-sm-2">
-                                     <label>Tambahan IV :</label>
-                                 </div>
-                                 <div class="col-sm-10">
-                                     <div class="row">
-                                         <div class="col-sm-6">
-                                             <?= $form->field($model, "tindakan_tambahan4_deskripsi")->textInput(['placeholder' => 'Tindakan Tambahan IV'])->label(false) ?>
-                                         </div>
-                                         <div class="col-sm-6">
-                                             <?= $form->field($model, 'tindakan_tambahan4_id')->widget(Select2::classname(), [
-                                                    'initValueText' => ($model->tindempat) ? '(' . $model->tindempat->kode . ')' . $model->tindempat->deskripsi : null,
-                                                    'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-9 ...'],
-                                                    'pluginOptions' => [
-                                                        'allowClear' => true,
-                                                        'minimumInputLength' => 2,
-                                                        'language' => [
-                                                            'errorLoading' => new JsExpression('function () { 
-                                            return "Menunggu hasil..."; 
-                                        }'),
-                                                            'inputTooShort' => new JsExpression('function () {
-                                            return "Minimal 2 karakter...";
-                                        }'),
-                                                            'searching' => new JsExpression('function() {
-                                            return "Mencari...";
-                                        }'),
-                                                        ],
-                                                        'ajax' => [
-                                                            'url' => Url::to(['icd-9']),
-                                                            'type' => 'post',
-                                                            'dataType' => 'json',
-                                                            'data' => new JsExpression('function(params) {
-                                            return {term:params.term};
-                                        }')
-                                                        ],
-                                                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                                                        'templateResult' => new JsExpression('function(data) { 
-                                        return data.text  
-                                    }'),
-                                                        'templateSelection' => new JsExpression('function (data) { return data.text; }'),
-                                                    ],
-                                                ])->label(false);
-                                                ?>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                             <div class="row">
-                                 <div class="col-sm-2">
-                                     <label>Tambahan V :</label>
-                                 </div>
-                                 <div class="col-sm-10">
-                                     <div class="row">
-                                         <div class="col-sm-6">
-                                             <?= $form->field($model, "tindakan_tambahan5_deskripsi")->textInput(['placeholder' => 'Tindakan Tambahan V'])->label(false) ?>
-                                         </div>
-                                         <div class="col-sm-6">
-                                             <?= $form->field($model, 'tindakan_tambahan5_id')->widget(Select2::classname(), [
-                                                    'initValueText' => ($model->tindlima) ? '(' . $model->tindlima->kode . ')' . $model->tindlima->deskripsi : null,
-                                                    'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-9 ...'],
-                                                    'pluginOptions' => [
-                                                        'allowClear' => true,
-                                                        'minimumInputLength' => 2,
-                                                        'language' => [
-                                                            'errorLoading' => new JsExpression('function () { 
-                                            return "Menunggu hasil..."; 
-                                        }'),
-                                                            'inputTooShort' => new JsExpression('function () {
-                                            return "Minimal 2 karakter...";
-                                        }'),
-                                                            'searching' => new JsExpression('function() {
-                                            return "Mencari...";
-                                        }'),
-                                                        ],
-                                                        'ajax' => [
-                                                            'url' => Url::to(['icd-9']),
-                                                            'type' => 'post',
-                                                            'dataType' => 'json',
-                                                            'data' => new JsExpression('function(params) {
-                                            return {term:params.term};
-                                        }')
-                                                        ],
-                                                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                                                        'templateResult' => new JsExpression('function(data) { 
-                                        return data.text  
-                                    }'),
-                                                        'templateSelection' => new JsExpression('function (data) { return data.text; }'),
-                                                    ],
-                                                ])->label(false);
-                                                ?>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-
-                         </div>
+                         <h5 style="margin-bottom:6px;">Resume Medis Rawat Inap Dokter Revisi MPP (Resume id : <?= $model->id ?? '' ?>) </h5>
                      </div>
-                     <div class="mb-2">
-                         <?= Html::submitButton('Simpan Resume MPP', ['class' => 'btn btn-success btn-block mb-2 rounded-0', 'id' => 'btn-icd-10-laporan-simpan']) ?>
+                     <div class="card-body">
+                         <div class="row">
+                             <div class="col-sm-12">
+
+
+                                 <?php
+
+                                    $form = ActiveForm::begin([
+                                        'id' => 'update-resume-mpp',
+                                    ]); ?>
+
+                                 <?= $form->field($model, 'id')->hiddenInput()->label(false); ?>
+                                 <?= $form->field($model, 'layanan_id')->hiddenInput()->label(false); ?>
+
+                                 <div class="row">
+                                     <div class="col-sm-12">
+                                         <label>Hasil Pemeriksaan Fisik Penting & Temuan Lainya :</label>
+                                         <div class="row">
+                                             <div class="col-lg-12">
+                                                 <?= $form->field($model, 'hasil_pemeriksaan_fisik')->textarea(array('rows' => 10))->label(false); ?>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="row">
+                                     <div class="col-sm-12">
+                                         <label>Hasil Penunjang(Lab,Radiologi Dan Lain-lainya) :</label>
+                                         <div class="row">
+                                             <div class="col-lg-12">
+                                                 <?= $form->field($model, 'hasil_penunjang')->textarea(array('rows' => 10))->label(false); ?>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="row">
+                                     <div class="col-sm-12">
+                                         <label>Terapi/Pengobatan selama dirawat :</label>
+                                         <div class="row">
+                                             <div class="col-md-12">
+                                                 <?= $form->field($model, 'terapi_perawatan')->textarea(array('rows' => 10))->label(false); ?>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+
+                                 <hr>
+                                 <h3><b>Diagnosa</b></h3>
+                                 <hr>
+                                 <div class="row">
+                                     <div class="col-sm-2">
+                                         <label>Tambahan I :</label>
+                                     </div>
+                                     <div class="col-sm-10">
+                                         <div class="row">
+                                             <div class="col-sm-6">
+                                                 <?= $form->field($model, "diagnosa_tambahan1_deskripsi")->textInput(['placeholder' => 'Diagnosa Tambahan I'])->label(false) ?>
+                                             </div>
+                                             <div class="col-sm-6">
+                                                 <?= $form->field($model, 'diagnosa_tambahan1_id')->widget(Select2::classname(), [
+                                                        'initValueText' => ($model->diagsatu) ? '(' . $model->diagsatu->kode . ')' . $model->diagsatu->deskripsi : null,
+                                                        'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-10 ...'],
+                                                        'pluginOptions' => [
+                                                            'allowClear' => true,
+                                                            'minimumInputLength' => 2,
+                                                            'language' => [
+                                                                'errorLoading' => new JsExpression('function () { 
+                                            return "Menunggu hasil..."; 
+                                        }'),
+                                                                'inputTooShort' => new JsExpression('function () {
+                                            return "Minimal 2 karakter...";
+                                        }'),
+                                                                'searching' => new JsExpression('function() {
+                                            return "Mencari...";
+                                        }'),
+                                                            ],
+                                                            'ajax' => [
+                                                                'url' => Url::to(['icd-10']),
+                                                                'type' => 'post',
+                                                                'dataType' => 'json',
+                                                                'data' => new JsExpression('function(params) {
+                                            return {term:params.term};
+                                        }')
+                                                            ],
+                                                            'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                                                            'templateResult' => new JsExpression('function(data) { 
+                                        return data.text  
+                                    }'),
+                                                            'templateSelection' => new JsExpression('function (data) { return data.text; }'),
+                                                        ],
+                                                    ])->label(false);
+                                                    ?>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="row">
+                                     <div class="col-sm-2">
+                                         <label>Tambahan II :</label>
+                                     </div>
+                                     <div class="col-sm-10">
+                                         <div class="row">
+                                             <div class="col-sm-6">
+                                                 <?= $form->field($model, "diagnosa_tambahan2_deskripsi")->textInput(['placeholder' => 'Diagnosa Tambahan II'])->label(false) ?>
+                                             </div>
+                                             <div class="col-sm-6">
+                                                 <?= $form->field($model, 'diagnosa_tambahan2_id')->widget(Select2::classname(), [
+                                                        'initValueText' => ($model->diagdua) ? '(' . $model->diagdua->kode . ')' . $model->diagdua->deskripsi : null,
+                                                        'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-10 ...'],
+                                                        'pluginOptions' => [
+                                                            'allowClear' => true,
+                                                            'minimumInputLength' => 2,
+                                                            'language' => [
+                                                                'errorLoading' => new JsExpression('function () { 
+                                            return "Menunggu hasil..."; 
+                                        }'),
+                                                                'inputTooShort' => new JsExpression('function () {
+                                            return "Minimal 2 karakter...";
+                                        }'),
+                                                                'searching' => new JsExpression('function() {
+                                            return "Mencari...";
+                                        }'),
+                                                            ],
+                                                            'ajax' => [
+                                                                'url' => Url::to(['icd-10']),
+                                                                'type' => 'post',
+                                                                'dataType' => 'json',
+                                                                'data' => new JsExpression('function(params) {
+                                            return {term:params.term};
+                                        }')
+                                                            ],
+                                                            'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                                                            'templateResult' => new JsExpression('function(data) { 
+                                        return data.text  
+                                    }'),
+                                                            'templateSelection' => new JsExpression('function (data) { return data.text; }'),
+                                                        ],
+                                                    ])->label(false);
+                                                    ?>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="row">
+                                     <div class="col-sm-2">
+                                         <label>Tambahan III :</label>
+                                     </div>
+                                     <div class="col-sm-10">
+                                         <div class="row">
+                                             <div class="col-sm-6">
+                                                 <?= $form->field($model, "diagnosa_tambahan3_deskripsi")->textInput(['placeholder' => 'Diagnosa Tambahan III'])->label(false) ?>
+                                             </div>
+                                             <div class="col-sm-6">
+                                                 <?= $form->field($model, 'diagnosa_tambahan3_id')->widget(Select2::classname(), [
+                                                        'initValueText' => ($model->diagtiga) ? '(' . $model->diagtiga->kode . ')' . $model->diagtiga->deskripsi : null,
+                                                        'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-10 ...'],
+                                                        'pluginOptions' => [
+                                                            'allowClear' => true,
+                                                            'minimumInputLength' => 2,
+                                                            'language' => [
+                                                                'errorLoading' => new JsExpression('function () { 
+                                            return "Menunggu hasil..."; 
+                                        }'),
+                                                                'inputTooShort' => new JsExpression('function () {
+                                            return "Minimal 2 karakter...";
+                                        }'),
+                                                                'searching' => new JsExpression('function() {
+                                            return "Mencari...";
+                                        }'),
+                                                            ],
+                                                            'ajax' => [
+                                                                'url' => Url::to(['icd-10']),
+                                                                'type' => 'post',
+                                                                'dataType' => 'json',
+                                                                'data' => new JsExpression('function(params) {
+                                            return {term:params.term};
+                                        }')
+                                                            ],
+                                                            'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                                                            'templateResult' => new JsExpression('function(data) { 
+                                        return data.text  
+                                    }'),
+                                                            'templateSelection' => new JsExpression('function (data) { return data.text; }'),
+                                                        ],
+                                                    ])->label(false);
+                                                    ?>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="row">
+                                     <div class="col-sm-2">
+                                         <label>Tambahan IV :</label>
+                                     </div>
+                                     <div class="col-sm-10">
+                                         <div class="row">
+                                             <div class="col-sm-6">
+                                                 <?= $form->field($model, "diagnosa_tambahan4_deskripsi")->textInput(['placeholder' => 'Diagnosa Tambahan IV'])->label(false) ?>
+                                             </div>
+                                             <div class="col-sm-6">
+                                                 <?= $form->field($model, 'diagnosa_tambahan4_id')->widget(Select2::classname(), [
+                                                        'initValueText' => ($model->diagempat) ? '(' . $model->diagempat->kode . ')' . $model->diagempat->deskripsi : null,
+                                                        'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-10 ...'],
+                                                        'pluginOptions' => [
+                                                            'allowClear' => true,
+                                                            'minimumInputLength' => 2,
+                                                            'language' => [
+                                                                'errorLoading' => new JsExpression('function () { 
+                                            return "Menunggu hasil..."; 
+                                        }'),
+                                                                'inputTooShort' => new JsExpression('function () {
+                                            return "Minimal 2 karakter...";
+                                        }'),
+                                                                'searching' => new JsExpression('function() {
+                                            return "Mencari...";
+                                        }'),
+                                                            ],
+                                                            'ajax' => [
+                                                                'url' => Url::to(['icd-10']),
+                                                                'type' => 'post',
+                                                                'dataType' => 'json',
+                                                                'data' => new JsExpression('function(params) {
+                                            return {term:params.term};
+                                        }')
+                                                            ],
+                                                            'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                                                            'templateResult' => new JsExpression('function(data) { 
+                                        return data.text  
+                                    }'),
+                                                            'templateSelection' => new JsExpression('function (data) { return data.text; }'),
+                                                        ],
+                                                    ])->label(false);
+                                                    ?>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="row">
+                                     <div class="col-sm-2">
+                                         <label>Tambahan V :</label>
+                                     </div>
+                                     <div class="col-sm-10">
+                                         <div class="row">
+                                             <div class="col-sm-6">
+                                                 <?= $form->field($model, "diagnosa_tambahan5_deskripsi")->textInput(['placeholder' => 'Diagnosa Tambahan V'])->label(false) ?>
+                                             </div>
+                                             <div class="col-sm-6">
+                                                 <?= $form->field($model, 'diagnosa_tambahan5_id')->widget(Select2::classname(), [
+                                                        'initValueText' => ($model->diaglima) ? '(' . $model->diaglima->kode . ')' . $model->diaglima->deskripsi : null,
+                                                        'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-10 ...'],
+                                                        'pluginOptions' => [
+                                                            'allowClear' => true,
+                                                            'minimumInputLength' => 2,
+                                                            'language' => [
+                                                                'errorLoading' => new JsExpression('function () { 
+                                            return "Menunggu hasil..."; 
+                                        }'),
+                                                                'inputTooShort' => new JsExpression('function () {
+                                            return "Minimal 2 karakter...";
+                                        }'),
+                                                                'searching' => new JsExpression('function() {
+                                            return "Mencari...";
+                                        }'),
+                                                            ],
+                                                            'ajax' => [
+                                                                'url' => Url::to(['icd-10']),
+                                                                'type' => 'post',
+                                                                'dataType' => 'json',
+                                                                'data' => new JsExpression('function(params) {
+                                            return {term:params.term};
+                                        }')
+                                                            ],
+                                                            'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                                                            'templateResult' => new JsExpression('function(data) { 
+                                        return data.text  
+                                    }'),
+                                                            'templateSelection' => new JsExpression('function (data) { return data.text; }'),
+                                                        ],
+                                                    ])->label(false);
+                                                    ?>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="row">
+                                     <div class="col-sm-2">
+                                         <!-- <label>Tindakan Utama :</label> -->
+                                     </div>
+                                     <div class="col-sm-10">
+                                         <div class="row">
+                                             <div class="col-sm-6">
+                                                 <?php // $form->field($model, "tindakan_utama_deskripsi")->textInput(['placeholder' => 'Tindakan Utama'])->label(false) 
+                                                    ?>
+                                             </div>
+                                             <div class="col-sm-6">
+                                                 <?php
+                                                    //               $form->field($model, 'tindakan_utama_id')->widget(Select2::classname(), [
+                                                    //                     'initValueText' => ($model->tindutama) ? '(' . $model->tindutama->kode . ')' . $model->tindutama->deskripsi : null,
+                                                    //                     'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-9 ...'],
+                                                    //                     'pluginOptions' => [
+                                                    //                         'allowClear' => true,
+                                                    //                         'minimumInputLength' => 2,
+                                                    //                         'language' => [
+                                                    //                             'errorLoading' => new JsExpression('function () { 
+                                                    //         return "Menunggu hasil..."; 
+                                                    //     }'),
+                                                    //                             'inputTooShort' => new JsExpression('function () {
+                                                    //         return "Minimal 2 karakter...";
+                                                    //     }'),
+                                                    //                             'searching' => new JsExpression('function() {
+                                                    //         return "Mencari...";
+                                                    //     }'),
+                                                    //                         ],
+                                                    //                         'ajax' => [
+                                                    //                             'url' => Url::to(['icd-9']),
+                                                    //                             'type' => 'post',
+                                                    //                             'dataType' => 'json',
+                                                    //                             'data' => new JsExpression('function(params) {
+                                                    //         return {term:params.term};
+                                                    //     }')
+                                                    //                         ],
+                                                    //                         'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                                                    //                         'templateResult' => new JsExpression('function(data) { 
+                                                    //     return data.text  
+                                                    // }'),
+                                                    //                         'templateSelection' => new JsExpression('function (data) { return data.text; }'),
+                                                    //                     ],
+                                                    //                     'pluginEvents' => [
+                                                    //                         // "select2:select" => new JsExpression('function(e) { 
+                                                    //                         //     let icdpilih = e.params.data
+                                                    //                         //     $("#resumemedisri-tindakan_utama_kode").val(icdpilih.kode)
+                                                    //                         //     $("#resumemedisri-tindakan_utama_deskripsi").val(icdpilih.deskripsi)
+                                                    //                         //     $("#resumemedisri-tindakan_utama_kode").focus()
+                                                    //                         // }'),
+                                                    //                     ]
+                                                    //                 ])->label(false);
+                                                    ?>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <hr>
+                                 <h3><b>Tindakan</b></h3>
+                                 <hr>
+                                 <div class="row">
+                                     <div class="col-sm-2">
+                                         <label>Tambahan I :</label>
+                                     </div>
+                                     <div class="col-sm-10">
+                                         <div class="row">
+                                             <div class="col-sm-6">
+                                                 <?= $form->field($model, "tindakan_tambahan1_deskripsi")->textInput(['placeholder' => 'Tindakan Tambahan I'])->label(false) ?>
+                                             </div>
+                                             <div class="col-sm-6">
+                                                 <?= $form->field($model, 'tindakan_tambahan1_id')->widget(Select2::classname(), [
+                                                        'initValueText' => ($model->tindsatu) ? '(' . $model->tindsatu->kode . ')' . $model->tindsatu->deskripsi : null,
+                                                        'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-9 ...'],
+                                                        'pluginOptions' => [
+                                                            'allowClear' => true,
+                                                            'minimumInputLength' => 2,
+                                                            'language' => [
+                                                                'errorLoading' => new JsExpression('function () { 
+                                            return "Menunggu hasil..."; 
+                                        }'),
+                                                                'inputTooShort' => new JsExpression('function () {
+                                            return "Minimal 2 karakter...";
+                                        }'),
+                                                                'searching' => new JsExpression('function() {
+                                            return "Mencari...";
+                                        }'),
+                                                            ],
+                                                            'ajax' => [
+                                                                'url' => Url::to(['icd-9']),
+                                                                'type' => 'post',
+                                                                'dataType' => 'json',
+                                                                'data' => new JsExpression('function(params) {
+                                            return {term:params.term};
+                                        }')
+                                                            ],
+                                                            'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                                                            'templateResult' => new JsExpression('function(data) { 
+                                        return data.text  
+                                    }'),
+                                                            'templateSelection' => new JsExpression('function (data) { return data.text; }'),
+                                                        ],
+                                                    ])->label(false);
+                                                    ?>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="row">
+                                     <div class="col-sm-2">
+                                         <label>Tambahan II :</label>
+                                     </div>
+                                     <div class="col-sm-10">
+                                         <div class="row">
+                                             <div class="col-sm-6">
+                                                 <?= $form->field($model, "tindakan_tambahan2_deskripsi")->textInput(['placeholder' => 'Tindakan Tambahan II'])->label(false) ?>
+                                             </div>
+                                             <div class="col-sm-6">
+                                                 <?= $form->field($model, 'tindakan_tambahan2_id')->widget(Select2::classname(), [
+                                                        'initValueText' => ($model->tinddua) ? '(' . $model->tinddua->kode . ')' . $model->tinddua->deskripsi : null,
+                                                        'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-9 ...'],
+                                                        'pluginOptions' => [
+                                                            'allowClear' => true,
+                                                            'minimumInputLength' => 2,
+                                                            'language' => [
+                                                                'errorLoading' => new JsExpression('function () { 
+                                            return "Menunggu hasil..."; 
+                                        }'),
+                                                                'inputTooShort' => new JsExpression('function () {
+                                            return "Minimal 2 karakter...";
+                                        }'),
+                                                                'searching' => new JsExpression('function() {
+                                            return "Mencari...";
+                                        }'),
+                                                            ],
+                                                            'ajax' => [
+                                                                'url' => Url::to(['icd-9']),
+                                                                'type' => 'post',
+                                                                'dataType' => 'json',
+                                                                'data' => new JsExpression('function(params) {
+                                            return {term:params.term};
+                                        }')
+                                                            ],
+                                                            'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                                                            'templateResult' => new JsExpression('function(data) { 
+                                        return data.text  
+                                    }'),
+                                                            'templateSelection' => new JsExpression('function (data) { return data.text; }'),
+                                                        ],
+                                                    ])->label(false);
+                                                    ?>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="row">
+                                     <div class="col-sm-2">
+                                         <label>Tambahan III :</label>
+                                     </div>
+                                     <div class="col-sm-10">
+                                         <div class="row">
+                                             <div class="col-sm-6">
+                                                 <?= $form->field($model, "tindakan_tambahan3_deskripsi")->textInput(['placeholder' => 'Tindakan Tambahan III'])->label(false) ?>
+                                             </div>
+                                             <div class="col-sm-6">
+                                                 <?= $form->field($model, 'tindakan_tambahan3_id')->widget(Select2::classname(), [
+                                                        'initValueText' => ($model->tindtiga) ? '(' . $model->tindtiga->kode . ')' . $model->tindtiga->deskripsi : null,
+                                                        'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-9 ...'],
+                                                        'pluginOptions' => [
+                                                            'allowClear' => true,
+                                                            'minimumInputLength' => 2,
+                                                            'language' => [
+                                                                'errorLoading' => new JsExpression('function () { 
+                                            return "Menunggu hasil..."; 
+                                        }'),
+                                                                'inputTooShort' => new JsExpression('function () {
+                                            return "Minimal 2 karakter...";
+                                        }'),
+                                                                'searching' => new JsExpression('function() {
+                                            return "Mencari...";
+                                        }'),
+                                                            ],
+                                                            'ajax' => [
+                                                                'url' => Url::to(['icd-9']),
+                                                                'type' => 'post',
+                                                                'dataType' => 'json',
+                                                                'data' => new JsExpression('function(params) {
+                                            return {term:params.term};
+                                        }')
+                                                            ],
+                                                            'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                                                            'templateResult' => new JsExpression('function(data) { 
+                                        return data.text  
+                                    }'),
+                                                            'templateSelection' => new JsExpression('function (data) { return data.text; }'),
+                                                        ],
+                                                    ])->label(false);
+                                                    ?>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="row">
+                                     <div class="col-sm-2">
+                                         <label>Tambahan IV :</label>
+                                     </div>
+                                     <div class="col-sm-10">
+                                         <div class="row">
+                                             <div class="col-sm-6">
+                                                 <?= $form->field($model, "tindakan_tambahan4_deskripsi")->textInput(['placeholder' => 'Tindakan Tambahan IV'])->label(false) ?>
+                                             </div>
+                                             <div class="col-sm-6">
+                                                 <?= $form->field($model, 'tindakan_tambahan4_id')->widget(Select2::classname(), [
+                                                        'initValueText' => ($model->tindempat) ? '(' . $model->tindempat->kode . ')' . $model->tindempat->deskripsi : null,
+                                                        'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-9 ...'],
+                                                        'pluginOptions' => [
+                                                            'allowClear' => true,
+                                                            'minimumInputLength' => 2,
+                                                            'language' => [
+                                                                'errorLoading' => new JsExpression('function () { 
+                                            return "Menunggu hasil..."; 
+                                        }'),
+                                                                'inputTooShort' => new JsExpression('function () {
+                                            return "Minimal 2 karakter...";
+                                        }'),
+                                                                'searching' => new JsExpression('function() {
+                                            return "Mencari...";
+                                        }'),
+                                                            ],
+                                                            'ajax' => [
+                                                                'url' => Url::to(['icd-9']),
+                                                                'type' => 'post',
+                                                                'dataType' => 'json',
+                                                                'data' => new JsExpression('function(params) {
+                                            return {term:params.term};
+                                        }')
+                                                            ],
+                                                            'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                                                            'templateResult' => new JsExpression('function(data) { 
+                                        return data.text  
+                                    }'),
+                                                            'templateSelection' => new JsExpression('function (data) { return data.text; }'),
+                                                        ],
+                                                    ])->label(false);
+                                                    ?>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="row">
+                                     <div class="col-sm-2">
+                                         <label>Tambahan V :</label>
+                                     </div>
+                                     <div class="col-sm-10">
+                                         <div class="row">
+                                             <div class="col-sm-6">
+                                                 <?= $form->field($model, "tindakan_tambahan5_deskripsi")->textInput(['placeholder' => 'Tindakan Tambahan V'])->label(false) ?>
+                                             </div>
+                                             <div class="col-sm-6">
+                                                 <?= $form->field($model, 'tindakan_tambahan5_id')->widget(Select2::classname(), [
+                                                        'initValueText' => ($model->tindlima) ? '(' . $model->tindlima->kode . ')' . $model->tindlima->deskripsi : null,
+                                                        'options' => ['placeholder' => 'Gunakan Untuk Pencarian ICD-9 ...'],
+                                                        'pluginOptions' => [
+                                                            'allowClear' => true,
+                                                            'minimumInputLength' => 2,
+                                                            'language' => [
+                                                                'errorLoading' => new JsExpression('function () { 
+                                            return "Menunggu hasil..."; 
+                                        }'),
+                                                                'inputTooShort' => new JsExpression('function () {
+                                            return "Minimal 2 karakter...";
+                                        }'),
+                                                                'searching' => new JsExpression('function() {
+                                            return "Mencari...";
+                                        }'),
+                                                            ],
+                                                            'ajax' => [
+                                                                'url' => Url::to(['icd-9']),
+                                                                'type' => 'post',
+                                                                'dataType' => 'json',
+                                                                'data' => new JsExpression('function(params) {
+                                            return {term:params.term};
+                                        }')
+                                                            ],
+                                                            'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                                                            'templateResult' => new JsExpression('function(data) { 
+                                        return data.text  
+                                    }'),
+                                                            'templateSelection' => new JsExpression('function (data) { return data.text; }'),
+                                                        ],
+                                                    ])->label(false);
+                                                    ?>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+
+                             </div>
+                         </div>
+                         <div class="mb-2">
+                             <?= Html::submitButton('Simpan Resume MPP', ['class' => 'btn btn-success btn-block mb-2 rounded-0', 'id' => 'btn-icd-10-laporan-simpan']) ?>
+                         </div>
                      </div>
                  </div>
              </div>
          </div>
-     </div>
-     <div class="card-footer">
-         <div class="col-sm-2">
-             <button class="btn btn-outline-info">Kembali</button>
+         <div class="card-footer">
+             <div class="col-sm-2">
+                 <button class="btn btn-outline-info">Kembali</button>
+             </div>
          </div>
+         <?php ActiveForm::end(); ?>
      </div>
-     <?php ActiveForm::end(); ?>
- </div>
  </div>

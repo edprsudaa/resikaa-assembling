@@ -604,9 +604,10 @@ class MppController extends Controller
         $listAsesmenKeperawatan = AsesmenAwalKeperawatanGeneral::find()->where(['in', 'layanan_id', $layananId])->andWhere(['batal' => 0])->all();
         $listAsesmenKebidanan = AsesmenAwalKebidanan::find()->where(['in', 'layanan_id', $layananId])->andWhere(['batal' => 0])->all();
         $listAsesmenMedis = AsesmenAwalMedis::find()->where(['in', 'layanan_id', $layananId])->andWhere(['batal' => 0])->all();
-        $listResumeMedis = ResumeMedisRi::find()->where(['in', 'layanan_id', $layananId])->andWhere(['batal' => 0])->andWhere(['draf' => 1])->andWhere(['tanggal_final' => null])->andWhere(['is_deleted' => 0])->all();
+        $listResumeMedis = ResumeMedisRi::find()->where(['in', 'layanan_id', $layananId])->andWhere(['batal' => 0])->all();
         $listResumeMedisRj = Yii::$app->db_medis->createCommand("select * from medis.resume_medis_rj where batal=0 and is_deleted=0 and layanan_id in (" . implode(',', $layananId) . ") ")->queryAll();
         $listTimOperasi = TimOperasi::find()->where(['in', 'to_ok_pl_id', $layananOperasi])->all();
+
         foreach ($listTimOperasi as $value) {
             $timOperasi = $value['to_id'];
         }
@@ -687,8 +688,7 @@ class MppController extends Controller
         $listAsesmenKeperawatan = AsesmenAwalKeperawatanGeneral::find()->where(['in', 'layanan_id', $layananId])->andWhere(['batal' => 0])->andWhere(['not', ['tanggal_final' => null]])->all();
         $listAsesmenKebidanan = AsesmenAwalKebidanan::find()->where(['in', 'layanan_id', $layananId])->andWhere(['batal' => 0])->andWhere(['not', ['tanggal_final' => null]])->all();
         $listAsesmenMedis = AsesmenAwalMedis::find()->where(['in', 'layanan_id', $layananId])->andWhere(['batal' => 0])->andWhere(['not', ['tanggal_final' => null]])->all();
-        $listResumeMedis = ResumeMedisRi::find()->where(['in', 'layanan_id', $layananId])->andWhere(['batal' => 0])->andWhere(['draf' => 1])->andWhere(['tanggal_final' => null])->andWhere(['is_deleted' => 0])->all();
-
+        $listResumeMedis = ResumeMedisRi::find()->where(['in', 'layanan_id', $layananId])->andWhere(['batal' => 0])->all();
         $listResumeMedisDokter = ResumeMedisRi::find()->joinWith(['dokter', 'layanan' => function ($q) {
             $q->joinWith(['registrasi' => function ($query) {
                 $query->joinWith('pasien');
