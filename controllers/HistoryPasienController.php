@@ -3155,7 +3155,7 @@ class HistoryPasienController extends Controller
 
 
 
-        $title = 'Resume Medis Rawat Jalan';
+        $title = 'Ringkasan Pulang IGD';
         $orientasi = 'LEGAL-P';
 
         $fontUrl = \Yii::getAlias('@app') . DIRECTORY_SEPARATOR . "font";
