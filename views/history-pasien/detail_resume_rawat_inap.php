@@ -147,6 +147,15 @@ $('.btn-resep').click(function(e){
 		});
 	}
 });
+$(document).on('click', '.btn-dokumen-rme', function (e) {
+    e.preventDefault(); // Prevent the default action
+
+    const pdfUrl = $(this).attr('href') + '#toolbar=0'; // Get the PDF URL and append #toolbar=0
+    const iframe = '<iframe src=\"' + pdfUrl + '\" style=\"width:100%; height:80vh; border:none;\"></iframe>'; // Create an iframe with the PDF URL
+
+    $('.mymodal_card_xl_body').html(iframe); // Set the iframe in the modal body
+    $('.mymodal_card_xl').modal('show'); // Show the modal
+});
 ");
 $this->registerCss("
 table.dataTable tbody tr.selected, table.dataTable tbody th.selected, table.dataTable tbody td.selected{
@@ -210,11 +219,22 @@ tr, td {
                                                     <td><?= HelperSpesialClass::getNamaPegawaiArray($item->dokter) ?? '' ?></td>
                                                     <td><?= $item->layanan->unit->nama ?? '' ?>
                                                     </td>
-                                                    <td><a class="btn <?php echo $item->is_deleted == 0 ? 'btn-success' : 'btn-danger' ?> btn-sm btn-sm btn-lihat-operasi" href="<?= Url::to(['/history-pasien/preview-resume-medis', 'id' => HelperGeneralClass::hashData($item->id)]) ?>" data-id="<?= $item->id
-                                                                                                                                                                                                                                                                                                        ?>" data-nama="<?= $item->id
-                                                                                                                                                                                                                                                                                                                        ?>">Klik untuk lihat</a>
+                                                    <td>
+                                                        <?php if (($item->versi == '2.0') && ($item->tanggal_final != null)) { ?>
+                                                            <a class="btn btn-success btn-sm btn-dokumen-rme" href="http://sign.simrs.aa/api-esign/view-dokumen?id=<?= HelperGeneralClass::hashData($item->id_dokumen_rme) ?>">
+                                                                Klik untuk lihat</i>
+                                                            </a>
+                                                            <a class="btn btn-warning btn-sm" target="_blank" href="http://sign.simrs.aa/api-esign/view-dokumen?id=<?= HelperGeneralClass::hashData($item->id_dokumen_rme) ?>">Cetak <i class="fas fa-print fa-sm"></i></a>
 
-                                                        <a class="btn btn-warning btn-sm" target="_blank" href="http://medis.simrs.aa/pasien-resume-medis-ri/cetak?subid=<?= HelperGeneralClass::hashData($item->id) ?>">Cetak <i class="fas fa-print fa-sm"></i></a>
+
+                                                        <?php } else { ?>
+                                                            <a class="btn <?php echo $item->is_deleted == 0 ? 'btn-success' : 'btn-danger' ?> btn-sm btn-sm btn-lihat-operasi" href="<?= Url::to(['/history-pasien/preview-resume-medis', 'id' => HelperGeneralClass::hashData($item->id)]) ?>" data-id="<?= $item->id
+                                                                                                                                                                                                                                                                                                            ?>" data-nama="<?= $item->id
+                                                                                                                                                                                                                                                                                                                            ?>">Klik untuk lihat</a>
+
+                                                            <a class="btn btn-warning btn-sm" target="_blank" href="http://medis.simrs.aa/pasien-resume-medis-ri/cetak?subid=<?= HelperGeneralClass::hashData($item->id) ?>">Cetak <i class="fas fa-print fa-sm"></i></a>
+
+                                                        <?php } ?>
                                                     </td>
                                                 </tr>
                                             <?php
