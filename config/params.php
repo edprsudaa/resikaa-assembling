@@ -468,10 +468,7 @@ return [
             'id' => 3396, //
             'unit' => []
         ],
-        3228 => [
-            'id' => 3228, //deni sapri
-            'unit' => []
-        ],
+
         3539 => [
             'id' => 3539, //deni sapri
             'unit' => []
