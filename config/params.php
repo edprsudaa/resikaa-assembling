@@ -617,10 +617,15 @@ return [
             'id' => 3469, //deni sapri
             'unit' => []
         ],
+
     ],
     'akses-daftar-pasien' => [
         710 => [
             'id' => 710, //
+            'unit' => []
+        ],
+        1869 => [
+            'id' => 1869, //MUHAMMAD TANTAWI
             'unit' => []
         ],
 
