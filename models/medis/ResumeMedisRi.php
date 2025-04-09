@@ -95,6 +95,8 @@ use app\models\medis\Icd9cmv3;
  */
 class ResumeMedisRi extends BaseModelAR
 {
+
+    const judul = 'Resume Medis Rawat Inap';
     /**
      * {@inheritdoc}
      */

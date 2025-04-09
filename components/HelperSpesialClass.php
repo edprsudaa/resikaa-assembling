@@ -646,6 +646,33 @@ class HelperSpesialClass
         }
         return Api::writeResponse(true, null, $registrasi);
     }
+    public static function getCheckPasienLayanan($id)
+    {
+        // $id => layanan_id
+        // $layanan=array();
+        if (!is_numeric($id)) {
+            $id = HelperGeneral::validateData($id);
+        }
+        if (!$id) {
+            return MakeResponse::createNotJson(false, 'Pasien Tidak Valid, Mohon Pilih Lagi');
+        }
+        $layanan = Layanan::find()->joinWith([
+            'unit',
+            'unitAsal',
+            'registrasi.pasien',
+            'registrasi.debiturDetail',
+            'registrasi.pjpRi.pegawai',
+            'pjp.pegawai',
+        ])->where([
+            'layanan.id' => $id,
+            // baru ditambah untuk menghilangkan list pasien yang baru dihapus
+            'layanan.deleted_at' => null
+        ])->asArray()->one();
+        if (!$layanan) {
+            return MakeResponse::createNotJson(false, 'Pasien Tidak Valid, Mohon Pilih Lagi');
+        }
+        return MakeResponse::createNotJson(true, null, $layanan);
+    }
     public static function getCheckRegistrasiPasien($id)
     {
         if (!is_numeric($id)) {

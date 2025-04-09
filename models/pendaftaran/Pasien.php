@@ -55,6 +55,8 @@ class Pasien extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+
+    static $jenis_kelamin = ['l' => 'Laki-laki', 'p' => 'Perempuan', 'a' => 'Ambigu'];
     public static function tableName()
     {
         return 'pendaftaran.pasien';
