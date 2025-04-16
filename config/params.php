@@ -12,14 +12,18 @@ return [
         'esep' => true,
         'closing' => true,
         'resume_medis_ri' => true,
-        'tte_dokumen' => "http://monitoring-storage-dev.simrs.aa/sign/view?id_dokumen_rme=", // DEV
+        'resume_medis_rj' => true,
     ],
     'tte' => [
         'versi' => [
             'resume_medis_ri' => '2.0',
+            'resume_medis_rj' => '2.0',
+
         ],
         'kode-dokumen' => [
             'resume_medis_ri' => 'resume_medis_ri',
+            'resume_medis_rj' => 'resume_medis_rj',
+
         ],
     ],
     'app' => [
@@ -54,14 +58,7 @@ return [
         'OwnerAddress' => 'Jl. Diponegoro No.2 Pekanbaru',
         'OwnerTelp' => 'Telp.(0761) 21618, 23418, 21657 FAX.(0761) 20253',
     ],
-    'storage-monitoring' => [ // Configurasi TTE
-        'base-url' => 'http://monitoring-storage-dev.simrs.aa/api-esign/',
-        'cek-support-tte' => 'get-init-doc-rme',
-        'kirim-storage' => 'kirim-storage-tte',
-        'view-dokumen' => 'view-dokumen-rme',
-        'batal-dokumen' => 'batal-dokumen',
-        'update-dokumen' => 'update-dokumen',
-    ],
+
     'other' => [
         // 'keys' => 'EDP@123DeniSapri',
         'keys' => 'EMS@123FikriUtriaMri',

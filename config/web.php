@@ -16,6 +16,15 @@ $db_sql_server = require __DIR__ . '/db_sql_server.php';
 $db_sign = require __DIR__ . '/db_sign.php';
 $params['config_apps'] = $config_apps;
 
+$params['storage-monitoring'] = [
+    'base-url' => $config_apps['config']['url_apps']['storage-monitoring']['base-url'],
+    'cek-support-tte' => 'get-init-doc-rme',
+    'kirim-storage' => 'kirim-storage-tte',
+    'view-dokumen' => 'view-dokumen-rme',
+    'batal-dokumen' => 'batal-dokumen',
+    'update-dokumen' => 'update-dokumen',
+];
+
 $user = [];
 // CEK APAKAH SSO ATAU LOCALHOST
 if ($params['config_sso'] === true) {

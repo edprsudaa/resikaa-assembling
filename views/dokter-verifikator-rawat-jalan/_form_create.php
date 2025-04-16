@@ -787,7 +787,7 @@ $this->registerJs($this->render('_form_create_ready.js'));
                         <div class="input-group">
                           <div class="input-group-prepend">
                             <div class="input-group-text">
-                              <input value="<?= (!in_array($model->alergi, $alergi) && !empty($model->alergi)) ? $model->alergi : null ?>" <?= (!in_array($model->alergi, $alergi) && !empty($model->alergi)) ? 'checked' : null ?> type="radio" id="ResumeMedisRi_alergi_2" name="ResumeMedisRi[alergi]">
+                              <input value="<?= (!in_array($model->alergi, $alergi) && !empty($model->alergi)) ? $model->alergi : null ?>" <?= (!in_array($model->alergi, $alergi) && !empty($model->alergi)) ? 'checked' : null ?> type="radio" id="ResumeMedisRi_alergi_2" name="ResumeMedisRiClaim[alergi]">
                             </div>
                           </div>
                           <textarea rows="3" id="ResumeMedisRi_alergi_2_t" class="form-control" placeholder="Sebutkan Jika Ada"><?= (!in_array($model->alergi, $alergi) && !empty($model->alergi)) ? $model->alergi : null ?></textarea>
@@ -808,7 +808,7 @@ $this->registerJs($this->render('_form_create_ready.js'));
                         <div class="input-group">
                           <div class="input-group-prepend">
                             <div class="input-group-text">
-                              <input value="<?= (!in_array($model->diet, $diet) && !empty($model->diet)) ? $model->diet : null ?>" <?= (!in_array($model->diet, $diet) && !empty($model->diet)) ? 'checked' : null ?> type="radio" id="ResumeMedisRi_diet_2" name="ResumeMedisRi[diet]">
+                              <input value="<?= (!in_array($model->diet, $diet) && !empty($model->diet)) ? $model->diet : null ?>" <?= (!in_array($model->diet, $diet) && !empty($model->diet)) ? 'checked' : null ?> type="radio" id="ResumeMedisRi_diet_2" name="ResumeMedisRiClaim[diet]">
                             </div>
                           </div>
                           <textarea rows="3" id="ResumeMedisRi_diet_2_t" class="form-control" placeholder="Sebutkan Jika Ada"><?= (!in_array($model->diet, $diet) && !empty($model->diet)) ? $model->diet : null ?></textarea>

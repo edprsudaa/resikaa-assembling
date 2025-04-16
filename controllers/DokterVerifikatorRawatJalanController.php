@@ -9,9 +9,11 @@ use app\components\MakeResponse;
 use app\models\medis\Icd10cmv2;
 use app\models\medis\Icd9cmv3;
 use app\models\medis\ResumeMedisRi;
+use app\models\medis\ResumeMedisRj;
 use app\models\pendaftaran\Layanan;
 use app\models\pendaftaran\Registrasi;
-use app\models\search\RawatInapSearch;
+use app\models\search\RawatJalanSearch;
+use PhpOffice\PhpSpreadsheet\Chart\Layout;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\helpers\Url;
@@ -19,9 +21,9 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 /**
- * DokterVerifikatorRawatInapController implements the CRUD actions for Layanan model.
+ * DokterVerifikatorRawatJalanController implements the CRUD actions for Layanan model.
  */
-class DokterVerifikatorRawatInapController extends Controller
+class DokterVerifikatorRawatJalanController extends Controller
 {
     /**
      * @inheritDoc
@@ -42,9 +44,8 @@ class DokterVerifikatorRawatInapController extends Controller
     }
     public function actionList()
     {
-        $searchModel = new RawatInapSearch(); // ← pastikan nama class search benar
+        $searchModel = new RawatJalanSearch(); // ← pastikan nama class search benar
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('list', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -53,7 +54,8 @@ class DokterVerifikatorRawatInapController extends Controller
 
     public function actionIndex($id)
     {
-        $title = 'Dokter Verifikator Rawat Inap';
+
+        $title = 'Dokter Verifikator Rawat Jalan';
         $get_url_view = [];
         $cek_manual = [];
 
@@ -108,7 +110,7 @@ class DokterVerifikatorRawatInapController extends Controller
     }
     protected function initModelUpdateAuto($id)
     {
-        $query = ResumeMedisRi::find()
+        $query = ResumeMedisRj::find()
             ->where(['layanan_id' => $id, 'is_deleted' => 0])
             ->orderBy(['created_at' => SORT_DESC]);
 
@@ -120,7 +122,7 @@ class DokterVerifikatorRawatInapController extends Controller
     //update & batalkan
     public function actionUpdate($id, $subid)
     {
-        $title = ResumeMedisRi::judul;
+        $title = ResumeMedisRj::judul;
         $get_url_view = [];
         $cek_manual = [];
 
@@ -131,7 +133,6 @@ class DokterVerifikatorRawatInapController extends Controller
         if (!$chk_pasien->status) {
             return $this->redirect(Url::to(['/site/index/']));
         }
-
         $model = $this->initModelUpdate($subid);
 
 
@@ -168,17 +169,17 @@ class DokterVerifikatorRawatInapController extends Controller
 
     protected function initModelCreate()
     {
-        $model = new ResumeMedisRi();
+        $model = new ResumeMedisRj();
         return $model;
     }
     protected function initModelUpdate($subid)
     {
-        return ResumeMedisRi::find()->where(['id' => $subid])->andWhere(['is_deleted' => 0])->orderBy(['created_at' => SORT_DESC])->one();
+        return ResumeMedisRj::find()->where(['id' => $subid])->andWhere(['is_deleted' => 0])->orderBy(['created_at' => SORT_DESC])->one();
     }
 
     public function actionSaveUpdate($subid)
     {
-        $title = 'Updated ' . ResumeMedisRi::judul;
+        $title = 'Updated ' . ResumeMedisRj::judul;
         $model = $this->findModel($subid);
 
 
@@ -206,7 +207,7 @@ class DokterVerifikatorRawatInapController extends Controller
     }
     public function actionSaveUpdateFinal($subid)
     {
-        $title = 'Finalized ' . ResumeMedisRi::judul;
+        $title = 'Finalized ' . ResumeMedisRj::judul;
         //init model
         $model = $this->findModel($subid);
 
@@ -261,16 +262,16 @@ class DokterVerifikatorRawatInapController extends Controller
 
     protected function findData($id)
     {
-        $query = ResumeMedisRi::find()->joinWith(['layanan' => function ($q) {
+        $query = ResumeMedisRj::find()->joinWith(['layanan' => function ($q) {
             $q->joinWith('registrasi');
         }])->where([Layanan::tableName() . '.id' => $id])
-            ->orderBy([ResumeMedisRi::tableName() . '.created_at' => SORT_DESC]);
+            ->orderBy([ResumeMedisRj::tableName() . '.created_at' => SORT_DESC]);
         return $query->asArray()->all();
     }
 
     protected function findModel($id)
     {
-        if (($model = ResumeMedisRi::findOne($id)) !== null) {
+        if (($model = ResumeMedisRj::findOne($id)) !== null) {
             return $model;
         }
 
@@ -278,7 +279,7 @@ class DokterVerifikatorRawatInapController extends Controller
     }
     private function save($title,  $model, $modelDetail, $final = false, $batal = false, $hapus = false, $alasan_batal = '')
     {
-        $transaction = ResumeMedisRi::getDb()->beginTransaction();
+        $transaction = ResumeMedisRj::getDb()->beginTransaction();
         try {
             $s_flag = true;
             $m_flag = $title . ' Berhasil Disimpan';
@@ -288,7 +289,7 @@ class DokterVerifikatorRawatInapController extends Controller
             }
 
             //send TTE
-            if ($s_flag && $final && Yii::$app->params['fitur']['resume_medis_ri']) {
+            if ($s_flag && $final && Yii::$app->params['fitur']['resume_medis_rj']) {
                 $dokterId = [$model->dokter_id]; // data id pegawai dokter
                 $userId = Yii::$app->user->identity->id; // data id user yang login/dokter karna dokter yang mencetak
 
@@ -299,7 +300,7 @@ class DokterVerifikatorRawatInapController extends Controller
 
                 // Persiapkan Data untuk dikirim ke API Init untuk cek apakah Dokumen dan Dokter Support untuk Sign
                 $dataCekBsre = [
-                    'dokumenKode' => Yii::$app->params['tte']['kode-dokumen']['resume_medis_ri'],
+                    'dokumenKode' => Yii::$app->params['tte']['kode-dokumen']['resume_medis_rj'],
                     'dokterId' => $dokterId,
                     'userId' => $userId
                 ];
@@ -335,13 +336,13 @@ class DokterVerifikatorRawatInapController extends Controller
 
                 // Siapkan data untuk index "dataTable" pada array Data yang akan dikirim ke API Kirim Storage
                 $table = [
-                    'dokumen_kode' => Yii::$app->params['tte']['kode-dokumen']['resume_medis_ri'],
+                    'dokumen_kode' => Yii::$app->params['tte']['kode-dokumen']['resume_medis_rj'],
                     'schema_name' => 'medis',
-                    'table_name' => 'resume_medis_ri',
+                    'table_name' => 'resume_medis_rj',
                     'table_primary' => 'id',
                     'id_dokumen' => $model->id,
                     'tgl_final' => $model->tanggal_final,
-                    'version' => Yii::$app->params['tte']['versi']['resume_medis_ri'],
+                    'version' => Yii::$app->params['tte']['versi']['resume_medis_rj'],
                     'orientasi' => 'p'
                 ];
 
@@ -359,7 +360,7 @@ class DokterVerifikatorRawatInapController extends Controller
                 $paramUpdateRme = [
                     'id_dokumen_rme' => $model->id_dokumen_rme,
                     'tgl_final' => date('Y-m-d H:i:s'),
-                    'version' => Yii::$app->params['tte']['versi']['resume_medis_ri'],
+                    'version' => Yii::$app->params['tte']['versi']['resume_medis_rj'],
                     'orientasi' => 'p',
                     'userId' => Yii::$app->user->id,
                     'htmlDokumen' => $htmlDokument
@@ -426,7 +427,7 @@ class DokterVerifikatorRawatInapController extends Controller
 
     public function actionCopy($id, $subid)
     {
-        $title = ResumeMedisRi::judul;
+        $title = ResumeMedisRj::judul;
 
         if (!is_numeric($id)) {
             $id = HelperGeneralClass::validateData($id);
@@ -439,7 +440,7 @@ class DokterVerifikatorRawatInapController extends Controller
         }
 
         $model = $this->findModel($subid);
-        $modelNew = new ResumeMedisRi();
+        $modelNew = new ResumeMedisRj();
 
         $modelNew->setAttributes($model->getAttributes(), false);
         unset($modelNew->id);
@@ -451,17 +452,16 @@ class DokterVerifikatorRawatInapController extends Controller
         unset($modelNew->id_dokumen_rme);
 
         if ($modelNew->save(false)) {
-            return $this->redirect(Url::to(['/dokter-verifikator-rawat-inap/update/', 'id' => HelperGeneralClass::hashData($id), 'subid' => $modelNew->id]));
+            return $this->redirect(Url::to(['/dokter-verifikator-rawat-jalan/update/', 'id' => HelperGeneralClass::hashData($id), 'subid' => $modelNew->id]));
         } else {
-            return $this->redirect(Url::to(['/dokter-verifikator-rawat-inap/index/', 'id' => HelperGeneralClass::hashData($id)]));
+            return $this->redirect(Url::to(['/dokter-verifikator-rawat-jalan/index/', 'id' => HelperGeneralClass::hashData($id)]));
         }
     }
     public function actionDokumenPdf($id, $markTte = null)
     {
-        $model = ResumeMedisRi::find()->joinWith([
+        $model = ResumeMedisRj::find()->joinWith([
             'dokter',
             'unitTujuan',
-            'diagmasuk',
             'diagutama',
             'diagsatu',
             'diagdua',
@@ -476,23 +476,20 @@ class DokterVerifikatorRawatInapController extends Controller
             'tindempat',
             'tindlima',
             'tindenam',
-            'layananPulang' => function ($q) {
-                $q->joinWith(['unit']);
-            },
+
             'layanan' => function ($q) {
                 $q->joinWith(['registrasi' => function ($query) {
                     $query->joinWith('pasien', 'debiturDetail');
                 }]);
             }
         ])
-            ->where([ResumeMedisRi::tableName() . '.id' => $id])->nobatal()->orderBy(['created_at' => SORT_DESC])->one();
+            ->where([ResumeMedisRj::tableName() . '.id' => $id])->orderBy(['created_at' => SORT_DESC])->one();
         $chk_pasien = HelperSpesialClass::getCheckPasien($id);
-        return $this->renderPartial('/dokter-verifikator-rawat-inap/doc', [
+        return $this->renderPartial('/dokter-verifikator-rawat-jalan/doc', [
             'model' => $model,
             'mark_tte' => $markTte
         ]);
     }
-
     public function actionIcd10()
     {
         if (\Yii::$app->request->isAjax) {

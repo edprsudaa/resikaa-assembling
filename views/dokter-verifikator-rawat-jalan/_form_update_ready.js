@@ -105,9 +105,9 @@ $(document).ready(function () {
         fbtn.setLoading(btn, "proses...");
         var post_data = $(this).serialize();
         var subid = btn.attr("data-subid");
-        var url_update_draf = `${baseUrl}/dokter-verifikator-rawat-inap/save-update?subid=${subid}`;
-        var url_update_final = `${baseUrl}/dokter-verifikator-rawat-inap/save-update-final?subid=${subid}`;
-        var url_update_batal = `${baseUrl}/dokter-verifikator-rawat-inap/save-update-batal?subid=${subid}`;
+        var url_update_draf = `${baseUrl}/dokter-verifikator-rawat-jalan/save-update?subid=${subid}`;
+        var url_update_final = `${baseUrl}/dokter-verifikator-rawat-jalan/save-update-final?subid=${subid}`;
+        var url_update_batal = `${baseUrl}/dokter-verifikator-rawat-jalan/save-update-batal?subid=${subid}`;
         $.ajax({
           url: url_update_draf,
           type: "post",
@@ -318,49 +318,49 @@ $(document).ready(function () {
     $.pjax.reload({ container: "#pjform", timeout: false }); //pjax form
   });
 
-  $("#ResumeMedisRi_alergi_2_t").on("input change focus paste", function (e) {
-    let teks = $("#ResumeMedisRi_alergi_2_t").val();
-    $("#ResumeMedisRi_alergi_2").val(teks);
-    $("#ResumeMedisRi_alergi_2").prop("checked", true);
+  $("#ResumeMedisRj_anamesis_2_t").on("input change focus paste", function (e) {
+    let teks = $("#ResumeMedisRj_anamesis_2_t").val();
+    $("#ResumeMedisRj_anamesis_2").val(teks);
+    $("#ResumeMedisRj_anamesis_2").prop("checked", true);
   });
-  $("#ResumeMedisRi_diet_2_t").on(
+  $("#ResumeMedisRj_pemeriksaan_fisik_2_t").on(
     "keyup input change focus paste",
     function (e) {
-      let teks = $("#ResumeMedisRi_diet_2_t").val();
-      $("#ResumeMedisRi_diet_2").val(teks);
-      $("#ResumeMedisRi_diet_2").prop("checked", true);
+      let teks = $("#ResumeMedisRj_pemeriksaan_fisik_2_t").val();
+      $("#ResumeMedisRj_pemeriksaan_fisik_2").val(teks);
+      $("#ResumeMedisRj_pemeriksaan_fisik_2").prop("checked", true);
     }
   );
-  $("#ResumeMedisRi_kondisi_pulang_4_t").on(
-    "input change focus paste",
+  $("#ResumeMedisRj_terapi_2_t").on(
+    "keyup input change focus paste",
     function (e) {
-      let teks = $("#ResumeMedisRi_kondisi_pulang_4_t").val();
-      $("#ResumeMedisRi_kondisi_pulang_4").val(teks);
-      $("#ResumeMedisRi_kondisi_pulang_4").prop("checked", true);
+      let teks = $("#ResumeMedisRj_terapi_2_t").val();
+      $("#ResumeMedisRj_terapi_2").val(teks);
+      $("#ResumeMedisRj_terapi_2").prop("checked", true);
     }
   );
-  $("#ResumeMedisRi_cara_pulang_4_t").on(
-    "input change focus paste",
+  $("#ResumeMedisRj_lab_2_t").on(
+    "keyup input change focus paste",
     function (e) {
-      let teks = $("#ResumeMedisRi_cara_pulang_4_t").val();
-      $("#ResumeMedisRi_cara_pulang_4").val(teks);
-      $("#ResumeMedisRi_cara_pulang_4").prop("checked", true);
+      let teks = $("#ResumeMedisRj_lab_2_t").val();
+      $("#ResumeMedisRj_lab_2").val(teks);
+      $("#ResumeMedisRj_lab_2").prop("checked", true);
     }
   );
-  $("#ResumeMedisRi_obat_rumah_2_t").on(
-    "input change focus paste",
+  $("#ResumeMedisRj_rad_2_t").on(
+    "keyup input change focus paste",
     function (e) {
-      let teks = $("#ResumeMedisRi_obat_rumah_2_t").val();
-      $("#ResumeMedisRi_obat_rumah_2").val(teks);
-      $("#ResumeMedisRi_obat_rumah_2").prop("checked", true);
+      let teks = $("#ResumeMedisRj_rad_2_t").val();
+      $("#ResumeMedisRj_rad_2").val(teks);
+      $("#ResumeMedisRj_rad_2").prop("checked", true);
     }
   );
-  $("#ResumeMedisRi_terapi_pulang_2_t").on(
-    "input change focus paste",
+  $("#ResumeMedisRj_keterangan_2_t").on(
+    "keyup input change focus paste",
     function (e) {
-      let teks = $("#ResumeMedisRi_terapi_pulang_2_t").val();
-      $("#ResumeMedisRi_terapi_pulang_2").val(teks);
-      $("#ResumeMedisRi_terapi_pulang_2").prop("checked", true);
+      let teks = $("#ResumeMedisRj_keterangan_2_t").val();
+      $("#ResumeMedisRj_keterangan_2").val(teks);
+      $("#ResumeMedisRj_keterangan_2").prop("checked", true);
     }
   );
 });

@@ -116,29 +116,18 @@ class HelperSpesialClass
     //         }
     //     }
     // }
-    // public static function getListDokter($original=true,$list=false)
-    // {
-    //     //bisa by tb_riwayat_penempatan where sdm_rumpun=1
-    //     $result=TbPegawai::find()->select([TbPegawai::tableName().'.id_nip_nrp','pegawai_id',new \yii\db\Expression("CONCAT(".TbPegawai::tableName().".id_nip_nrp,' | ',gelar_sarjana_depan, ' ',nama_lengkap,' ',gelar_sarjana_belakang) as nama")])->innerjoinWith([
-    //         'riwayatSipp',
-    //         'riwayatSpklinis',
-    //         'riwayatPenempatan'=>function($q){
-    //             $q->where([TbRiwayatPenempatan::tableName().'.sdm_rumpun'=>self::SDM_RUMPUN_MEDIS])->orderBy([TbRiwayatPenempatan::tableName().'.tanggal'=>SORT_DESC])->limit(1);
-    //         }
-    //     ])
-    //     ->where(['>=',TbRiwayatSipp::tableName().'.tanggal_berlaku',date('Y-m-d')])
-    //     ->andWhere(['>=',TbRiwayatSpklinis::tableName().'.tanggal_berlaku',date('Y-m-d')])
-    //     ->active()->asArray()->all();
-    //     if($original){
-    //         return $result;
-    //     }else{
-    //         if($list){
-    //             return ArrayHelper::map($result, 'pegawai_id', 'nama');
-    //         }else{
-    //             return ArrayHelper::getColumn($result, 'pegawai_id');
-    //         }
-    //     }
-    // }
+    public static function getListRuanganLayanan($layanan_id_now)
+    {
+        $layanan = Layanan::find()->where(['id' => $layanan_id_now])->asArray()->one();
+        if ($layanan) {
+            $layanan_all = Layanan::find()->with(['unit'])->where(['registrasi_kode' => $layanan['registrasi_kode'], 'jenis_layanan' => Layanan::RI])->asArray()->all();
+            $select_layanan_all = array();
+            foreach ($layanan_all as $val) {
+                $select_layanan_all[$val['id']] = $val['unit']['nama'];
+            }
+            return $select_layanan_all;
+        }
+    }
     public static function getListPerawat($original = true, $list = false)
     {
         $result = TbPegawai::find()->select([TbPegawai::tableName() . '.id_nip_nrp', 'pegawai_id', new \yii\db\Expression("CONCAT(" . TbPegawai::tableName() . ".id_nip_nrp,' | ',gelar_sarjana_depan, ' ',nama_lengkap,' ',gelar_sarjana_belakang) as nama")])->innerjoinWith([
@@ -667,6 +656,31 @@ class HelperSpesialClass
             'layanan.id' => $id,
             // baru ditambah untuk menghilangkan list pasien yang baru dihapus
             'layanan.deleted_at' => null
+        ])->asArray()->one();
+        if (!$layanan) {
+            return MakeResponse::createNotJson(false, 'Pasien Tidak Valid, Mohon Pilih Lagi');
+        }
+        return MakeResponse::createNotJson(true, null, $layanan);
+    }
+    public static function getCheckPasienRegistrasi($id)
+    {
+        // $id => layanan_id
+        // $layanan=array();
+        if (!is_numeric($id)) {
+            $id = HelperGeneral::validateData($id);
+        }
+        if (!$id) {
+            return MakeResponse::createNotJson(false, 'Pasien Tidak Valid, Mohon Pilih Lagi');
+        }
+        $layanan = Layanan::find()->joinWith([
+            'unit',
+            'unitAsal',
+            'registrasi.pasien',
+            'registrasi.debiturDetail',
+            'registrasi.pjpRi.pegawai',
+            'pjp.pegawai',
+        ])->where([
+            'registrasi.kode' => $id,
         ])->asArray()->one();
         if (!$layanan) {
             return MakeResponse::createNotJson(false, 'Pasien Tidak Valid, Mohon Pilih Lagi');

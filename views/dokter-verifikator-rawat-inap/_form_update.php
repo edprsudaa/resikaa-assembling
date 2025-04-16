@@ -94,6 +94,25 @@ $this->registerJs($this->render('_form_update_ready.js'));
                   </div>
                 </div>
               </div>
+              <div class="col-sm-6">
+                <div class="row">
+
+                  <div class="col-md-3">
+                    <label>Ruangan Layanan Pulang :</label>
+                  </div>
+                  <div class="col-md-9">
+                    <?= $form->field($model, 'layanan_pulang_id')->widget(Select2::classname(), [
+                      'data' => HelperSpesialClass::getListRuanganLayanan($model->layanan_id),
+                      'size' => 'xs',
+                      'options' => ['class' => 'form-control input-sm', 'placeholder' => 'Pilih Ruangan Layanan Pulang...'],
+                      'pluginOptions' => [
+                        'allowClear' => false
+                      ],
+                    ])->label(false);
+                    ?>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="row">
               <div class="col-sm-4">
@@ -784,7 +803,7 @@ $this->registerJs($this->render('_form_update_ready.js'));
                       <div class="input-group">
                         <div class="input-group-prepend">
                           <div class="input-group-text">
-                            <input value="<?= (!in_array($model->alergi, $alergi) && !empty($model->alergi)) ? $model->alergi : null ?>" <?= (!in_array($model->alergi, $alergi) && !empty($model->alergi)) ? 'checked' : null ?> type="radio" id="ResumeMedisRi_alergi_2" name="ResumeMedisRiClaim[alergi]">
+                            <input value="<?= (!in_array($model->alergi, $alergi) && !empty($model->alergi)) ? $model->alergi : null ?>" <?= (!in_array($model->alergi, $alergi) && !empty($model->alergi)) ? 'checked' : null ?> type="radio" id="ResumeMedisRi_alergi_2" name="ResumeMedisRi[alergi]">
                           </div>
                         </div>
                         <textarea rows="3" id="ResumeMedisRi_alergi_2_t" class="form-control" placeholder="Sebutkan Jika Ada"><?= (!in_array($model->alergi, $alergi) && !empty($model->alergi)) ? $model->alergi : null ?></textarea>
@@ -805,7 +824,7 @@ $this->registerJs($this->render('_form_update_ready.js'));
                       <div class="input-group">
                         <div class="input-group-prepend">
                           <div class="input-group-text">
-                            <input value="<?= (!in_array($model->diet, $diet) && !empty($model->diet)) ? $model->diet : null ?>" <?= (!in_array($model->diet, $diet) && !empty($model->diet)) ? 'checked' : null ?> type="radio" id="ResumeMedisRi_diet_2" name="ResumeMedisRiClaim[diet]">
+                            <input value="<?= (!in_array($model->diet, $diet) && !empty($model->diet)) ? $model->diet : null ?>" <?= (!in_array($model->diet, $diet) && !empty($model->diet)) ? 'checked' : null ?> type="radio" id="ResumeMedisRi_diet_2" name="ResumeMedisRi[diet]">
                           </div>
                         </div>
                         <textarea rows="3" id="ResumeMedisRi_diet_2_t" class="form-control" placeholder="Sebutkan Jika Ada"><?= (!in_array($model->diet, $diet) && !empty($model->diet)) ? $model->diet : null ?></textarea>
