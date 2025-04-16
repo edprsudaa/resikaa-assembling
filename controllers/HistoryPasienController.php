@@ -273,7 +273,7 @@ class HistoryPasienController extends Controller
         foreach ($listTimOperasi as $value) {
             $timOperasi[] = $value['to_id'];
         }
-        $listLaporanOperasi = LaporanOperasi::find()->where(['in', 'lap_op_to_id', $timOperasi])->andWhere([LaporanOperasi::tableName() . '.lap_op_deleted_at' => null, LaporanOperasi::tableName() . '.lap_op_final' => 1])->all();
+        $listLaporanOperasi = LaporanOperasi::find()->where(['in', 'lap_op_to_id', $timOperasi])->andWhere([LaporanOperasi::tableName() . '.lap_op_deleted_at' => null, LaporanOperasi::tableName() . '.lap_op_final' => 1, LaporanOperasi::tableName() . '.lap_op_batal' => 0])->all();
         $listLaporanAnastesi = AsesmenPraInduksi::find()->where(['in', 'api_to_id', $timOperasi])->andWhere([AsesmenPraInduksi::tableName() . '.api_deleted_at' => null, AsesmenPraInduksi::tableName() . '.api_final' => 1])->all();
         $listLaporanChecklisKeselamatan = PertanyaanCheckListKeselamatanOk::find()->where(['in', 'pcok_to_id', $timOperasi])->andWhere([PertanyaanCheckListKeselamatanOk::tableName() . '.pcok_deleted_at' => null, PertanyaanCheckListKeselamatanOk::tableName() . '.pcok_final' => 1])->all();
         $listLaporanLokasiOperasi = LokasiOperasi::find()->where(['in', 'mlo_to_id', $timOperasi])->andWhere([LokasiOperasi::tableName() . '.mlo_deleted_at' => null, LokasiOperasi::tableName() . '.mlo_final' => 1])->all();
@@ -519,7 +519,7 @@ class HistoryPasienController extends Controller
             $q->joinWith(['layanan' => function ($e) {
                 $e->joinWith('registrasi');
             }]);
-        }])->where([Registrasi::tableName() . '.pasien_kode' => $id, LaporanOperasi::tableName() . '.lap_op_deleted_at' => null, LaporanOperasi::tableName() . '.lap_op_final' => 1])->orderBy([Registrasi::tableName() . '.tgl_masuk' => SORT_DESC])->all();
+        }])->where([Registrasi::tableName() . '.pasien_kode' => $id, LaporanOperasi::tableName() . '.lap_op_deleted_at' => null, LaporanOperasi::tableName() . '.lap_op_final' => 1, LaporanOperasi::tableName() . '.lap_op_batal' => 0])->orderBy([Registrasi::tableName() . '.tgl_masuk' => SORT_DESC])->all();
 
 
 
