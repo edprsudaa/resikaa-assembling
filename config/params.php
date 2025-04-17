@@ -613,6 +613,10 @@ return [
             'id' => 1184, //KURNIA
             'unit' => []
         ],
+        547 => [
+            'id' => 547, //Kak Meri
+            'unit' => []
+        ],
     ],
     'pengolahan-data' => [
         929 => [
