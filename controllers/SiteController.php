@@ -42,7 +42,7 @@ class SiteController extends Controller
 
             return $this->render('index');
         } else {
-            $url = 'http://sso.simrs.aa/';
+            $url = Yii::$app->params['config_apps']['config']['url_apps']['sso'];
             return $this->redirect($url);
         }
     }
@@ -94,7 +94,7 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
 
-        return $this->redirect('http://sso.simrs.aa/keluar');
+        return $this->redirect(Yii::$app->params['config_apps']['config']['url_apps']['base'] . '/keluar');
     }
 
     function actionAkunForm()
