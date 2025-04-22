@@ -617,6 +617,11 @@ return [
             'id' => 547, //Kak Meri
             'unit' => []
         ],
+
+        3342 => [
+            'id' => 3342, //Kak Meri
+            'unit' => []
+        ],
     ],
     'pengolahan-data' => [
         929 => [
@@ -653,6 +658,10 @@ return [
 
         360 => [
             'id' => 360, //NURI JELITA IDRUS
+            'unit' => []
+        ],
+        547 => [
+            'id' => 547, //ASMERINAWATI
             'unit' => []
         ],
 
