@@ -42,6 +42,9 @@ $('#pelaporan').on('change', function (ev) {
 $('#unit_kode').on('change', function (ev) {
   myTable();
 });
+$('#debitur').on('change', function (ev) {
+  myTable();
+});
 
 //Fungsi Pencarian Pada Tabel
 function searchTable(str) {
@@ -82,6 +85,7 @@ function myTable() {
     claim: $('#claim').val(),
     pelaporan: $('#pelaporan').val(),
     unit_kode: $('#unit_kode').val(),
+    debitur: $('#debitur').val(),
 
   };
   $.ajax({
@@ -126,7 +130,7 @@ function myTable() {
           pelaporan += '<span class=\'badge badge-success\'>Sudah pelaporan</span><br>';
 
         }
-        trHTML +='<tr class=\'distribusi\' ><td>'+(i+1)+'</td><td>'+item.kode+'<br>'+item.pasien_kode+'<br>'+item.nama+'</td><td>'+item.tgl_masuk+'</td><td>'+poliList+'</td><td>'+claim+'</td><td>'+pelaporan+'</td><td><a class=\'btn btn-sm btn-success\' href='+baseUrl+'/coder-igd/view?id='+item.registrasi_kode_hash+' data-method=\'post\'><span class=\'nav-icon fas fa-edit text-white\' title=\'\' data-toggle=\'tooltip\' data-placement=\'bottom\' data-original-title=\'Coding Pelaporan\' aria-describedby=\'tooltip537870\'></span> Klik Untuk Coding</a></td></tr>';
+        trHTML +='<tr class=\'distribusi\' ><td>'+(i+1)+'</td><td>'+item.kode+'<br>'+item.pasien_kode+'<br>'+item.nama+'</td><td>'+item.tgl_masuk+'</td><td>'+poliList+'</td><td>'+claim+'</td><td>'+pelaporan+'</td><td>'+item.debitur+'</td><td><a class=\'btn btn-sm btn-success\' href='+baseUrl+'/coder-igd/view?id='+item.registrasi_kode_hash+' data-method=\'post\'><span class=\'nav-icon fas fa-edit text-white\' title=\'\' data-toggle=\'tooltip\' data-placement=\'bottom\' data-original-title=\'Coding Pelaporan\' aria-describedby=\'tooltip537870\'></span> Klik Untuk Coding</a></td></tr>';
                
         
         
@@ -251,6 +255,22 @@ function myTable() {
                 ],
               ]); ?>
             </div>
+            <div class="col-lg-2">
+              <label>Debitur</label>
+              <?= Select2::widget([
+                'name' => 'state_10',
+                'id' => 'debitur',
+                'data' => HelperSpesialClass::getListDebitur()['unit_akses'],
+                'options' => [
+                  'placeholder' => 'Pilih Debitur ...',
+
+                ],
+                'pluginOptions' => [
+
+                  'allowClear' => true
+                ],
+              ]); ?>
+            </div>
 
 
           </div>
@@ -269,6 +289,7 @@ function myTable() {
               <th width="15%">Poli/Unit</th>
               <th width="10%">Klaim</th>
               <th width="10%">Pelaporan</th>
+              <th width="10%">Debitur</th>
 
 
               <th width="10%">Aksi</th>

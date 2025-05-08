@@ -112,7 +112,8 @@ class CoderRiController extends Controller
             r.is_claim as claim,
             r.is_pelaporan as pelaporan,
             r.is_claim_ri as claim_ri,
-            r.is_pelaporan_ri as pelaporan_ri
+            r.is_pelaporan_ri as pelaporan_ri,
+            d.nama as debitur 
         FROM
             pendaftaran.registrasi r
         INNER JOIN
@@ -121,6 +122,9 @@ class CoderRiController extends Controller
             pendaftaran.pasien p ON r.pasien_kode = p.kode
         INNER JOIN
             pegawai.dm_unit_penempatan dup ON l.unit_kode = dup.kode
+        LEFT JOIN pendaftaran.debitur_detail dd ON r.debitur_detail_kode=dd.kode
+        LEFT JOIN pendaftaran.debitur d ON dd.debitur_kode=d.kode
+
         LEFT JOIN
             medis.resume_medis_ri rmr ON rmr.layanan_id = l.id    
         WHERE
@@ -160,8 +164,12 @@ class CoderRiController extends Controller
             $sql .= " and l.unit_kode = " . $req['unit_kode'];
         }
 
+        if ($req['debitur'] != null) {
+            $sql .= " and dd.debitur_kode = '" . $req['debitur'] . "'";
+        }
 
-        $sql .= " group by r.kode,p.nama,rmr.tgl_pulang order by rmr.tgl_pulang";
+
+        $sql .= " group by r.kode,p.nama,d.nama,rmr.tgl_pulang order by rmr.tgl_pulang";
 
         $command = $connection->createCommand($sql, [':startDate' => $startDate, ':endDate' => $endDate]);
         $results = $command->queryAll();
@@ -193,7 +201,7 @@ class CoderRiController extends Controller
                 'closing_billing_ranap_at' => $value['closing_billing_ranap_at'],
                 'claim' => $value['claim'],
                 'pelaporan' => $value['pelaporan'],
-
+                'debitur' => $value['debitur'],
                 'claim_ri' => $value['claim_ri'],
                 'pelaporan_ri' => $value['pelaporan_ri'],
                 'poli' => array_values($poli),

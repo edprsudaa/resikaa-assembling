@@ -21,6 +21,7 @@ use app\components\HelperGeneralClass;
 use app\components\Api;
 use app\models\medis\DocClinical;
 use app\models\medis\DocClinicalPasien;
+use app\models\pendaftaran\Debitur;
 use app\models\pendaftaran\Registrasi;
 use app\models\pendaftaran\Pasien;
 
@@ -319,6 +320,23 @@ class HelperSpesialClass
         }
         $unit = KelompokUnitLayanan::find()->select([KelompokUnitLayanan::tableName() . '.unit_id', DmUnitPenempatan::tableName() . '.kode', DmUnitPenempatan::tableName() . '.nama',])->joinWith(['unit'])->kel_rj_all()
             ->orderBy([DmUnitPenempatan::tableName() . '.nama' => SORT_ASC])
+            ->asArray()
+            ->all();
+
+        if ($list) {
+            return ['pengguna' => $user, 'unit_akses' => ArrayHelper::map($unit, 'kode', 'nama')];
+        } else {
+            return ['pengguna' => $user, 'unit_akses' => ArrayHelper::getColumn($unit, 'kode')];
+        }
+    }
+    public static function getListDebitur($list = true, $user = [])
+    {
+        $unit = array();
+        if (!$user) {
+            $user = self::getUserLogin();
+        }
+        $unit = Debitur::find()->select([Debitur::tableName() . '.kode', Debitur::tableName() . '.nama',])
+            ->orderBy([Debitur::tableName() . '.nama' => SORT_ASC])
             ->asArray()
             ->all();
 

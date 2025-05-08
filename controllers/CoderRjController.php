@@ -168,12 +168,16 @@ class CoderRjController extends Controller
                 "registrasi.tgl_keluar",
                 "array_agg(dm_unit_penempatan.nama) as poli",
                 "registrasi.is_claim as claim",
-                "registrasi.is_pelaporan as pelaporan"
+                "registrasi.is_pelaporan as pelaporan",
+                "debitur.nama as debitur",
 
             ])
             ->from("ranap")
             ->withQuery($queryData, "ranap", true)
             ->innerJoin("pendaftaran.registrasi", "registrasi.kode=ranap.kode and jenis::text not like '%3%'")
+            ->leftJoin("pendaftaran.debitur_detail", "registrasi.debitur_detail_kode=debitur_detail.kode")
+            ->leftJoin("pendaftaran.debitur", "debitur_detail.debitur_kode=debitur.kode")
+
             ->innerJoin("pendaftaran.layanan", "layanan.registrasi_kode=ranap.kode and layanan.jenis_layanan in (2)")
 
             ->innerJoin("pendaftaran.pasien", "registrasi.pasien_kode=pasien.kode")
@@ -203,9 +207,12 @@ class CoderRjController extends Controller
         if ($req['unit_kode'] != null) {
             $queryDataTest = $queryDataTest->andWhere(["layanan.unit_kode" => $req['unit_kode']]);
         }
+        if ($req['debitur'] != null) {
+            $queryDataTest = $queryDataTest->andWhere(["debitur_detail.debitur_kode" => $req['debitur']]);
+        }
 
         // ->andWhere(["in","layanan.jenis"])
-        $queryDataTest = $queryDataTest->groupBy(["registrasi.kode", "pasien.nama"])
+        $queryDataTest = $queryDataTest->groupBy(["registrasi.kode", "pasien.nama", "debitur.nama"])
             ->all();
         $response = [];
 
@@ -223,6 +230,7 @@ class CoderRjController extends Controller
                 'nama' => $value['nama'],
                 'tgl_masuk' => $value['tgl_masuk'],
                 'tgl_keluar' => $value['tgl_keluar'],
+                'debitur' => $value['debitur'],
 
                 'claim' => $value['claim'],
                 'pelaporan' => $value['pelaporan'],

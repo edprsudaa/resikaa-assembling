@@ -48,6 +48,9 @@ $('#closing').on('change', function (ev) {
 $('#unit_kode').on('change', function (ev) {
   myTable();
 });
+$('#debitur').on('change', function (ev) {
+  myTable();
+});
 
 //Fungsi Pencarian Pada Tabel
 function searchTable(str) {
@@ -91,7 +94,7 @@ function myTable() {
     closing: $('#closing').val(),
 
     unit_kode: $('#unit_kode').val(),
-
+    debitur: $('#debitur').val(),
 
   };
   $.ajax({
@@ -170,7 +173,7 @@ function myTable() {
       }
 
        
-        trHTML +='<tr class=\'distribusi\' ><td>'+(i+1)+'</td><td>'+item.kode+'<br>'+item.pasien_kode+'<br>'+item.nama+'</td><td>'+item.tgl_masuk+'</td><td>'+item.tgl_pulang+'</td><td>'+tgl_checkout+'</td><td>'+tgl_closing+'</td><td>'+poliList+'</td><td>'+claim+'</td><td>'+pelaporan+'</td><td>'+button_coding+'</td></tr>';
+        trHTML +='<tr class=\'distribusi\' ><td>'+(i+1)+'</td><td>'+item.kode+'<br>'+item.pasien_kode+'<br>'+item.nama+'</td><td>'+item.tgl_masuk+'</td><td>'+item.tgl_pulang+'</td><td>'+tgl_checkout+'</td><td>'+tgl_closing+'</td><td>'+poliList+'</td><td>'+claim+'</td><td>'+pelaporan+'</td><td>'+item.debitur+'</td><td>'+button_coding+'</td></tr>';
                
         
         
@@ -327,6 +330,22 @@ function myTable() {
                 ],
               ]); ?>
             </div>
+            <div class="col-lg-2">
+              <label>Debitur</label>
+              <?= Select2::widget([
+                'name' => 'state_10',
+                'id' => 'debitur',
+                'data' => HelperSpesialClass::getListDebitur()['unit_akses'],
+                'options' => [
+                  'placeholder' => 'Pilih Debitur ...',
+
+                ],
+                'pluginOptions' => [
+
+                  'allowClear' => true
+                ],
+              ]); ?>
+            </div>
 
 
           </div>
@@ -351,6 +370,7 @@ function myTable() {
               <th width="15%">Poli/Unit Terakhir</th>
               <th width="10%">Klaim</th>
               <th width="10%">Pelaporan</th>
+              <th width="10%">Debitur</th>
 
 
               <th width="10%">Aksi</th>
