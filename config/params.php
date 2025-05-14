@@ -632,10 +632,7 @@ return [
             'id' => 929, //ANDRE ABWIN VANES
             'unit' => []
         ],
-        726 => [
-            'id' => 726, //SUKMAWATI AMBAR KP
-            'unit' => []
-        ],
+
         1138 => [
             'id' => 1138, //deni sapri
             'unit' => []
