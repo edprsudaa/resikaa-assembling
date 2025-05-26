@@ -178,7 +178,7 @@ class CoderRjController extends Controller
             ->leftJoin("pendaftaran.debitur_detail", "registrasi.debitur_detail_kode=debitur_detail.kode")
             ->leftJoin("pendaftaran.debitur", "debitur_detail.debitur_kode=debitur.kode")
 
-            ->innerJoin("pendaftaran.layanan", "layanan.registrasi_kode=ranap.kode and layanan.jenis_layanan in (2)")
+            ->innerJoin("pendaftaran.layanan", "layanan.registrasi_kode=ranap.kode and layanan.jenis_layanan in (2,4)")
 
             ->innerJoin("pendaftaran.pasien", "registrasi.pasien_kode=pasien.kode")
             ->innerJoin("medis.resume_medis_rj rmrj", "rmrj.layanan_id=layanan.id")
