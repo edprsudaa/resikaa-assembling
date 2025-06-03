@@ -267,7 +267,7 @@ class CoderIgdController extends Controller
     public function actionPelaporan($id = null, $registrasi_kode = null)
     {
 
-        $ringkasanPulangIgd = ResumeMedisRj::find()->where(['id' => $id])->one();
+        $ringkasanPulangIgd = RingkasanPulangIgd::find()->where(['id' => $id])->one();
         $registrasi = HelperSpesialClass::getCheckPasien($registrasi_kode);
         $layananId = array();
 
