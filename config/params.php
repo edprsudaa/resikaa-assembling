@@ -336,7 +336,6 @@ return [
                 359,
             ]
         ],
-
         3218 => [
             'id' => 3218, //'198304082010012016'//Tengku Lya
             'unit' => [
@@ -449,10 +448,16 @@ return [
             'id' => 3231, //1472012108970004 riski
             'unit' => NULL,
         ],
-
         383 => [
-            'id' => 383, //197605031997032002,//SUSILAWATI SIMATUPANG
-            'unit' => [215, 267, 207, 111, 359]
+            'id' => 383, //'197605031997032002' //Susilawati Simatupang
+            'unit' => [
+                267, // HCU LILI ANAK (INFEKSI)
+                263, // RUANG ANGGREK 2
+                111, // RUANG ANGGREK 1
+                359, // RUANG ANGGREK SEMENTARA
+                207, // RUANG PINERE 1
+                215, // RICU (ICU INFEKSI)
+            ],
         ],
     ],
 
@@ -580,9 +585,10 @@ return [
             'id' => 3229, //deni sapri
             'unit' => []
         ],
-
-
-
+        3394 => [
+            'id' => 3394, //ridho darmawan
+            'unit' => []
+        ],
     ],
     'analisa-dokumen' => [
 
