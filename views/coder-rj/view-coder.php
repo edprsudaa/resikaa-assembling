@@ -315,8 +315,8 @@ $('.btn-preview-resume-rj').click(function(e){
                                         </td>
                                         <td style="vertical-align: top;text-align: left;">
                                             <div class="btn-group-vertical" style="z-index: 10;">
-                                                <a class="btn btn-success btn-sm btn-preview-resume-rj" href="<?= Url::to(['/analisa-kuantitatif/preview-resume-medis', 'id' => $item['id']]) ?>" data-pasien="<?= $registrasi['pasien']['kode'] ?>" data-id="<?= $item['id'] ?>" data-nama="<?= $item['id'] ?>"> <i style="color:white" class="fa fa-eye"></i></i></a>
-                                                <a class="btn btn-info btn-sm" href="<?= Url::to(['/coder-rj/pelaporan', 'id' => $item['id'], 'icd' => true, 'registrasi_kode' => HelperGeneralClass::hashData($registrasi['kode'])]) ?>" data-id="<?= $item['id'] ?>" data-nama="<?= $item['id'] ?>"> <i style="color:white" class="fa fa-edit"></i></i></a>
+                                                <a class="btn btn-success btn-sm btn-preview-resume-rj py-2" href="<?= Url::to(['/analisa-kuantitatif/preview-resume-medis', 'id' => $item['id']]) ?>" data-pasien="<?= $registrasi['pasien']['kode'] ?>" data-id="<?= $item['id'] ?>" data-nama="<?= $item['id'] ?>"> <i style="color:white" class="fa fa-eye"></i></i></a>
+                                                <a class="btn btn-info btn-sm py-2" href="<?= Url::to(['/coder-rj/pelaporan', 'id' => $item['id'], 'icd' => true, 'registrasi_kode' => HelperGeneralClass::hashData($registrasi['kode'])]) ?>" data-id="<?= $item['id'] ?>" data-nama="<?= $item['id'] ?>"> <i style="color:white" class="fa fa-edit"></i></i></a>
                                             </div>
                                         </td>
                                         <td style="vertical-align: top;text-align: left;">
