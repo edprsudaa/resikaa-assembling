@@ -298,13 +298,18 @@ $('.btn-preview-resume-verifikator-ri-cetak').click(function(e){
                     </div>
                     <div class="card-body">
 
-                        <table style="width:100%">
+                        <table class="table-responsive">
                             <?php
                             if (!empty($listResumeMedisDokter)) {
                                 foreach ($listResumeMedisDokter as $item) {
                             ?>
                                     <tr>
-
+                                        <td style="vertical-align: top;text-align: left;">
+                                            <div class="btn-group-vertical" style="z-index: 10;">
+                                                <a class="btn btn-success btn-sm btn-preview-resume-rj" href="<?= Url::to(['/analisa-kuantitatif/preview-resume-medis', 'id' => $item['id']]) ?>" data-pasien="<?= $registrasi['pasien']['kode'] ?>" data-id="<?= $item['id'] ?>" data-nama="<?= $item['id'] ?>"> <i style="color:white" class="fa fa-eye"></i></i></a>
+                                                <a class="btn btn-info btn-sm" href="<?= Url::to(['/coder-rj/pelaporan', 'id' => $item['id'], 'icd' => true, 'registrasi_kode' => HelperGeneralClass::hashData($registrasi['kode'])]) ?>" data-id="<?= $item['id'] ?>" data-nama="<?= $item['id'] ?>"> <i style="color:white" class="fa fa-edit"></i></i></a>
+                                            </div>
+                                        </td>
                                         <td><?php
                                             if (!empty($listCoder->id_resume_medis_rj)) {
                                                 if ($item->id == $listCoder->id_resume_medis_rj) {
@@ -396,14 +401,6 @@ $('.btn-preview-resume-verifikator-ri-cetak').click(function(e){
                                                 <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD9 : </b><?= $item->tindlima->kode ?? '' ?><br><b>ICD9 Deskripsi : </b><?= $item->tindlima->deskripsi ?? '-' ?></div>
                                             <?php } ?>
                                             <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Terapi : </b><?= $item->terapi ?? '' ?></div>
-
-
-                                        </td>
-                                        <td style="vertical-align: top;text-align: left;">
-                                            <div class="btn-group-vertical">
-                                                <a class="btn btn-success btn-sm btn-preview-resume-rj" href="<?= Url::to(['/analisa-kuantitatif/preview-resume-medis', 'id' => $item['id']]) ?>" data-pasien="<?= $registrasi['pasien']['kode'] ?>" data-id="<?= $item['id'] ?>" data-nama="<?= $item['id'] ?>"> <i style="color:white" class="fa fa-eye"></i></i></a>
-                                                <a class="btn btn-info btn-sm" href="<?= Url::to(['/coder-rj/pelaporan', 'id' => $item['id'], 'icd' => true, 'registrasi_kode' => HelperGeneralClass::hashData($registrasi['kode'])]) ?>" data-id="<?= $item['id'] ?>" data-nama="<?= $item['id'] ?>"> <i style="color:white" class="fa fa-edit"></i></i></a>
-                                            </div>
                                         </td>
                                         <td style="vertical-align: top;text-align: left;">
                                             <div class="btn-group-vertical">
