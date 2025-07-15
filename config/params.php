@@ -576,7 +576,6 @@ return [
 
     ],
     'programmer' => [
-
         3228 => [
             'id' => 3228, //deni sapri
             'unit' => []
@@ -591,13 +590,10 @@ return [
         ],
     ],
     'analisa-dokumen' => [
-
-
         // 1869 => [
         //     'id' => 1869, //MUHAMMAD TANTAWI
         //     'unit' => []
         // ],
-
     ],
     'analisa-coder' => [
 
@@ -638,20 +634,22 @@ return [
             'id' => 929, //ANDRE ABWIN VANES
             'unit' => []
         ],
-
         1138 => [
-            'id' => 1138, //deni sapri
+            'id' => 1138, //ike emanarni
             'unit' => []
         ],
         1461 => [
-            'id' => 1461, //deni sapri
+            'id' => 1461, //susanti riyani
             'unit' => []
         ],
         3469 => [
-            'id' => 3469, //deni sapri
+            'id' => 3469, //mayendra fahlevi
             'unit' => []
         ],
-
+        1286 => [
+            'id' => 1286, //nanda pribadi
+            'unit' => []
+        ],
     ],
     'akses-daftar-pasien' => [
         710 => [
