@@ -596,13 +596,10 @@ return [
         // ],
     ],
     'analisa-coder' => [
-
         888 => [
             'id' => 888, //LATIFAH HANOUM
             'unit' => []
         ],
-
-
         1869 => [
             'id' => 1869, //MUHAMMAD TANTAWI
             'unit' => []
@@ -619,7 +616,6 @@ return [
             'id' => 547, //Kak Meri
             'unit' => []
         ],
-
         3342 => [
             'id' => 3342, //Kak Meri
             'unit' => []
@@ -628,6 +624,10 @@ return [
             'id' => 726, //SUKMAWATI AMBAR KP
             'unit' => []
         ],
+        1508 => [ //yudha pratama agusman
+            'id' => 1508,
+            'unit' => []
+        ]
     ],
     'pengolahan-data' => [
         929 => [
@@ -650,10 +650,6 @@ return [
             'id' => 1286, //nanda pribadi
             'unit' => []
         ],
-        1508 => [ //yudha pratama agusman
-            'id' => 1508,
-            'unit' => []
-        ]
     ],
     'akses-daftar-pasien' => [
         710 => [
