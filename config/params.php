@@ -650,6 +650,10 @@ return [
             'id' => 1286, //nanda pribadi
             'unit' => []
         ],
+        1508 => [ //yudha pratama agusman
+            'id' => 1508,
+            'unit' => []
+        ]
     ],
     'akses-daftar-pasien' => [
         710 => [
