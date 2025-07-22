@@ -3,6 +3,7 @@
 namespace app\models\medis;
 
 use app\models\pegawai\Pegawai;
+use app\models\pegawai\TbPegawai;
 use Yii;
 
 /**
@@ -70,6 +71,11 @@ class TarifTindakanPasien extends BaseModelAR
     public function getTarifTindakan()
     {
         return $this->hasOne(TarifTindakan::className(), ['id' => 'tarif_tindakan_id']);
+    }
+
+    function getPelaksana()
+    {
+        return $this->hasOne(TbPegawai::className(), ['pegawai_id' => 'pelaksana_id']);
     }
 
     public function getDokter()

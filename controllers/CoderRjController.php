@@ -58,6 +58,7 @@ use app\models\penunjang\LabelPemeriksaanPa;
 use app\models\penunjang\PemeriksaanTindakanHasil;
 use app\models\penunjang\ResultPacs;
 use app\models\medis\ResumeMedisRj;
+use app\models\medis\TarifTindakanPasienByAdm;
 use app\models\pengolahandata\CatatanMpp;
 use app\models\pengolahandata\CodingClaim;
 use app\models\pengolahandata\CodingClaimDiagnosaDetail;
@@ -297,6 +298,7 @@ class CoderRjController extends Controller
 
         $resumeMedisRi = ResumeMedisRj::find()->where(['id' => $id])->one();
         $registrasi = HelperSpesialClass::getCheckPasien($registrasi_kode);
+        $getListTindakan = TarifTindakanPasienByAdm::getListTindakan($registrasi->data['kode']);
         $layananId = array();
 
         foreach ($registrasi->data['layanan'] as $item) {
@@ -350,6 +352,7 @@ class CoderRjController extends Controller
                 'listClaim' => $listClaim,
                 'listResumeMedisDokter' => $listResumeMedisDokter,
                 'listResumeMedisVerifikator' => $listResumeMedisDokterVerifikator,
+                'getListTindakan' => $getListTindakan,
 
                 'modelCodingPelaporanRj' => $modelCodingPelaporanRj,
 

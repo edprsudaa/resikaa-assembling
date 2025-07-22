@@ -127,6 +127,7 @@ tr, td {
                     'modelsPelaporanDiagnosa' => $modelsPelaporanDiagnosa,
                     'modelsPelaporanTindakan' => $modelsPelaporanTindakan,
                     'registrasi' => $registrasi,
+                    'getListTindakan' => $getListTindakan
                 ]);
                 ?>
             </div>
