@@ -179,7 +179,8 @@ tr, td {
                     'model' => $model, 'modelCodingPelaporanRi' => $modelCodingPelaporanRi,
                     'listCoder' => $listCoder,
                     'listResumeMedisVerifikator' => $listResumeMedisVerifikator, 'listResumeMedisDokter' => $listResumeMedisDokter,
-                    'modelsPelaporanDiagnosa' => $modelsPelaporanDiagnosa, 'modelsPelaporanTindakan' => $modelsPelaporanTindakan, 'registrasi' => $registrasi
+                    'modelsPelaporanDiagnosa' => $modelsPelaporanDiagnosa, 'modelsPelaporanTindakan' => $modelsPelaporanTindakan, 'registrasi' => $registrasi,
+                    'getListTindakan' => $getListTindakan
                 ]);
                 ?>
             </div>
