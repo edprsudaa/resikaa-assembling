@@ -457,6 +457,9 @@ return [
                 359, // RUANG ANGGREK SEMENTARA
                 207, // RUANG PINERE 1
                 215, // RICU (ICU INFEKSI)
+                118, // RUANG EDELWEIS
+                145, // POLI ANAK
+                210, // POLI ANESTESI
             ],
         ],
     ],
