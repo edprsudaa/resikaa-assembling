@@ -46,6 +46,7 @@ use app\models\pendaftaran\Registrasi;
 
 use app\models\medis\ResumeMedisRj;
 use app\models\medis\RingkasanPulangIgd;
+use app\models\medis\TarifTindakanPasienByAdm;
 use app\models\pengolahandata\CatatanMpp;
 use app\models\pengolahandata\CodingClaim;
 use app\models\pengolahandata\CodingClaimDiagnosaDetail;
@@ -269,6 +270,7 @@ class CoderIgdController extends Controller
 
         $ringkasanPulangIgd = RingkasanPulangIgd::find()->where(['id' => $id])->one();
         $registrasi = HelperSpesialClass::getCheckPasien($registrasi_kode);
+        $getListTindakan = TarifTindakanPasienByAdm::getListTindakan($registrasi->data['kode']);
         $layananId = array();
 
         foreach ($registrasi->data['layanan'] as $item) {
@@ -314,6 +316,7 @@ class CoderIgdController extends Controller
                 'model' => $ringkasanPulangIgd,
                 'listCoder' => $listCoder,
                 'listRingkasanPulangIgd' => $listRingkasanPulangIgd,
+                'getListTindakan' => $getListTindakan,
                 'modelCodingPelaporanIgd' => $modelCodingPelaporanIgd,
                 'modelsPelaporanDiagnosa' => (empty($modelsPelaporanDiagnosa)) ? [new CodingPelaporanDiagnosaDetailIgd] : $modelsPelaporanDiagnosa,
                 'modelsPelaporanTindakan' => (empty($modelsPelaporanTindakan)) ? [new CodingPelaporanTindakanDetailIgd] : $modelsPelaporanTindakan,

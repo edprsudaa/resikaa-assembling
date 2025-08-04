@@ -19,7 +19,8 @@ use app\models\medis\Icd10cmv2;
 use app\models\medis\Icd9cmv3;
 
 use app\models\medis\ResumeMedisRi;
-
+use app\models\medis\TarifTindakan;
+use app\models\medis\TarifTindakanPasienByAdm;
 use app\models\pendaftaran\Layanan;
 use app\models\pendaftaran\Pasien;
 use app\models\pendaftaran\Registrasi;
@@ -365,6 +366,7 @@ class CoderRiController extends Controller
 
         $resumeMedisRi = ResumeMedisRi::find()->where(['id' => $id])->one();
         $registrasi = HelperSpesialClass::getCheckPasien($registrasi_kode);
+        $getListTindakan = TarifTindakanPasienByAdm::getListTindakan($registrasi->data['kode']);
         $layananId = array();
 
         foreach ($registrasi->data['layanan'] as $item) {
@@ -417,6 +419,7 @@ class CoderRiController extends Controller
                 'listClaim' => $listClaim,
                 'listResumeMedisDokter' => $listResumeMedisDokter,
                 'listResumeMedisVerifikator' => $listResumeMedisDokterVerifikator,
+                'getListTindakan' => $getListTindakan,
 
                 'modelCodingPelaporanRi' => $modelCodingPelaporanRi,
 

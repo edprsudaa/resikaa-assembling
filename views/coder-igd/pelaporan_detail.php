@@ -293,6 +293,68 @@ $('.btn-preview-ringkasan-pulang-igd').click(function(e){
                     <div class="card-header">
                         <h5 style="margin-bottom:6px;"><b>Coding Pelaporan</b> <a class="btn btn-danger" href="<?= Url::to(['/coder-igd/claim', 'id' => Yii::$app->request->get('id'), 'registrasi_kode' => HelperGeneralClass::hashData($registrasi['kode'])]) ?>"><i style="color: white;" class="fa fa-edit"></i> Buat Coding Klaim</a></h5>
                     </div>
+                    <div class="col-12">
+                        <?php
+                        $groupedTindakan = [];
+                        foreach ($getListTindakan as $tindakan) {
+                            $unitNama = $tindakan['unit_nama'] ?? 'Lainnya';
+                            $groupedTindakan[$unitNama][] = $tindakan;
+                        }
+                        ?>
+                        <h2><b>Daftar Tindakan Pasien</b></h2>
+                        <i>* Klik nama unit untuk melihat dan menutup detail tindakan</i>
+                        <table class="table table-bordered table-hover">
+                            <tbody>
+                                <?php $totalAll = 0; ?>
+                                <?php foreach ($groupedTindakan as $unitNama => $tindakanList): ?>
+                                    <tr data-widget="expandable-table" aria-expanded="false" class="bg-info">
+                                        <td colspan="2"><?= Html::encode($unitNama) ?></td>
+                                    </tr>
+                                    <?php $total = 0; ?>
+                                    <tr class="expandable-body">
+                                        <td colspan="7">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Tanggal</th>
+                                                        <th>Nama Tindakan</th>
+                                                        <th>Jumlah</th>
+                                                        <th>Harga</th>
+                                                        <th>Subtotal</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach ($tindakanList as $number => $list): ?>
+                                                        <tr>
+                                                            <td><?= ($number + 1) ?></td>
+                                                            <td><?= Html::encode($list['tanggal']) ?></td>
+                                                            <td><?= Html::encode($list['nama']) ?></td>
+                                                            <td><?= (float) $list['jumlah'] ?></td>
+                                                            <td>Rp.<?= number_format($list['harga'], 0, ',', '.') ?></td>
+                                                            <td style="width: 10%;">Rp.<?= number_format($list['subtotal'], 0, ',', '.') ?></td>
+                                                        </tr>
+                                                        <?php $total += (int) $list['subtotal']; ?>
+                                                    <?php endforeach; ?>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Total</b></td>
+                                        <td style="width: 10%;">
+                                            <b>Rp.<?= number_format($total, 0, ',', '.') ?></b>
+                                        </td>
+                                    </tr>
+                                    <?php $totalAll += $total; ?>
+                                <?php endforeach; ?>
+                                <tr>
+                                    <td><b>Total Semua Tindakan</b></td>
+                                    <td><b>Rp.<?= number_format($totalAll, 0, ',', '.') ?></b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="card-body">
                         <div class="tab-content" id="custom-tabs-four-tabContent">
                             <div class="tab-pane fade active show" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
