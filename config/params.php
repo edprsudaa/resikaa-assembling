@@ -452,6 +452,7 @@ return [
                 128, // Ruang Teratai
                 129, // Ruang Tulip
                 370, // HCU Fetomaternal
+                127, // Instalasi Rawat Inap Fetomaternal
             ]
         ],
         442 => [
@@ -472,10 +473,6 @@ return [
         94 => [
             'id' => 94, //'196503241989032004'//ns arriyaniy
             'unit' => [119, 303, 117, 269, 349, 350]
-        ],
-        98 => [
-            'id' => 98, //'196505281987032004'//ns toleransih
-            'unit' => [129, 214, 314, 128, 136]
         ],
         545 => [
             'id' => 545, //'197904212009032001'//ns sofia
