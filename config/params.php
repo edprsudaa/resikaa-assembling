@@ -460,6 +460,7 @@ return [
             'unit' => [
                 339, // Ruang Kenanga 2
                 122, // Ruang Kenanga 1
+                349, // Ruang HCU Medikal
             ]
         ],
         194 => [
