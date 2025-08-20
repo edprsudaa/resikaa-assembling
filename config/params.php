@@ -483,10 +483,10 @@ return [
                 191, // Ruang Neonatus (IPN)
             ]
         ],
-        3231 => [
-            'id' => 3231, //1472012108970004 riski
-            'unit' => NULL,
-        ],
+        // 3231 => [
+        //     'id' => 3231, //1472012108970004 riski
+        //     'unit' => NULL,
+        // ],
         383 => [
             'id' => 383, //'197605031997032002' //Susilawati Simatupang
             'unit' => [
