@@ -436,9 +436,10 @@ return [
         252 => [
             'id' => 252, //197012292002122001,//dr dewi
             'unit' => [
-                305,
+                305, // HCU Krisan
                 123, // Ruang HCU Krisan
-                125 // Ruang Mawar
+                125, // Ruang Mawar
+                369, // HCU Stroke
             ]
         ],
         204 => [
