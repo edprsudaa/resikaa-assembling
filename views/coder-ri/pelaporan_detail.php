@@ -235,98 +235,99 @@ $('.btn-preview-resume-verifikator-ri-cetak').click(function(e){
 
 
                                             <?= $status_coder; ?>
-                                            <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Nama Dokter : <?= HelperSpesialClass::getNamaPegawaiArray($item->dokter) ?? '' ?> <br>(Resume id: <?= $item->id ?? '' ?>)</div>
-                                            <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Ringkasan Riwayat Penyakit : </b><?= $item->ringkasan_riwayat_penyakit ?? '' ?></div>
-                                            <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Hasil Pemeriksaan Fisik : </b><?= $item->hasil_pemeriksaan_fisik ?? '' ?></div>
-                                            <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Indikasi Rawat Inap : </b><?= $item->indikasi_rawat_inap ?? '' ?></div>
+                                            <div style="width: 347px;">
+                                                <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Nama Dokter : <?= HelperSpesialClass::getNamaPegawaiArray($item->dokter) ?? '' ?> <br>(Resume id: <?= $item->id ?? '' ?>)</div>
+                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Ringkasan Riwayat Penyakit : </b><?= $item->ringkasan_riwayat_penyakit ?? '' ?></div>
+                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Hasil Pemeriksaan Fisik : </b><?= $item->hasil_pemeriksaan_fisik ?? '' ?></div>
+                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Indikasi Rawat Inap : </b><?= $item->indikasi_rawat_inap ?? '' ?></div>
 
-                                            <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Diagnosa Masuk : </b><?= $item->diagnosa_masuk_deskripsi ?? '' ?></div>
-                                            <div class="border border-warning bg-warning font-weight-bold" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Diagnosa Dokter : </div>
-                                            <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Dx Utama : </b> <?= $item->diagnosa_utama_deskripsi ?? '' ?></div>
-                                            <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Dx Sekunder 1 :</b> <?= $item->diagnosa_tambahan1_deskripsi ?? '' ?></div>
-                                            <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Dx Sekunder 2 :</b> <?= $item->diagnosa_tambahan2_deskripsi ?? '' ?></div>
-                                            <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Dx Sekunder 3 :</b> <?= $item->diagnosa_tambahan3_deskripsi ?? '' ?></div>
-                                            <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Dx Sekunder 4 :</b> <?= $item->diagnosa_tambahan4_deskripsi ?? '' ?></div>
-                                            <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Dx Sekunder 5 :</b> <?= $item->diagnosa_tambahan5_deskripsi ?? '' ?></div>
+                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Diagnosa Masuk : </b><?= $item->diagnosa_masuk_deskripsi ?? '' ?></div>
+                                                <div class="border border-warning bg-warning font-weight-bold" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Diagnosa Dokter : </div>
+                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Dx Utama : </b> <?= $item->diagnosa_utama_deskripsi ?? '' ?></div>
+                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Dx Sekunder 1 :</b> <?= $item->diagnosa_tambahan1_deskripsi ?? '' ?></div>
+                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Dx Sekunder 2 :</b> <?= $item->diagnosa_tambahan2_deskripsi ?? '' ?></div>
+                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Dx Sekunder 3 :</b> <?= $item->diagnosa_tambahan3_deskripsi ?? '' ?></div>
+                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Dx Sekunder 4 :</b> <?= $item->diagnosa_tambahan4_deskripsi ?? '' ?></div>
+                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Dx Sekunder 5 :</b> <?= $item->diagnosa_tambahan5_deskripsi ?? '' ?></div>
 
-                                            <div class="border border-warning bg-warning font-weight-bold" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Diagnosa ICD10:</div>
-                                            <?php if ($item->diagutama) { ?>
-                                                <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Utama : </div>
-                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD10 : </b><?= $item->diagutama->kode ?? '' ?><br><b>ICD10 Deskripsi :</b><?= $item->diagutama->deskripsi ?? '-' ?></div>
-                                            <?php } ?>
+                                                <div class="border border-warning bg-warning font-weight-bold" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Diagnosa ICD10:</div>
+                                                <?php if ($item->diagutama) { ?>
+                                                    <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Utama : </div>
+                                                    <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD10 : </b><?= $item->diagutama->kode ?? '' ?><br><b>ICD10 Deskripsi :</b><?= $item->diagutama->deskripsi ?? '-' ?></div>
+                                                <?php } ?>
 
-                                            <?php if ($item->diagsatu) { ?>
-                                                <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tambahan I :</div>
-                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD10 : </b><?= $item->diagsatu->kode ?? '' ?><br><b>ICD10 Deskripsi :</b><?= $item->diagsatu->deskripsi ?? '-' ?></div>
-                                            <?php } ?>
-                                            <?php if ($item->diagdua) { ?>
+                                                <?php if ($item->diagsatu) { ?>
+                                                    <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tambahan I :</div>
+                                                    <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD10 : </b><?= $item->diagsatu->kode ?? '' ?><br><b>ICD10 Deskripsi :</b><?= $item->diagsatu->deskripsi ?? '-' ?></div>
+                                                <?php } ?>
+                                                <?php if ($item->diagdua) { ?>
 
-                                                <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tambahan II : </div>
+                                                    <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tambahan II : </div>
 
-                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD10 : </b><?= $item->diagdua->kode ?? '' ?><br><b>ICD10 Deskripsi :</b><?= $item->diagdua->deskripsi ?? '-' ?></div>
-                                            <?php } ?>
-                                            <?php if ($item->diagtiga) { ?>
+                                                    <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD10 : </b><?= $item->diagdua->kode ?? '' ?><br><b>ICD10 Deskripsi :</b><?= $item->diagdua->deskripsi ?? '-' ?></div>
+                                                <?php } ?>
+                                                <?php if ($item->diagtiga) { ?>
 
-                                                <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tambahan III : </div>
+                                                    <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tambahan III : </div>
 
-                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD10 : </b><?= $item->diagtiga->kode ?? '' ?><br><b>ICD10 Deskripsi :</b><?= $item->diagtiga->deskripsi ?? '-' ?></div>
-                                            <?php } ?>
-                                            <?php if ($item->diagempat) { ?>
+                                                    <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD10 : </b><?= $item->diagtiga->kode ?? '' ?><br><b>ICD10 Deskripsi :</b><?= $item->diagtiga->deskripsi ?? '-' ?></div>
+                                                <?php } ?>
+                                                <?php if ($item->diagempat) { ?>
 
-                                                <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tambahan IV : </div>
-                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD10 : </b><?= $item->diagempat->kode ?? '' ?><br><b>ICD10 Deskripsi :</b><?= $item->diagempat->deskripsi ?? '-' ?></div>
-                                            <?php } ?>
-                                            <?php if ($item->diaglima) { ?>
+                                                    <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tambahan IV : </div>
+                                                    <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD10 : </b><?= $item->diagempat->kode ?? '' ?><br><b>ICD10 Deskripsi :</b><?= $item->diagempat->deskripsi ?? '-' ?></div>
+                                                <?php } ?>
+                                                <?php if ($item->diaglima) { ?>
 
 
-                                                <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tambahan V : <?= $item->diaglima->kode ?? '' ?></div>
+                                                    <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tambahan V : <?= $item->diaglima->kode ?? '' ?></div>
 
-                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD10 : </b><?= $item->diaglima->kode ?? '' ?><br><b>ICD10 Deskripsi :</b><?= $item->diaglima->deskripsi ?? '-' ?></div>
+                                                    <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD10 : </b><?= $item->diaglima->kode ?? '' ?><br><b>ICD10 Deskripsi :</b><?= $item->diaglima->deskripsi ?? '-' ?></div>
 
-                                            <?php } ?>
+                                                <?php } ?>
 
-                                            <div class="border border-warning bg-warning font-weight-bold" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tindakan Dokter : </div>
-                                            <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Tx Utama : </b> <?= $item->tindakan_utama_deskripsi ?? '' ?></div>
-                                            <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Tx Sekunder 1 :</b> <?= $item->tindakan_tambahan1_deskripsi ?? '' ?></div>
-                                            <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Tx Sekunder 2 :</b> <?= $item->tindakan_tambahan2_deskripsi ?? '' ?></div>
-                                            <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Tx Sekunder 3 :</b> <?= $item->tindakan_tambahan3_deskripsi ?? '' ?></div>
-                                            <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Tx Sekunder 4 :</b> <?= $item->tindakan_tambahan4_deskripsi ?? '' ?></div>
-                                            <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Tx Sekunder 5 :</b> <?= $item->tindakan_tambahan5_deskripsi ?? '' ?></div>
+                                                <div class="border border-warning bg-warning font-weight-bold" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tindakan Dokter : </div>
+                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Tx Utama : </b> <?= $item->tindakan_utama_deskripsi ?? '' ?></div>
+                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Tx Sekunder 1 :</b> <?= $item->tindakan_tambahan1_deskripsi ?? '' ?></div>
+                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Tx Sekunder 2 :</b> <?= $item->tindakan_tambahan2_deskripsi ?? '' ?></div>
+                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Tx Sekunder 3 :</b> <?= $item->tindakan_tambahan3_deskripsi ?? '' ?></div>
+                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Tx Sekunder 4 :</b> <?= $item->tindakan_tambahan4_deskripsi ?? '' ?></div>
+                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Tx Sekunder 5 :</b> <?= $item->tindakan_tambahan5_deskripsi ?? '' ?></div>
 
-                                            <div class="border border-warning bg-warning" style="border: 1px solid #e1e1e1fa;padding-left: 4px;"><b>Tindakan ICD9 : </b></div>
-                                            <?php if ($item->tindutama) { ?>
+                                                <div class="border border-warning bg-warning" style="border: 1px solid #e1e1e1fa;padding-left: 4px;"><b>Tindakan ICD9 : </b></div>
+                                                <?php if ($item->tindutama) { ?>
 
-                                                <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Utama : </div>
+                                                    <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Utama : </div>
 
-                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD9 : </b><?= $item->tindutama->kode ?? '' ?><br><b>ICD9 Deskripsi : </b><?= $item->tindutama->deskripsi ?? '-' ?></div>
-                                            <?php } ?>
-                                            <?php if ($item->tindsatu) { ?>
+                                                    <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD9 : </b><?= $item->tindutama->kode ?? '' ?><br><b>ICD9 Deskripsi : </b><?= $item->tindutama->deskripsi ?? '-' ?></div>
+                                                <?php } ?>
+                                                <?php if ($item->tindsatu) { ?>
 
-                                                <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tambahan I : </div>
-                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD9 : </b><?= $item->tindsatu->kode ?? '' ?><br><b>ICD9 Deskripsi : </b><?= $item->tindsatu->deskripsi ?? '-' ?></div>
-                                            <?php } ?>
-                                            <?php if ($item->tinddua) { ?>
+                                                    <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tambahan I : </div>
+                                                    <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD9 : </b><?= $item->tindsatu->kode ?? '' ?><br><b>ICD9 Deskripsi : </b><?= $item->tindsatu->deskripsi ?? '-' ?></div>
+                                                <?php } ?>
+                                                <?php if ($item->tinddua) { ?>
 
-                                                <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tambahan II : </div>
-                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD9 : </b><?= $item->tinddua->kode ?? '' ?><br><b>ICD9 Deskripsi : </b><?= $item->tinddua->deskripsi ?? '-' ?></div>
-                                            <?php } ?>
-                                            <?php if ($item->tindtiga) { ?>
+                                                    <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tambahan II : </div>
+                                                    <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD9 : </b><?= $item->tinddua->kode ?? '' ?><br><b>ICD9 Deskripsi : </b><?= $item->tinddua->deskripsi ?? '-' ?></div>
+                                                <?php } ?>
+                                                <?php if ($item->tindtiga) { ?>
 
-                                                <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tambahan III : <?= $item->tindtiga->kode ?? '' ?></div>
-                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD9 : </b><?= $item->tindtiga->kode ?? '' ?><br><b>ICD9 Deskripsi : </b><?= $item->tindtiga->deskripsi ?? '-' ?></div>
-                                            <?php } ?>
-                                            <?php if ($item->tindempat) { ?>
+                                                    <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tambahan III : <?= $item->tindtiga->kode ?? '' ?></div>
+                                                    <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD9 : </b><?= $item->tindtiga->kode ?? '' ?><br><b>ICD9 Deskripsi : </b><?= $item->tindtiga->deskripsi ?? '-' ?></div>
+                                                <?php } ?>
+                                                <?php if ($item->tindempat) { ?>
 
-                                                <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tambahan IV : <?= $item->tindempat->kode ?? '' ?></div>
-                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD9 : </b><?= $item->tindempat->kode ?? '' ?><br><b>ICD9 Deskripsi : </b><?= $item->tindempat->deskripsi ?? '-' ?></div>
-                                            <?php } ?>
-                                            <?php if ($item->tindlima) { ?>
+                                                    <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tambahan IV : <?= $item->tindempat->kode ?? '' ?></div>
+                                                    <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD9 : </b><?= $item->tindempat->kode ?? '' ?><br><b>ICD9 Deskripsi : </b><?= $item->tindempat->deskripsi ?? '-' ?></div>
+                                                <?php } ?>
+                                                <?php if ($item->tindlima) { ?>
 
-                                                <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tambahan V : <?= $item->tindlima->kode ?? '' ?></div>
-                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD9 : </b><?= $item->tindlima->kode ?? '' ?><br><b>ICD9 Deskripsi : </b><?= $item->tindlima->deskripsi ?? '-' ?></div>
-                                            <?php } ?>
-                                            <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Terapi : </b><?= $item->terapi ?? '' ?></div>
-
+                                                    <div class="border border-info bg-info" style="border: 1px solid #e1e1e1fa;padding-left: 4px;">Tambahan V : <?= $item->tindlima->kode ?? '' ?></div>
+                                                    <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>ICD9 : </b><?= $item->tindlima->kode ?? '' ?><br><b>ICD9 Deskripsi : </b><?= $item->tindlima->deskripsi ?? '-' ?></div>
+                                                <?php } ?>
+                                                <div colspan="3" class="border border-top-0 border-info" style="padding-left: 4px;"><b>Terapi : </b><?= $item->terapi ?? '' ?></div>
+                                            </div>
 
                                         </td>
                                         <td style="vertical-align: top;text-align: left;">
