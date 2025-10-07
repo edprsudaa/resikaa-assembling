@@ -1,13 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
-use kartik\select2\Select2;
 use kartik\date\DatePicker;
-use app\models\pendaftaran\KelompokUnitLayanan;
-use app\components\HelperGeneralClass;
-use app\components\HelperSpesialClass;
-use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\LayananIgdSearch */
@@ -15,29 +9,28 @@ use yii\widgets\ActiveForm;
 
 $this->title = 'Rekapitulasi Jumlah Coding Coder IGD';
 $this->params['breadcrumbs'][] = $this->title;
-// echo'<pre/>';print_r($dataProvider);die();
 $this->registerJs("
 
+// Reset salah satu periode tanggal jika salah satu dari periode tanggal akan diisi.
 window.onload = function () {
-  document.getElementById('tgl_awal').value = new Date().toJSON('id-ID', { timeZone: 'Asia/Jakarta' }).slice(0, 10);
+  document.getElementById('tgl_coding_awal').value = new Date().toJSON('id-ID', { timeZone: 'Asia/Jakarta' }).slice(0, 10);
+  myTable();
 
- 
-   myTable();
- 
- };
+  $('#tgl_awal, #tgl_akhir').on('focus change', function () {
+    $('#tgl_coding_awal').val('');
+    $('#tgl_coding_akhir').val('');
+  });
+
+  $('#tgl_coding_awal, #tgl_coding_akhir').on('focus change', function () {
+    $('#tgl_awal').val('');
+    $('#tgl_akhir').val('');
+  });
+};
 
 // Fungsi Pencarian Tanggal
-$('#tgl_awal').on('change', function (ev) {
-  myTable();
-});
-$('#tgl_akhir').on('change', function (ev) {
-  myTable();
-});
-$('#claim').on('change', function (ev) {
-  myTable();
-});
-$('#pelaporan').on('change', function (ev) {
-  myTable();
+$('#tgl_awal, #tgl_akhir, #tgl_coding_awal, #tgl_coding_akhir, #claim, #pelaporan')
+  .on('change', function () {
+    myTable();
 });
 
 //Fungsi Pencarian Pada Tabel
@@ -65,18 +58,19 @@ function searchTable(str) {
       }
     }
   }
- 
 }
 
 $('#cari').keyup(function () {
   searchTable($(this).val());
 });
+
 // Generate Tabel
 function myTable() {
   var data = {
     tanggal_awal: $('#tgl_awal').val(),
     tanggal_akhir: $('#tgl_akhir').val(),
-  
+    tanggal_coding_awal: $('#tgl_coding_awal').val(),
+    tanggal_coding_akhir: $('#tgl_coding_akhir').val(),
   };
   $.ajax({
     url: baseUrl+'/laporan/data-laporan-coder-igd',
@@ -93,30 +87,19 @@ function myTable() {
       swal.close();
     },
     success: function (response) {
-      console.log(response);
-
       $('tr:has(td)').remove();
       var trHTML = '';
       if(response.data.length>0){
       $.each(response.data, function (i, item) {
-
-       
-       
-
         trHTML +='<tr class=\'distribusi\' ><td>'+(i+1)+'</td><td>'+item.nama_coder+'<br></td><td>'+item.nip_nik+'<br></td><td>'+item.jumlah+'</td></tr>';
-               
-        
-        
       });
     }else{
       trHTML +='<tr><td colspan=\'7\' style=\'text-align:center\'>Data tidak tersedia / mohon pilih tanggal yang sesuai</td></tr>';
     }
       $('#example1').append(trHTML);
       let rowCount = $('#example1 tr:visible').length - 1;
-
       // $('span#total').text(response.data.length);
     },
-
     error: function (XMLHttpRequest, textStatus, errorThrown) {
       if (XMLHttpRequest.readyState == 4) {
         // HTTP error (can be checked by XMLHttpRequest.status and XMLHttpRequest.statusText)
@@ -131,29 +114,27 @@ function myTable() {
       }
     },
   });
-  
 }")
 ?>
+
 <div class="row">
   <div class="col-lg-12">
     <div class="card card-primary card-outline">
       <div class="card-body">
         <h3><?= Html::encode($this->title) ?></h3>
-
         <div class="layanan-search">
-
           <div class="row">
             <div class="col-lg-4">
               <label>Pencarian Coder</label>
               <?= Html::textInput('nama_input', null, ['id' => 'cari', 'class' => 'form-control', 'placeholder' => 'Cari nama coder']) ?>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-2">
               <label>Tgl. Masuk Awal</label>
               <?= DatePicker::widget([
                 'name' => 'tgl_awal',
                 'id' => 'tgl_awal',
                 'type' => DatePicker::TYPE_INPUT,
-                'value' => (Yii::$app->getRequest()->getQueryParam('RegistrasiSearch')['tgl_awal']) ?? date("Y-m-d"),
+                'value' => (Yii::$app->getRequest()->getQueryParam('RegistrasiSearch')['tgl_awal']) ?? '',
                 'options' => ['placeholder' => 'Pilih tanggal Awal Analisa ...'],
                 'pluginOptions' => [
                   'autoclose' => true,
@@ -162,15 +143,13 @@ function myTable() {
                 ]
               ]) ?>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-2">
               <label>Tgl. Masuk Akhir</label>
-
               <?= DatePicker::widget([
                 'name' => 'tgl_akhir',
                 'id' => 'tgl_akhir',
-
                 'type' => DatePicker::TYPE_INPUT,
-                'value' => Yii::$app->getRequest()->getQueryParam('RegistrasiSearch')['tgl_akhir'] ?? date("Y-m-d"),
+                'value' => Yii::$app->getRequest()->getQueryParam('RegistrasiSearch')['tgl_akhir'] ?? '',
                 'options' => ['placeholder' => 'Pilih tanggal Akhir Analisa ...'],
                 'pluginOptions' => [
                   'autoclose' => true,
@@ -179,26 +158,46 @@ function myTable() {
                 ]
               ]) ?>
             </div>
-
-
-
+            <div class="col-lg-2">
+              <label>Tgl. Coding Awal</label>
+              <?= DatePicker::widget([
+                'name' => 'tgl_coding_awal',
+                'id' => 'tgl_coding_awal',
+                'type' => DatePicker::TYPE_INPUT,
+                'value' => (Yii::$app->getRequest()->getQueryParam('RegistrasiSearch')['tgl_coding_awal']) ?? date("Y-m-d"),
+                'options' => ['placeholder' => 'Pilih tanggal Awal Analisa ...'],
+                'pluginOptions' => [
+                  'autoclose' => true,
+                  'format' => 'yyyy-mm-dd',
+                  'clearBtn' => true
+                ]
+              ]) ?>
+            </div>
+            <div class="col-lg-2">
+              <label>Tgl. Coding Akhir</label>
+              <?= DatePicker::widget([
+                'name' => 'tgl_coding_akhir',
+                'id' => 'tgl_coding_akhir',
+                'type' => DatePicker::TYPE_INPUT,
+                'value' => Yii::$app->getRequest()->getQueryParam('RegistrasiSearch')['tgl_coding_akhir'] ?? date("Y-m-d"),
+                'options' => ['placeholder' => 'Pilih tanggal Akhir Analisa ...'],
+                'pluginOptions' => [
+                  'autoclose' => true,
+                  'format' => 'yyyy-mm-dd',
+                  'clearBtn' => true,
+                ]
+              ]) ?>
+            </div>
           </div>
-
         </div>
         <br>
-
-
         <table id="example1" class="table table-striped">
           <thead>
             <tr style="background-color: #0BB783;color: white;">
               <th width="5%">No</th>
               <th width="35%">Nama Coder</th>
               <th width="30%">NIK/NIP Coder</th>
-
               <th width="30%">Jumlah Di Coding</th>
-
-
-
             </tr>
           </thead>
           <tbody>
@@ -209,7 +208,6 @@ function myTable() {
                 </button>
               </td>
             </tr>
-
             <tr id="no_data" style="display: none;text-align: center;">
               <td colspan="8">
                 <button type="button" class="btn btn-outline-none spinner spinner-darker-primary spinner-right">
@@ -217,10 +215,8 @@ function myTable() {
                 </button>
               </td>
             </tr>
-
           </tbody>
         </table>
-
       </div>
     </div>
   </div>

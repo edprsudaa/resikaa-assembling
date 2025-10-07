@@ -242,15 +242,17 @@ class LaporanController extends Controller
             ->innerJoin([Registrasi::tableName()], 'coding_pelaporan_rj.registrasi_kode=registrasi.kode')
             ->innerJoin([TbPegawai::tableName()], 'coding_pelaporan_rj.pegawai_coder_id=tb_pegawai.pegawai_id')
             ->where(['in', 'pegawai_coder_id', HelperSpesialClass::isCoderUser()])->groupBy(['tb_pegawai.pegawai_id', 'tb_pegawai.nama_lengkap']);
-        if ($req['tanggal_awal'] != null) {
+        if (!empty($req['tanggal_awal'])) {
             $queryData = $queryData->andWhere([">=", Registrasi::tableName() . ".tgl_masuk", $req['tanggal_awal'] . " 00:00:00"]);
-        } else {
-            $queryData = $queryData->andWhere([">=", Registrasi::tableName() . ".tgl_masuk", date('Y-m-d') . " 00:00:00"]);
         }
-        if ($req['tanggal_akhir'] != null) {
+        if (!empty($req['tanggal_akhir'])) {
             $queryData = $queryData->andWhere(["<=", Registrasi::tableName() . ".tgl_masuk", $req['tanggal_akhir'] . " 23:59:59"]);
-        } else {
-            $queryData = $queryData->andWhere(["<=", Registrasi::tableName() . ".tgl_masuk", date('Y-m-d') . " 23:59:59"]);
+        }
+        if (!empty($req['tanggal_coding_awal'])) {
+            $queryData->andWhere([">=", CodingPelaporanRj::tableName() . ".created_at", $req['tanggal_coding_awal'] . " 00:00:00"]);
+        }
+        if (!empty($req['tanggal_coding_akhir'])) {
+            $queryData->andWhere(["<=", CodingPelaporanRj::tableName() . ".created_at", $req['tanggal_coding_akhir'] . " 23:59:59"]);
         }
         $queryData = $queryData->groupBy(['tb_pegawai.pegawai_id', 'tb_pegawai.nama_lengkap', 'tb_pegawai.id_nip_nrp'])->asArray()->all();
 
@@ -286,15 +288,17 @@ class LaporanController extends Controller
             ->innerJoin([Registrasi::tableName()], 'coding_pelaporan_igd.registrasi_kode=registrasi.kode')
             ->innerJoin([TbPegawai::tableName()], 'coding_pelaporan_igd.pegawai_coder_id=tb_pegawai.pegawai_id')
             ->where(['in', 'pegawai_coder_id', HelperSpesialClass::isCoderUser()])->groupBy(['tb_pegawai.pegawai_id', 'tb_pegawai.nama_lengkap']);
-        if ($req['tanggal_awal'] != null) {
+        if (!empty($req['tanggal_awal'])) {
             $queryData = $queryData->andWhere([">=", Registrasi::tableName() . ".tgl_masuk", $req['tanggal_awal'] . " 00:00:00"]);
-        } else {
-            $queryData = $queryData->andWhere([">=", Registrasi::tableName() . ".tgl_masuk", date('Y-m-d') . " 00:00:00"]);
         }
-        if ($req['tanggal_akhir'] != null) {
+        if (!empty($req['tanggal_akhir'])) {
             $queryData = $queryData->andWhere(["<=", Registrasi::tableName() . ".tgl_masuk", $req['tanggal_akhir'] . " 23:59:59"]);
-        } else {
-            $queryData = $queryData->andWhere(["<=", Registrasi::tableName() . ".tgl_masuk", date('Y-m-d') . " 23:59:59"]);
+        }
+        if (!empty($req['tanggal_coding_awal'])) {
+            $queryData->andWhere([">=", CodingPelaporanIgd::tableName() . ".created_at", $req['tanggal_coding_awal'] . " 00:00:00"]);
+        }
+        if (!empty($req['tanggal_coding_akhir'])) {
+            $queryData->andWhere(["<=", CodingPelaporanIgd::tableName() . ".created_at", $req['tanggal_coding_akhir'] . " 23:59:59"]);
         }
         $queryData = $queryData->groupBy(['tb_pegawai.pegawai_id', 'tb_pegawai.nama_lengkap', 'tb_pegawai.id_nip_nrp'])->asArray()->all();
 
