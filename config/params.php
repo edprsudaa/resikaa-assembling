@@ -687,8 +687,8 @@ return [
         ]
     ],
     'pengolahan-data' => [
-        929 => [
-            'id' => 929, //ANDRE ABWIN VANES
+        3986 => [
+            'id' => 3986, //ANDRE ABWIN VANES
             'unit' => []
         ],
         1138 => [
@@ -703,8 +703,8 @@ return [
             'id' => 3469, //mayendra fahlevi
             'unit' => []
         ],
-        1286 => [
-            'id' => 1286, //nanda pribadi
+        3942 => [
+            'id' => 3942, //nanda pribadi
             'unit' => []
         ],
     ],
@@ -789,8 +789,8 @@ return [
             'id' => 1440, //SITI AISYAH POHAN
             'unit' => []
         ],
-        960 => [
-            'id' => 960, //ASWITA SUSANTI
+        3874 => [
+            'id' => 3874, //ASWITA SUSANTI
             'unit' => []
         ],
         1460 => [
@@ -813,8 +813,8 @@ return [
             'id' => 1429, //SEPTI ANGGI
             'unit' => []
         ],
-        1321 => [
-            'id' => 1321, //NURMIDA
+        3819 => [
+            'id' => 3819, //NURMIDA
             'unit' => []
         ],
         1424 => [
