@@ -1,15 +1,8 @@
 <?php
 
-use app\components\DynamicFormWidget;
 use app\components\HelperGeneralClass;
 use app\components\HelperSpesialClass;
-use app\models\pegawai\DmUnitPenempatan;
-use kartik\select2\Select2;
-use yii\bootstrap4\ActiveForm;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\web\JsExpression;
 
 $this->registerJs("
 $('#af-CodingPelaporanRi').on('beforeSubmit',function(e){
@@ -252,7 +245,6 @@ $('.btn-lihat-operasi').on('click', function (){
 ");
 ?>
 
-
 <div class="card card-primary card-outline">
 
     <div class="card-header">
@@ -274,9 +266,9 @@ $('.btn-lihat-operasi').on('click', function (){
                             ?>
                                     <tr>
                                         <td><?php
-                                            if (!empty($listCoder->id_resume_medis_rj)) {
-                                                if ($item->id == $listCoder->id_resume_medis_rj) {
-                                                    $status_coder = '<div class="border border-info bg-danger" style="border: 1px solid #e1e1e1fa;padding-left: 4px;"><b>Terpilih Untuk Coding</b></div>';
+                                            if (!empty($listCoder->id_resume_medis_ri)) {
+                                                if ($item->id == $listCoder->id_resume_medis_ri) {
+                                                    $status_coder = '<div class="border border-info bg-danger" style="border: 1px solid #e1e1e1fa;padding-left: 4px;width: 347px;"><b>Terpilih Untuk Coding</b></div>';
                                                 } else {
                                                     $status_coder = '';
                                                 }
@@ -421,9 +413,9 @@ $('.btn-lihat-operasi').on('click', function (){
                             ?>
                                     <tr>
                                         <td><?php
-                                            if (!empty($listCoder->id_resume_medis_rj)) {
-                                                if ($item->id == $listCoder->id_resume_medis_rj) {
-                                                    $status_coder = '<div class="border border-info bg-danger" style="border: 1px solid #e1e1e1fa;padding-left: 4px;"><b>Terpilih Untuk Coding</b></div>';
+                                            if (!empty($listCoder->id_resume_medis_ri)) {
+                                                if ($item->id == $listCoder->id_resume_medis_ri) {
+                                                    $status_coder = '<div class="border border-info bg-danger" style="border: 1px solid #e1e1e1fa;padding-left: 4px;width: 347px;"><b>Terpilih Untuk Coding</b></div>';
                                                 } else {
                                                     $status_coder = '';
                                                 }
