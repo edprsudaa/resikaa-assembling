@@ -817,8 +817,8 @@ return [
             'id' => 3819, //NURMIDA
             'unit' => []
         ],
-        1424 => [
-            'id' => 1424, //SAWALINA
+        3807 => [
+            'id' => 3807, //SAWALINA
             'unit' => []
         ],
         3343 => [
