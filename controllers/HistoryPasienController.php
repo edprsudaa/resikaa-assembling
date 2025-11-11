@@ -1912,7 +1912,10 @@ class HistoryPasienController extends Controller
             'layananMinta' => function ($q) {
                 $q->joinWith('registrasi');
             }
-        ])->where([Registrasi::tableName() . '.pasien_kode' => $id])->andWhere([PermintaanKonsultasi::tableName() . '.batal' => 0])->orderBy([Registrasi::tableName() . '.tgl_masuk' => SORT_DESC])->all();
+        ])->where([Registrasi::tableName() . '.pasien_kode' => $id])
+            ->andWhere([PermintaanKonsultasi::tableName() . '.batal' => 0])
+            ->andWhere(['IS NOT', PermintaanKonsultasi::tableName() . '.tanggal_final', null])
+            ->orderBy([Registrasi::tableName() . '.tgl_masuk' => SORT_DESC])->all();
 
         // return print_r($list_konsultasi);
 
