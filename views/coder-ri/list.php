@@ -141,7 +141,6 @@ function myTable() {
         let tgl_checkout = '';
         let tgl_closing = '';
 
-        let button_coding ='';
         if(item.tgl_keluar==null){
           tgl_checkout += '<span class=\'badge badge-danger\'>Belum Checkout</span><br>';
       }else{      
@@ -152,28 +151,29 @@ function myTable() {
       }else{
           tgl_closing += item.closing_billing_ranap_at;
       }
+      let status_coding ='';
       if(item.tgl_pulang >= '2024-03-01'){
         if(item.closing_billing_ranap_at==null){
-          button_coding += '<span class=\'badge badge-danger\'>Belum Bisa Coding / Belum Closing</span><br>'; 
+          status_coding += '<span class=\'badge badge-danger\'>Belum Bisa Coding / Belum Closing</span><br>'; 
         }else{ 
-          button_coding +='<a class=\'btn btn-sm btn-success\' target=\'_blank\' href='+baseUrl+'/coder-ri/view?id='+item.registrasi_kode_hash+' data-method=\'post\'><span class=\'nav-icon fas fa-edit text-white\' title=\'\' data-toggle=\'tooltip\' data-placement=\'bottom\' data-original-title=\'Coding Pelaporan\' aria-describedby=\'tooltip537870\'></span> Klik Untuk Coding</a>';
-    
+          status_coding += '<span class=\'badge badge-success\'>Coding Bisa Dilakukan</span><br>';
+          //status_coding +='<a class=\'btn btn-sm btn-success\' target=\'_blank\' href='+baseUrl+'/coder-ri/view?id='+item.registrasi_kode_hash+' data-method=\'post\'><span class=\'nav-icon fas fa-edit text-white\' title=\'\' data-toggle=\'tooltip\' data-placement=\'bottom\' data-original-title=\'Coding Pelaporan\' aria-describedby=\'tooltip537870\'></span> Klik Untuk Coding</a>';
         }
       }else{
         if(item.tgl_keluar==null){
-    
-          button_coding += '<span class=\'badge badge-danger\'>Belum Bisa Coding / Belum Checkout</span><br>';
-          // button_coding +='<a class=\'btn btn-sm btn-success\' target=\'_blank\' href='+baseUrl+'/coder-ri/view?id='+item.registrasi_kode_hash+' data-method=\'post\'><span class=\'nav-icon fas fa-edit text-white\' title=\'\' data-toggle=\'tooltip\' data-placement=\'bottom\' data-original-title=\'Coding Pelaporan\' aria-describedby=\'tooltip537870\'></span> Klik Untuk Coding</a>';
-          
-        
+          status_coding += '<span class=\'badge badge-danger\'>Belum Bisa Coding / Belum Checkout</span><br>';
+          // status_coding +='<a class=\'btn btn-sm btn-success\' target=\'_blank\' href='+baseUrl+'/coder-ri/view?id='+item.registrasi_kode_hash+' data-method=\'post\'><span class=\'nav-icon fas fa-edit text-white\' title=\'\' data-toggle=\'tooltip\' data-placement=\'bottom\' data-original-title=\'Coding Pelaporan\' aria-describedby=\'tooltip537870\'></span> Klik Untuk Coding</a>';
         }else{
-          button_coding +='<a class=\'btn btn-sm btn-success\' target=\'_blank\' href='+baseUrl+'/coder-ri/view?id='+item.registrasi_kode_hash+' data-method=\'post\'><span class=\'nav-icon fas fa-edit text-white\' title=\'\' data-toggle=\'tooltip\' data-placement=\'bottom\' data-original-title=\'Coding Pelaporan\' aria-describedby=\'tooltip537870\'></span> Klik Untuk Coding</a>';
-    
+          status_coding += '<span class=\'badge badge-success\'>Coding Bisa Dilakukan</span><br>';
+          //status_coding +='<a class=\'btn btn-sm btn-success\' target=\'_blank\' href='+baseUrl+'/coder-ri/view?id='+item.registrasi_kode_hash+' data-method=\'post\'><span class=\'nav-icon fas fa-edit text-white\' title=\'\' data-toggle=\'tooltip\' data-placement=\'bottom\' data-original-title=\'Coding Pelaporan\' aria-describedby=\'tooltip537870\'></span> Klik Untuk Coding</a>';
         } 
       }
-
+      let button_coding ='';
+      if(item.tgl_pulang >= '2024-03-01'){
+        button_coding +='<a class=\'btn btn-sm btn-success\' target=\'_blank\' href='+baseUrl+'/coder-ri/view?id='+item.registrasi_kode_hash+' data-method=\'post\'><span class=\'nav-icon fas fa-edit text-white\' title=\'\' data-toggle=\'tooltip\' data-placement=\'bottom\' data-original-title=\'Coding Pelaporan\' aria-describedby=\'tooltip537870\'></span> Klik Untuk Coding</a>';
+      }
        
-        trHTML +='<tr class=\'distribusi\' ><td>'+(i+1)+'</td><td>'+item.kode+'<br>'+item.pasien_kode+'<br>'+item.nama+'</td><td>'+item.tgl_masuk+'</td><td>'+item.tgl_pulang+'</td><td>'+tgl_checkout+'</td><td>'+tgl_closing+'</td><td>'+poliList+'</td><td>'+claim+'</td><td>'+pelaporan+'</td><td>'+item.debitur+'</td><td>'+button_coding+'</td></tr>';
+        trHTML +='<tr class=\'distribusi\' ><td>'+(i+1)+'</td><td>'+item.kode+'<br>'+item.pasien_kode+'<br>'+item.nama+'</td><td>'+item.tgl_masuk+'</td><td>'+item.tgl_pulang+'</td><td>'+tgl_checkout+'</td><td>'+tgl_closing+'</td><td>'+poliList+'</td><td>'+claim+'</td><td>'+pelaporan+'</td><td>'+item.debitur+'</td><td>'+status_coding+'</td><td>'+button_coding+'</td></tr>';
                
         
         
@@ -373,6 +373,7 @@ function myTable() {
               <th width="10%">Debitur</th>
 
 
+              <th width="10%">Status</th>
               <th width="10%">Aksi</th>
             </tr>
           </thead>
