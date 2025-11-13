@@ -821,13 +821,13 @@ return [
             'id' => 3807, //SAWALINA
             'unit' => []
         ],
-        3343 => [
-            'id' => 3343, //ZIZIA
+        3950 => [
+            'id' => 3950, //ZIZIA
             'unit' => []
         ],
 
         1456 => [
-            'id' => 1456, //ZIZIA
+            'id' => 1456, //SUHAIRI
             'unit' => []
         ],
 
