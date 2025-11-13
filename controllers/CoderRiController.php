@@ -99,7 +99,7 @@ class CoderRiController extends Controller
         } else {
             $endDate = date('Y-m-d') . " 23:59:59";
         }
-        $sql = "SELECT
+        $sql = "SELECT DISTINCT ON (r.kode,p.nama,d.nama,r.tgl_keluar)
             r.kode AS kode,
             r.pasien_kode,
             p.nama AS nama,
@@ -170,7 +170,9 @@ class CoderRiController extends Controller
         }
 
 
-        $sql .= " group by r.kode,p.nama,d.nama,rmr.tgl_pulang order by rmr.tgl_pulang";
+        $sql .= " group by r.kode,p.nama,d.nama,rmr.tgl_pulang order by r.kode,p.nama,d.nama,r.tgl_keluar, rmr.tgl_pulang DESC";
+
+        Yii::debug(Yii::$app->db->createCommand($sql, [':startDate' => $startDate, ':endDate' => $endDate])->rawSql, __METHOD__);
 
         $command = $connection->createCommand($sql, [':startDate' => $startDate, ':endDate' => $endDate]);
         $results = $command->queryAll();
