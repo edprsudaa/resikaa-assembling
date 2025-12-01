@@ -809,8 +809,8 @@ return [
             'id' => 1352, //RATNA HASTUTI
             'unit' => []
         ],
-        1429 => [
-            'id' => 1429, //SEPTI ANGGI
+        3894 => [
+            'id' => 3894, //SEPTI ANGGI
             'unit' => []
         ],
         3819 => [
