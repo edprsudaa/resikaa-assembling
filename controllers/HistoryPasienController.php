@@ -302,6 +302,7 @@ class HistoryPasienController extends Controller
         $listAsesmenRehabMedik = $this->processDokumenRme(44, $registrasi->data['kode']);
         $listResumeRehabMedik = $this->processDokumenRme(48, $registrasi->data['kode']);
         $listResepDokterTerbaru = $this->processDokumenRme(56, $registrasi->data['kode']);
+        $listSuratPenetapanDirawat = $this->processDokumenRme(75, $registrasi->data['kode']);
 
 
         // echo '<pre>';
@@ -374,7 +375,7 @@ class HistoryPasienController extends Controller
                 'listAsesmenRehabMedik' => $listAsesmenRehabMedik,
                 'listResumeRehabMedik' => $listResumeRehabMedik,
                 'listResepDokterTerbaru' => $listResepDokterTerbaru,
-
+                'listSuratPenetapanDirawat' => $listSuratPenetapanDirawat,
             ]
         );
     }
@@ -1675,7 +1676,71 @@ class HistoryPasienController extends Controller
         ]);
     }
 
+    function actionDetailSuratPenetapanDirawat($id)
+    {
+        $dokumenRmeFix = []; // Inisialisasi variabel di awal
 
+        $this->layout = 'main-riwayat';
+
+        // Validasi ID
+        if ($id != null) {
+            $id = Lib::validateData($id);
+            if (!$id) {
+                return $this->render('detail_surat_penetapan_dirawat', [
+                    'registrasi' => [],
+                    'listRegistrasi' => [],
+                ]);
+            }
+        } else {
+            return $this->render('detail_surat_penetapan_dirawat', [
+                'registrasi' => [],
+                'listRegistrasi' => [],
+            ]);
+        }
+
+        // Ambil data registrasi
+        $registrasi = HelperSpesialClass::getCheckObjectPasien($id);
+        if ($registrasi == null || !isset($registrasi->data['pasien']['kode'])) {
+            throw new NotFoundHttpException('Data kunjungan tidak ditemukan, silahkan hubungi IT Administrator');
+        }
+
+        // Ambil daftar Registrasi berdasarkan kode pasien
+
+        $dokumenRme = Dokumen::find()->with('dokumenDetail')->where(['id_dokumen' => '75'])->orderBy('urutan', SORT_ASC)->asArray()->all();
+        foreach ($dokumenRme as $item) {
+            if (isset($item['query_search_riwayat_by_norm']) && $item['query_search_riwayat_by_norm'] != null) {
+                $query = str_replace('$', $registrasi->data['pasien']['kode'], $item['query_search_riwayat_by_norm']);
+                $data = Yii::$app->db_medis->createCommand($query)->queryAll();
+                $item['data'] = $data;
+
+                // Mengisi kolom 'keterangan' berdasarkan sub query jika ada
+                foreach ($item['data'] as &$value) {
+
+                    $value['url_lihat'] = null;
+                    $value['url_cetak'] = null;
+
+                    foreach ($item['dokumenDetail'] as $subvalue) {
+                        if ($subvalue['versi'] == $value['versi']) {
+                            if (!empty($subvalue['key_hash_code'])) {
+                                $value['url_lihat'] = str_replace('$', HelperGeneral::hashDataCustom($value[$subvalue['name_colums_params_url']], $subvalue['key_hash_code']), $subvalue['url_lihat']);
+                                $value['url_cetak'] = str_replace('$', HelperGeneral::hashDataCustom($value[$subvalue['name_colums_params_url']], $subvalue['key_hash_code']), $subvalue['url_cetak']);
+                            } else {
+                                $value['url_lihat'] = str_replace('$', $value[$subvalue['name_colums_params_url']], $subvalue['url_lihat']);
+                                $value['url_cetak'] = str_replace('$', $value[$subvalue['name_colums_params_url']], $subvalue['url_cetak']);
+                            }
+                        }
+                    }
+                }
+
+                $dokumenRmeFix[] = $item;
+            }
+        }
+
+        return $this->render('detail_surat_penetapan_dirawat', [
+            'registrasi' => $registrasi->data ?? [],
+            'dokumenRme' => $dokumenRmeFix ?? [],
+        ]);
+    }
 
     function actionDetailCppt($id)
     {
