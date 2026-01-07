@@ -173,7 +173,7 @@ tr, td {
                                             $i = 1;
                                             foreach ($listLaporanOperasi as $item) {
 
-                                                ?>
+                                        ?>
                                                 <tr>
                                                     <td><?= $i ?></td>
                                                     <td><?= $item['lap_op_created_at'] ?></td>
@@ -189,7 +189,7 @@ tr, td {
                                                     <td> <?php echo $item->lap_op_batal == 0 ? ($item->lap_op_final == 0 ? 'DRAFT' : 'FINAL') : 'BATAL' ?>
                                                     </td>
                                                     <td>
-                                                        <?php if ($item->lap_op_tgl_final != null) { ?>
+                                                        <?php if ($item->id_dokumen_rme != null) { ?>
                                                             <a class="btn btn-success btn-sm btn-dokumen-rme"
                                                                 href="http://sign.simrs.aa/api-esign/view-dokumen?id=<?= HelperGeneralClass::hashData($item->id_dokumen_rme) ?>">
                                                                 Klik untuk lihat</i>
@@ -203,20 +203,20 @@ tr, td {
                                                             <a class="btn btn-success btn-sm" target="_blank"
                                                                 href="http://bedah-sentral.simrs.aa/cetak/cetak-laporan-operasi?laporan_id=<?= HelperGeneralClass::hashData($item['lap_op_id']) ?>"
                                                                 data-id="<?= $item['lap_op_id']
-                                                                    ?>" data-nama="<?= $item['lap_op_id']
-                                                                    ?>">Klik
+                                                                            ?>" data-nama="<?= $item['lap_op_id']
+                                                                                            ?>">Klik
                                                                 Untuk Lihat</b></a>
                                                         <?php } ?>
                                                     </td>
                                                     <!-- <td><a class="btn btn-success btn-sm" target="_blank"
                                                             href="http://bedah-sentral.simrs.aa/cetak/cetak-laporan-operasi?laporan_id=<?= HelperGeneralClass::hashData($item['lap_op_id']) ?>"
                                                             data-id="<?= $item['lap_op_id']
-                                                                ?>" data-nama="<?= $item['lap_op_id']
-                                                                ?>">Klik
+                                                                        ?>" data-nama="<?= $item['lap_op_id']
+                                                                                        ?>">Klik
                                                             Untuk Lihat</b></a></td> -->
                                                 </tr>
 
-                                                <?php
+                                            <?php
                                                 $i++;
                                             }
                                         } else {
@@ -224,7 +224,7 @@ tr, td {
                                             <tr>
                                                 <td style="text-align: left;">Tidak ada dokumen</td>
                                             </tr>
-                                            <?php
+                                        <?php
 
                                         }
                                         ?>
