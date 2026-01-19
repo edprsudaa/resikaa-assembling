@@ -707,6 +707,10 @@ return [
             'id' => 3942, //nanda pribadi
             'unit' => []
         ],
+        250 => [
+            'id' => 250, //desli erfiandri
+            'unit' => []
+        ],
     ],
     'akses-daftar-pasien' => [
         710 => [
