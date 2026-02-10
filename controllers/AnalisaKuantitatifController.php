@@ -4075,8 +4075,8 @@ class AnalisaKuantitatifController extends Controller
                 'registrasi.tgl_keluar',
                 'array_agg(dm_unit_penempatan.nama) as poli',
                 'registrasi.is_analisa',
-                'pg.nama_lengkap as verifikator'
-
+                'pg.nama_lengkap as verifikator',
+                'registrasi.is_closing_billing_ranap as is_closing'
             ])
             ->from('ranap')
             ->withQuery($queryData, 'ranap', true)
@@ -4627,14 +4627,25 @@ class AnalisaKuantitatifController extends Controller
     {
         $hasil = array();
         $data = LISORDER::find()->select([
-            'ID', 'PID', 'APID', 'ONO', 'PNAME', 'SOURCE', 'CLINICIAN', "CAST(Convert(CHAR(8),REQUEST_DT,112) as DATETIME) AS REQUEST_DT"
+            'ID',
+            'PID',
+            'APID',
+            'ONO',
+            'PNAME',
+            'SOURCE',
+            'CLINICIAN',
+            "CAST(Convert(CHAR(8),REQUEST_DT,112) as DATETIME) AS REQUEST_DT"
         ])->where([
             'ID' => $id
         ])->orderBy(['REQUEST_DT' => SORT_DESC])->asArray()->one();
 
 
         $cari = ResultHead::find()->select([
-            'pname', 'source_nm', 'clinician_nm', 'data_api', 'request_dt'
+            'pname',
+            'source_nm',
+            'clinician_nm',
+            'data_api',
+            'request_dt'
         ])
             ->where(['ono' => $data['ONO']])
             ->asArray()->limit(1)->one();
@@ -7739,7 +7750,8 @@ class AnalisaKuantitatifController extends Controller
                 'layananMinta' => function ($q) {
                     $q->joinWith(['unit']);
                 },
-                'unitTujuan', 'dokterTujuan',
+                'unitTujuan',
+                'dokterTujuan',
                 'jawabanKonsultasi' => function ($q) {
                     $q->joinWith([
                         'dokterJawab',
@@ -7762,7 +7774,10 @@ class AnalisaKuantitatifController extends Controller
             $data = Resep::find()->joinWith([
                 'resepDetail' => function ($q) {
                     $q->joinWith(['obat']);
-                }, 'layanan', 'depo', 'dokter'
+                },
+                'layanan',
+                'depo',
+                'dokter'
             ])->where([Resep::tableName() . '.id' => $id])->asArray()->limit(1)->one();
             return $this->renderAjax('resep_detail', [
                 'data' => $data,
@@ -7778,7 +7793,11 @@ class AnalisaKuantitatifController extends Controller
             $pasien = Registrasi::find()->joinWith(['pasien'])->where([Registrasi::tableName() . '.kode' => $id])->asArray()->limit(1)->one();
             //echo "<pre>"; print_r($registrasi); exit;
             $data = Registrasi::find()->joinWith([
-                'layanan.unit', 'layanan.pjp.pegawai', 'layanan.icd10pasien', 'layanan.icd9pasien', 'layanan.reseppasien.resepDetail.obat'
+                'layanan.unit',
+                'layanan.pjp.pegawai',
+                'layanan.icd10pasien',
+                'layanan.icd9pasien',
+                'layanan.reseppasien.resepDetail.obat'
             ])
                 ->andWhere([Registrasi::tableName() . '.kode' => $id])
                 ->orderBy([Layanan::tableName() . '.tgl_masuk' => SORT_ASC])->asArray()->one();

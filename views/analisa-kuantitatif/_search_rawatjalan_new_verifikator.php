@@ -40,7 +40,7 @@ use yii\widgets\ActiveForm;
             ]) ?>
         </div>
         <div class="col-lg-2">
-            <label>Tgl. Masuk Awal</label>
+            <label>Tgl. Masuk Akhir</label>
 
             <?= DatePicker::widget([
                 'name' => 'RegistrasiSearch[tgl_akhir]',

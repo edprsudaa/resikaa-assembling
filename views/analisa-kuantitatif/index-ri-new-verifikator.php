@@ -101,6 +101,19 @@ $this->params['breadcrumbs'][] = $this->title;
                             },
 
                         ],
+                        [
+                            'label' => 'Status Closing',
+                            'format' => 'html',
+                            'headerOptions' => ['style' => 'width: 4%;text-align: center;color:#6658dd;'],
+                            'value' => function ($model) {
+                                if ($model['is_closing']) {
+                                    return '<span class="badge bg-success">Sudah Closing</span>';
+                                } else {
+                                    return '<span class="badge bg-danger">Belum Closing</span>';
+                                }
+                            },
+
+                        ],
 
 
                         // ['class' => 'app\components\ActionColumnGeneral'],
