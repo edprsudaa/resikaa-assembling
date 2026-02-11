@@ -801,8 +801,8 @@ return [
             'id' => 3776, //SUSANTI
             'unit' => []
         ],
-        1094 => [
-            'id' => 1094, //FITRIYA
+        3924 => [
+            'id' => 3924, //FITRIYA
             'unit' => []
         ],
         3912 => [
