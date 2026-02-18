@@ -1184,7 +1184,8 @@ class MppController extends Controller
             ->innerJoin('pendaftaran.registrasi r', 'r.kode=l.registrasi_kode')
             ->innerJoin('pendaftaran.pasien p', 'p.kode=r.pasien_kode')
             ->innerJoin('pegawai.dm_unit_penempatan up', 'l.unit_kode=up.kode')
-            ->leftJoin('pegawai.tb_pegawai tp', 'r.closing_billing_ranap_by=tp.pegawai_id')
+            ->leftJoin('sso.akn_user au', 'r.closing_billing_ranap_by=au.userid')
+            ->leftJoin('pegawai.tb_pegawai tp', 'tp.pegawai_id=au.id_pegawai')
             ->leftJoin('pegawai.dm_unit_penempatan ups', 'l.unit_asal_kode=ups.kode');
 
         if (!empty(HelperSpesialClass::isMppUnit())) {
