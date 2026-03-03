@@ -149,10 +149,10 @@ $pasienKode = $registrasi['pasien']['kode'] ?? null;
                                     <table class="table table-striped table-bordered " style="text-align: justify;">
                                         <tr class="bg-info">
                                             <th>PATOLOGI KLINIK</th>
-                                            <th>Laboratorium Biomolekuler</th>
-                                            <th>Laboratorium PCR</th>
+                                            <th>MIKRO & BIOMOL</th>
+                                            <th>LABORATORIUM PCR</th>
                                             <th>RADIOLOGI</th>
-                                            <th>Ekokardiografi</th>
+                                            <th>EKOKARDIOGRAFI</th>
                                             <th>PATOLOGI ANATOMI</th>
                                             <th>ESWL</th>
                                             <th>ENDOSKOPI</th>
@@ -162,7 +162,7 @@ $pasienKode = $registrasi['pasien']['kode'] ?? null;
                                                 <a class="btn btn-success btn-sm" target="_blank" href="http://emr-penunjang.simrs.aa/hasil/expertise-lab-pk?jenis=a&rm=<?= HelperGeneralClass::hashData($pasienKode) ?? ''; ?>">Lihat Hasil <i class="fas fa-eye fa-sm"></i></a>
                                             </td>
                                             <td style="text-align: left;">
-                                                <a class="btn btn-success btn-sm" target="_blank" href="http://emr-penunjang.simrs.aa/hasil/expertise-lab-biomolekuler?jenis=a&rm=<?= HelperGeneralClass::hashData($pasienKode) ?? ''; ?>">Lihat Hasil <i class="fas fa-eye fa-sm"></i></a>
+                                                <a class="btn btn-success btn-sm" target="_blank" href="http://emr-penunjang.simrs.aa/hasil/expertise-lab-mikrobiomol?jenis=a&rm=<?= HelperGeneralClass::hashData($pasienKode) ?? ''; ?>">Lihat Hasil <i class="fas fa-eye fa-sm"></i></a>
                                             </td>
                                             <td style="text-align: left;">
                                                 <a class="btn btn-success btn-sm" target="_blank" href="http://emr-penunjang.simrs.aa/hasil/expertise-pcr?jenis=a&rm=<?= HelperGeneralClass::hashData($pasienKode) ?? ''; ?>">Lihat Hasil <i class="fas fa-eye fa-sm"></i></a>
