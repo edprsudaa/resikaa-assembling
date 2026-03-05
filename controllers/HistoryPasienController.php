@@ -13,6 +13,7 @@ use app\models\bedahsentral\AskanIntraAnestesi;
 use app\models\bedahsentral\AskanPascaAnestesi;
 use app\models\bedahsentral\AskanPraAnestesi;
 use app\models\bedahsentral\CatatanLokalAnestesi;
+use app\models\bedahsentral\IntraAnestesi;
 use app\models\bedahsentral\IntraOperasiPerawat;
 use app\models\bedahsentral\LaporanOperasi;
 use app\models\bedahsentral\LembarEdukasiTindakanAnestesi;
@@ -532,14 +533,14 @@ class HistoryPasienController extends Controller
             ]
         );
     }
-    function actionDetailLaporanAnastesi($id)
+    function actionAsesmenPraInduksi($id)
     {
         if ($id != null) {
             $id = Lib::validateData($id);
             if (!$id) {
                 $this->layout = 'main-riwayat';
                 return $this->render(
-                    'detail_laporan_anastesi',
+                    'asesmen_pra_induksi',
                     [
                         'registrasi' => [],
 
@@ -567,7 +568,7 @@ class HistoryPasienController extends Controller
 
 
         return $this->render(
-            'detail_laporan_anastesi',
+            'asesmen_pra_induksi',
             [
                 'registrasi' => $registrasi->data,
 
@@ -1740,6 +1741,51 @@ class HistoryPasienController extends Controller
             'registrasi' => $registrasi->data ?? [],
             'dokumenRme' => $dokumenRmeFix ?? [],
         ]);
+    }
+
+    function actionIntraAnestesi($id)
+    {
+        if ($id != null) {
+            $id = Lib::validateData($id);
+            if (!$id) {
+                $this->layout = 'main-riwayat';
+                return $this->render(
+                    'intra_anestesi',
+                    [
+                        'registrasi' => [],
+
+                        'listLaporanAnastesi' => [],
+
+                    ]
+                );
+            }
+        }
+        $pasien = NULL;
+        $this->layout = 'main-riwayat';
+
+
+        $registrasi = HelperSpesialClass::getCheckObjectPasien($id);
+        if ($registrasi == NULL) {
+            throw new NotFoundHttpException('Data kunjungan tidak ditemukan, silahkan hubungi IT Administrator');
+        }
+
+        $listLaporanAnastesi = IntraAnestesi::find()->joinWith(['timoperasi' => function ($q) {
+            $q->joinWith(['layanan' => function ($e) {
+                $e->joinWith('registrasi');
+            }]);
+        }])->where([Registrasi::tableName() . '.pasien_kode' => $id, IntraAnestesi::tableName() . '.mia_deleted_at' => null, IntraAnestesi::tableName() . '.mia_final' => 1])->orderBy([Registrasi::tableName() . '.tgl_masuk' => SORT_DESC])->all();
+
+
+
+        return $this->render(
+            'intra_anestesi',
+            [
+                'registrasi' => $registrasi->data,
+
+                'listLaporanAnastesi' => $listLaporanAnastesi,
+
+            ]
+        );
     }
 
     function actionDetailCppt($id)

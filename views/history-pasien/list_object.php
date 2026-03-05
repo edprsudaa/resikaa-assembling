@@ -151,8 +151,8 @@ $this->registerCss(' .fixed-card {
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="custom-tabs-two-tab-5" data-toggle="pill" data-href=<?= Url::to(["history-pasien/detail-laporan-anastesi?id=" . (HelperGeneralClass::hashData($pasien['kode'] ?? '-'))]) ?> href="#custom-tabs-two-5" role="tab" aria-controls="custom-tabs-two-5" aria-selected="false">
-                            LAPORAN ANASTESI
+                        <a class="nav-link" id="custom-tabs-two-tab-5" data-toggle="pill" data-href=<?= Url::to(["history-pasien/asesmen-pra-induksi?id=" . (HelperGeneralClass::hashData($pasien['kode'] ?? '-'))]) ?> href="#custom-tabs-two-5" role="tab" aria-controls="custom-tabs-two-5" aria-selected="false">
+                            ASESMEN PRA INDUKSI (LAPORAN ANESTESI)
 
                         </a>
                     </li>
@@ -324,6 +324,11 @@ $this->registerCss(' .fixed-card {
                     <li class="nav-item">
                         <a class="nav-link" id="custom-tabs-two-tab-37" data-toggle="pill" data-href=<?= Url::to(["history-pasien/detail-surat-penetapan-dirawat?id=" . (HelperGeneralClass::hashData($pasien['kode'] ?? '-'))]) ?> href="#custom-tabs-two-37" role="tab" aria-controls="custom-tabs-two-37" aria-selected="false">
                             SURAT PENETAPAN DIRAWAT
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-two-tab-38" data-toggle="pill" data-href=<?= Url::to(["history-pasien/intra-anestesi?id=" . (HelperGeneralClass::hashData($pasien['kode'] ?? '-'))]) ?> href="#custom-tabs-two-38" role="tab" aria-controls="custom-tabs-two-38" aria-selected="false">
+                            INTRA ANESTESI (LAPORAN ANESTESI)
                         </a>
                     </li>
 
@@ -518,6 +523,11 @@ $this->registerCss(' .fixed-card {
                         </iframe>
                     </div>
                     <div class="tab-pane fade" id="custom-tabs-two-37" role="tabpanel" aria-labelledby="custom-tabs-two-tab-37">
+                        <iframe width="100%" style="height:1000px" id="iframe-0">
+
+                        </iframe>
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-two-38" role="tabpanel" aria-labelledby="custom-tabs-two-tab-38">
                         <iframe width="100%" style="height:1000px" id="iframe-0">
 
                         </iframe>

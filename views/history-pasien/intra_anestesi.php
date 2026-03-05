@@ -18,7 +18,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\DistribusiSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Analisa Kuantitatif';
+$this->title = 'Intra Anestesi';
 $this->params['breadcrumbs'][] = $this->title;
 $this->registerJs($this->render('script.js'), View::POS_END);
 $this->registerJs("
@@ -135,7 +135,7 @@ tr, td {
                         <div class="col-md-12">
                             <div class="card card-info">
                                 <div class="card-header">
-                                    <h3 class="card-title">LAPORAN ANASTESI</h3>
+                                    <h3 class="card-title">LAPORAN INTRA ANESTESI</h3>
                                     <div class="card-tools">
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                             <i class="fas fa-plus"></i>
@@ -167,7 +167,7 @@ tr, td {
                                         ?>
                                                 <tr>
                                                     <td><?= $i ?></td>
-                                                    <td><?= $item['api_created_at'] ?></td>
+                                                    <td><?= $item['mia_created_at'] ?></td>
                                                     <td>
                                                         <?php
                                                         foreach ($item['timoperasi']['timOperasiDetail'] as $key => $value) {
@@ -177,11 +177,19 @@ tr, td {
                                                         ?>
                                                     </td>
                                                     <td><?= $item->lap_op_ruangan ?? '' ?></td>
-                                                    <td> <?php echo $item->api_batal == 0 ? ($item->api_final == 0 ? 'DRAFT' : 'FINAL') : 'BATAL' ?></td>
+                                                    <td> <?php echo $item->mia_batal == 0 ? ($item->mia_final == 0 ? 'DRAFT' : 'FINAL') : 'BATAL' ?></td>
 
-                                                    <td><a class="btn btn-success btn-sm" target="_blank" href="http://bedah-sentral.simrs.aa/cetak/cetak-laporan-anestesi?laporan_id=<?= HelperGeneralClass::hashData($item['api_id']) ?>" data-id="<?= $item['api_id']
-                                                                                                                                                                                                                                                        ?>" data-nama="<?= $item['api_id']
-                                                                                                                                                                                                                                                                        ?>">Klik Untuk Lihat</b></a></td>
+                                                    <td>
+                                                        <?php if (($item->id_dokumen_rme != null)) { ?>
+                                                            <a class="btn btn-success btn-sm btn-dokumen-rme" href="http://sign.simrs.aa/api-esign/view-dokumen?id=<?= HelperGeneralClass::hashData($item->id_dokumen_rme) ?>">
+                                                                Klik untuk lihat</i>
+                                                            </a>
+                                                        <?php } else { ?>
+                                                            <a class="btn btn-success btn-sm" target="_blank" href="http://bedah-sentral.simrs.aa/cetak/cetak-intra-anestesi?mia_id=<?= HelperGeneralClass::hashData($item['mia_id']) ?>" data-id="<?= $item['mia_id']
+                                                                                                                                                                                                                                                    ?>" data-nama="<?= $item['mia_id']
+                                                                                                                                                                                                                                                                    ?>">Klik Untuk Lihat</b></a>
+                                                        <?php } ?>
+                                                    </td>
                                                 </tr>
 
                                             <?php
