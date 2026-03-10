@@ -218,10 +218,17 @@ tr, td {
                                                     </td>
                                                     <td><?= $item->lap_op_ruangan ?? '' ?></td>
                                                     <td> <?php echo $item->iop_batal == 0 ? ($item->iop_final == 0 ? 'DRAFT' : 'FINAL') : 'BATAL' ?></td>
-
-                                                    <td><a class="btn btn-success btn-sm" target="_blank" href="http://bedah-sentral.simrs.aa/cetak/cetak-intra-operasi?intra_id=<?= HelperGeneralClass::hashData($item['iop_id']) ?>" data-id="<?= $item['iop_id']
-                                                                                                                                                                                                                                                ?>" data-nama="<?= $item['iop_id']
-                                                                                                                                                                                                                                                                ?>">Klik Untuk Lihat</b></a></td>
+                                                    <td>
+                                                        <?php if (($item->id_dokumen_rme != null)) { ?>
+                                                            <a class="btn btn-success btn-sm btn-dokumen-rme" href="http://sign.simrs.aa/api-esign/view-dokumen?id=<?= HelperGeneralClass::hashData($item->id_dokumen_rme) ?>">
+                                                                Klik untuk lihat</i>
+                                                            </a>
+                                                        <?php } else { ?>
+                                                            <a class="btn btn-success btn-sm" target="_blank" href="http://bedah-sentral.simrs.aa/cetak/cetak-intra-operasi?intra_id=<?= HelperGeneralClass::hashData($item['iop_id']) ?>" data-id="<?= $item['iop_id']
+                                                                                                                                                                                                                                                    ?>" data-nama="<?= $item['iop_id']
+                                                                                                                                                                                                                                                                    ?>">Klik Untuk Lihat</b></a>
+                                                        <?php } ?>
+                                                    </td>
                                                 </tr>
 
                                             <?php

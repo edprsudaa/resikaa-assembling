@@ -178,10 +178,17 @@ tr, td {
                                                     </td>
                                                     <td><?= $item->lap_op_ruangan ?? '' ?></td>
                                                     <td> <?php echo $item->api_batal == 0 ? ($item->api_final == 0 ? 'DRAFT' : 'FINAL') : 'BATAL' ?></td>
-
-                                                    <td><a class="btn btn-success btn-sm" target="_blank" href="http://bedah-sentral.simrs.aa/cetak/cetak-laporan-anestesi?laporan_id=<?= HelperGeneralClass::hashData($item['api_id']) ?>" data-id="<?= $item['api_id']
-                                                                                                                                                                                                                                                        ?>" data-nama="<?= $item['api_id']
-                                                                                                                                                                                                                                                                        ?>">Klik Untuk Lihat</b></a></td>
+                                                    <td>
+                                                        <?php if (($item->id_dokumen_rme != null)) { ?>
+                                                            <a class="btn btn-success btn-sm btn-dokumen-rme" href="http://sign.simrs.aa/api-esign/view-dokumen?id=<?= HelperGeneralClass::hashData($item->id_dokumen_rme) ?>">
+                                                                Klik untuk lihat</i>
+                                                            </a>
+                                                        <?php } else { ?>
+                                                            <a class="btn btn-success btn-sm" target="_blank" href="http://bedah-sentral.simrs.aa/cetak/cetak-laporan-anestesi?laporan_id=<?= HelperGeneralClass::hashData($item['api_id']) ?>" data-id="<?= $item['api_id']
+                                                                                                                                                                                                                                                            ?>" data-nama="<?= $item['api_id']
+                                                                                                                                                                                                                                                                            ?>">Klik Untuk Lihat</b></a>
+                                                        <?php } ?>
+                                                    </td>
                                                 </tr>
 
                                             <?php
