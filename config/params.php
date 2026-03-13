@@ -502,6 +502,7 @@ return [
                 210, // POLI ANESTESI
                 202, // RUANG PINERE 2
                 130, // RUANG ICU
+                339, // RUANG KENANGA 2
             ],
         ],
     ],
