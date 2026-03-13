@@ -505,6 +505,13 @@ return [
                 339, // RUANG KENANGA 2
             ],
         ],
+        270 => [
+            'id' => 270, // ROSA DEVITA
+            'unit' => [
+                370, // HCU Fetomaternal
+                127, // Instalasi Rawat Inap Fetomaternal
+            ]
+        ],
     ],
 
     'dokter_verifikator' => [
